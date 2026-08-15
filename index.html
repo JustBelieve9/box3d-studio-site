@@ -1,0 +1,1890 @@
+<title>Box3D Bake и Creative Studio</title>
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   Tokens. Dark-first: :root is the primary (dark) palette.
+   Light is the deliberate second theme, defined for both the
+   un-stamped (system) state and the explicit stamp.
+   ───────────────────────────────────────────────────────────── */
+:root {
+  --ground:      #131519;
+  --panel:       #1A1D23;
+  --panel-2:     #21252D;
+  --border:      #2B303A;
+  --border-soft: #23272F;
+
+  --ink:         #E9EBEF;
+  --ink-2:       #A2A9B4;
+  --ink-3:       #6D7480;
+
+  --phys:        #3DDCC4;   /* Box3D — цвет полосы кэша на таймлайне */
+  --phys-dim:    #1F7A6D;
+  --phys-wash:   rgba(61, 220, 196, 0.09);
+
+  --studio:      #F0A030;   /* Creative Studio */
+  --studio-dim:  #8A5A14;
+  --studio-wash: rgba(240, 160, 48, 0.09);
+
+  --warn:        #E0625E;
+  --shadow:      0 1px 0 rgba(255,255,255,.03), 0 12px 32px -18px rgba(0,0,0,.9);
+
+  --rail: 260px;
+  --maxw: 1180px;
+
+  --s1: 4px;  --s2: 8px;  --s3: 12px; --s4: 16px;
+  --s5: 24px; --s6: 32px; --s7: 48px; --s8: 64px; --s9: 96px;
+
+  --sans: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI Variable Text", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, "Cascadia Mono", "Roboto Mono", Consolas, monospace;
+}
+
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme="dark"]) {
+    --ground:      #F4F5F7;
+    --panel:       #FFFFFF;
+    --panel-2:     #EDEFF3;
+    --border:      #D6DAE1;
+    --border-soft: #E4E7EC;
+
+    --ink:         #14171C;
+    --ink-2:       #545C68;
+    --ink-3:       #838B97;
+
+    --phys:        #0C8A78;
+    --phys-dim:    #7FD8CB;
+    --phys-wash:   rgba(12, 138, 120, 0.07);
+
+    --studio:      #A96504;
+    --studio-dim:  #E9BE84;
+    --studio-wash: rgba(169, 101, 4, 0.07);
+
+    --warn:        #B4322E;
+    --shadow:      0 1px 0 rgba(255,255,255,.7), 0 10px 28px -20px rgba(20,23,28,.5);
+  }
+}
+
+:root[data-theme="light"] {
+  --ground:      #F4F5F7;
+  --panel:       #FFFFFF;
+  --panel-2:     #EDEFF3;
+  --border:      #D6DAE1;
+  --border-soft: #E4E7EC;
+
+  --ink:         #14171C;
+  --ink-2:       #545C68;
+  --ink-3:       #838B97;
+
+  --phys:        #0C8A78;
+  --phys-dim:    #7FD8CB;
+  --phys-wash:   rgba(12, 138, 120, 0.07);
+
+  --studio:      #A96504;
+  --studio-dim:  #E9BE84;
+  --studio-wash: rgba(169, 101, 4, 0.07);
+
+  --warn:        #B4322E;
+  --shadow:      0 1px 0 rgba(255,255,255,.7), 0 10px 28px -20px rgba(20,23,28,.5);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16.5px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection { background: var(--phys); color: var(--ground); }
+
+a { color: inherit; }
+h1, h2, h3, h4 { text-wrap: balance; margin: 0; line-height: 1.15; letter-spacing: -0.022em; }
+p { margin: 0; }
+[hidden] { display: none !important; }
+
+/* ── Layout shell ─────────────────────────────────────────── */
+.shell { display: grid; grid-template-columns: var(--rail) minmax(0, 1fr); min-height: 100vh; }
+
+.rail {
+  position: sticky; top: 0; align-self: start;
+  height: 100vh;
+  border-right: 1px solid var(--border-soft);
+  background: var(--panel);
+  padding: var(--s6) var(--s5);
+  display: flex; flex-direction: column; gap: var(--s5);
+  overflow-y: auto;
+}
+
+.mark { display: flex; flex-direction: column; gap: 3px; text-decoration: none; }
+.mark b {
+  font-family: var(--mono); font-size: 13.5px; font-weight: 600;
+  letter-spacing: 0.04em; color: var(--ink);
+}
+.mark span { font-size: 12.5px; color: var(--ink-3); line-height: 1.4; }
+
+.nav { display: flex; flex-direction: column; gap: 2px; }
+.nav-group {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--ink-3);
+  padding: var(--s4) var(--s2) var(--s2);
+}
+.nav a {
+  display: flex; align-items: center; gap: var(--s3);
+  padding: 7px var(--s2); border-radius: 5px;
+  text-decoration: none; color: var(--ink-2);
+  font-size: 14.5px; transition: color .18s ease, background .18s ease;
+}
+.nav a::before {
+  content: ""; width: 2px; height: 13px; border-radius: 2px;
+  background: transparent; transition: background .18s ease;
+}
+.nav a:hover { color: var(--ink); background: var(--panel-2); }
+.nav a.on { color: var(--ink); }
+.nav a.on::before { background: var(--accent, var(--phys)); }
+.nav-phys { --accent: var(--phys); }
+.nav-studio { --accent: var(--studio); }
+
+.nav a.back { color: var(--ink-3); }
+.nav a.back::before { display: none; }
+.nav a.back svg { flex: none; }
+.nav a.back:hover { color: var(--ink); }
+
+/* Кросс-ссылка на второй аддон прямо в рейле */
+.rail-cross {
+  display: flex; flex-direction: column; gap: 3px;
+  padding: var(--s3) var(--s4);
+  border: 1px solid var(--border); border-radius: 8px;
+  text-decoration: none; background: var(--panel-2);
+  transition: border-color .18s ease;
+}
+.rail-cross:hover { border-color: var(--x, var(--ink-3)); }
+.rail-cross .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; color: var(--ink-3); text-transform: uppercase; }
+.rail-cross .t { font-size: 14px; font-weight: 600; color: var(--x, var(--ink)); }
+
+.rail-foot {
+  margin-top: auto; display: flex; flex-direction: column; gap: var(--s3);
+  font-size: 12.5px; color: var(--ink-3);
+}
+
+.topbar { display: none; }
+
+main { min-width: 0; }
+.wrap { max-width: var(--maxw); padding: 0 var(--s7); margin: 0 auto; }
+
+section { padding: var(--s9) 0; border-top: 1px solid var(--border-soft); }
+.page > .wrap > section:first-of-type { border-top: 0; }
+
+/* ── Typography helpers ───────────────────────────────────── */
+.eyebrow {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: var(--ink-3);
+  display: flex; align-items: center; gap: var(--s3);
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--border-soft); }
+
+h2 { font-size: clamp(28px, 3.4vw, 40px); font-weight: 700; }
+h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.015em; }
+h4 { font-size: 16px; font-weight: 650; }
+
+.lede { font-size: 18.5px; color: var(--ink-2); max-width: 66ch; line-height: 1.6; }
+.body { color: var(--ink-2); max-width: 68ch; }
+.body + .body { margin-top: var(--s4); }
+.body strong { color: var(--ink); font-weight: 600; }
+
+code, .mono { font-family: var(--mono); font-size: 0.885em; }
+code {
+  background: var(--panel-2); border: 1px solid var(--border-soft);
+  padding: 1px 5px; border-radius: 4px; color: var(--ink);
+}
+
+.stack   { display: flex; flex-direction: column; gap: var(--s5); }
+.stack-s { display: flex; flex-direction: column; gap: var(--s3); }
+.stack-l { display: flex; flex-direction: column; gap: var(--s7); }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+.hero { padding: var(--s9) 0 var(--s8); }
+.hero h1 {
+  font-size: clamp(38px, 5.6vw, 66px); font-weight: 750;
+  letter-spacing: -0.035em; max-width: 15ch;
+}
+.hero h1 em { font-style: normal; color: var(--phys); }
+.hero .lede { margin-top: var(--s5); font-size: 20px; }
+
+/* Шапка страницы аддона */
+.page-head { padding: var(--s8) 0 var(--s7); border-top: 0; }
+.page-head h1 {
+  font-size: clamp(32px, 4.4vw, 52px); font-weight: 730; letter-spacing: -0.03em;
+  max-width: 18ch; margin-top: var(--s4);
+}
+.page-head .lede { margin-top: var(--s5); }
+.page-head .eyebrow { color: var(--accent); }
+.page-head .eyebrow::after { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+.readout {
+  margin-top: var(--s7);
+  border: 1px solid var(--border); border-radius: 10px;
+  background: var(--panel); box-shadow: var(--shadow);
+  overflow: hidden;
+}
+.readout-head {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--s3);
+  padding: var(--s4) var(--s5);
+  border-bottom: 1px solid var(--border-soft);
+  background: var(--panel-2);
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.06em;
+  color: var(--ink-3);
+}
+.readout-head b { color: var(--ink-2); font-weight: 500; }
+.readout-body { padding: var(--s5); display: flex; flex-direction: column; gap: var(--s4); }
+
+.bar-row { display: grid; grid-template-columns: 190px minmax(0,1fr) 74px; align-items: center; gap: var(--s4); }
+.bar-row .lbl { font-size: 13.5px; color: var(--ink-2); }
+.bar-row .lbl .sub { display: block; font-size: 11.5px; color: var(--ink-3); }
+.bar-track { height: 22px; background: var(--panel-2); border-radius: 3px; overflow: hidden; }
+.bar-fill {
+  height: 100%; width: 0; border-radius: 3px;
+  background: var(--phys);
+  transition: width 1.1s cubic-bezier(.16,1,.3,1);
+}
+.bar-fill.ref { background: var(--ink-3); }
+.bar-row .val {
+  font-family: var(--mono); font-size: 13.5px; text-align: right;
+  font-variant-numeric: tabular-nums; color: var(--ink);
+}
+.readout-note {
+  padding: var(--s4) var(--s5); border-top: 1px solid var(--border-soft);
+  font-size: 13.5px; color: var(--ink-3); line-height: 1.55;
+}
+
+/* ── Product cards ────────────────────────────────────────── */
+.duo { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); margin-top: var(--s7); }
+.pcard {
+  --accent: var(--phys); --wash: var(--phys-wash);
+  position: relative; display: flex; flex-direction: column; gap: var(--s4);
+  padding: var(--s6); border: 1px solid var(--border); border-radius: 10px;
+  background: var(--panel); text-decoration: none;
+  transition: border-color .2s ease, transform .2s ease;
+}
+.pcard.studio { --accent: var(--studio); --wash: var(--studio-wash); }
+.pcard:hover { border-color: var(--accent); transform: translateY(-2px); }
+.pcard::before {
+  content: ""; position: absolute; inset: 0; border-radius: 10px;
+  background: var(--wash); opacity: 0; transition: opacity .2s ease; pointer-events: none;
+}
+.pcard:hover::before { opacity: 1; }
+.pcard > * { position: relative; }
+.pcard .top { display: flex; align-items: center; justify-content: space-between; gap: var(--s3); }
+.pcard h3 { font-size: 24px; }
+.ver {
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em;
+  color: var(--accent); border: 1px solid currentColor; border-radius: 20px;
+  padding: 2px 9px; white-space: nowrap;
+}
+.pcard p { color: var(--ink-2); font-size: 15px; }
+.pcard ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.pcard li { font-size: 14px; color: var(--ink-2); display: flex; gap: var(--s3); align-items: flex-start; }
+.pcard li::before {
+  content: ""; flex: none; width: 5px; height: 5px; margin-top: 8px;
+  border-radius: 1px; background: var(--accent);
+}
+.pcard .go {
+  margin-top: auto; padding-top: var(--s3);
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.05em;
+  color: var(--accent); display: flex; align-items: center; gap: 7px;
+}
+.pcard .go svg { transition: transform .2s ease; }
+.pcard:hover .go svg { transform: translateX(3px); }
+
+/* ── Section theming ──────────────────────────────────────── */
+#page-box3d  { --accent: var(--phys); --wash: var(--phys-wash); }
+#page-studio { --accent: var(--studio); --wash: var(--studio-wash); }
+#page-home   { --accent: var(--ink-2); --wash: transparent; }
+
+.sec-head { display: flex; flex-direction: column; gap: var(--s4); margin-bottom: var(--s8); }
+.sec-head .eyebrow { color: var(--accent); }
+.sec-head .eyebrow::after { background: color-mix(in srgb, var(--accent) 30%, transparent); }
+
+/* ── Pipeline ─────────────────────────────────────────────── */
+.pipe { display: grid; grid-template-columns: repeat(4, 1fr); gap: var(--s4); }
+.step {
+  padding: var(--s5); border: 1px solid var(--border-soft); border-radius: 8px;
+  background: var(--panel); display: flex; flex-direction: column; gap: var(--s3);
+  position: relative;
+}
+.step .n {
+  font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em;
+  color: var(--accent);
+}
+.step h4 { font-size: 15.5px; }
+.step p { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.step:not(:last-child)::after {
+  content: ""; position: absolute; right: calc(var(--s4) * -1 - 1px); top: 50%;
+  width: var(--s4); height: 1px; background: var(--border);
+}
+
+/* ── Feature grid ─────────────────────────────────────────── */
+.feats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border-soft);
+         border: 1px solid var(--border-soft); border-radius: 8px; overflow: hidden; }
+.feat { background: var(--panel); padding: var(--s5); display: flex; flex-direction: column; gap: var(--s3); }
+.feat .ico { color: var(--accent); display: flex; }
+.feat h4 { font-size: 15.5px; }
+.feat p { font-size: 14px; color: var(--ink-2); line-height: 1.55; }
+.feat .tag {
+  align-self: flex-start; margin-top: auto; padding-top: var(--s2);
+  font-family: var(--mono); font-size: 11px; color: var(--ink-3); letter-spacing: 0.05em;
+}
+
+/* ── Tables ───────────────────────────────────────────────── */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); }
+table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+thead th {
+  text-align: left; font-family: var(--mono); font-size: 11px; font-weight: 500;
+  letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+  padding: var(--s4) var(--s5); border-bottom: 1px solid var(--border);
+  background: var(--panel-2); white-space: nowrap;
+}
+tbody td { padding: var(--s4) var(--s5); border-bottom: 1px solid var(--border-soft); color: var(--ink-2); vertical-align: top; }
+tbody tr:last-child td { border-bottom: 0; }
+tbody td:first-child { color: var(--ink); font-weight: 550; white-space: nowrap; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+td.best { color: var(--accent); font-weight: 600; }
+td.slow { color: var(--warn); }
+
+/* ── Callouts ─────────────────────────────────────────────── */
+.note {
+  display: flex; gap: var(--s4); padding: var(--s5);
+  border: 1px solid var(--border); border-left: 2px solid var(--accent);
+  border-radius: 0 8px 8px 0; background: var(--wash);
+}
+.note .ico { color: var(--accent); flex: none; margin-top: 2px; }
+.note p { font-size: 14.5px; color: var(--ink-2); line-height: 1.6; }
+.note strong { color: var(--ink); font-weight: 600; }
+
+/* ── Limits list ──────────────────────────────────────────── */
+.limits { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4) var(--s6); }
+.limit { display: flex; gap: var(--s3); align-items: flex-start; }
+.limit .x { flex: none; margin-top: 6px; width: 9px; height: 9px; border-radius: 2px;
+            border: 1px solid var(--ink-3); }
+.limit p { font-size: 14.5px; color: var(--ink-2); line-height: 1.55; }
+.limit b { color: var(--ink); font-weight: 600; }
+
+/* ── Crop diagram ─────────────────────────────────────────── */
+.crop { display: grid; grid-template-columns: minmax(0, 420px) minmax(0, 1fr); gap: var(--s7); align-items: start; }
+.crop-stage {
+  border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
+  padding: var(--s5); display: flex; flex-direction: column; gap: var(--s4);
+}
+.crop-svg { width: 100%; height: auto; display: block; }
+.crop-toggles { display: flex; flex-wrap: wrap; gap: var(--s2); }
+.tgl {
+  font-family: var(--mono); font-size: 12px; letter-spacing: 0.04em;
+  padding: 5px 11px; min-height: 32px;
+  border: 1px solid var(--border); border-radius: 5px;
+  background: transparent; color: var(--ink-3); cursor: pointer;
+  display: inline-flex; align-items: center; gap: 7px;
+  transition: color .15s ease, border-color .15s ease, background .15s ease;
+}
+.tgl .dot { width: 8px; height: 8px; border-radius: 2px; background: currentColor; opacity: .35; transition: opacity .15s ease; }
+.tgl:hover { color: var(--ink-2); border-color: var(--ink-3); }
+.tgl[aria-pressed="true"] { color: var(--studio); border-color: var(--studio); background: var(--studio-wash); }
+.tgl[aria-pressed="true"] .dot { opacity: 1; }
+.tgl.core[aria-pressed="true"] { color: var(--ink); border-color: var(--ink-2); background: var(--panel-2); }
+.crop-legend { font-size: 13px; color: var(--ink-3); font-family: var(--mono); }
+
+/* ── Modules ──────────────────────────────────────────────── */
+.mods { display: grid; grid-template-columns: repeat(2, 1fr); gap: var(--s4); }
+.mod {
+  padding: var(--s5); border: 1px solid var(--border-soft); border-radius: 8px;
+  background: var(--panel); display: flex; flex-direction: column; gap: var(--s3);
+}
+.mod-top { display: flex; align-items: center; gap: var(--s3); }
+.mod .ico { color: var(--accent); display: flex; }
+.mod h4 { font-size: 16px; }
+.mod .path { font-family: var(--mono); font-size: 11.5px; color: var(--ink-3); }
+.mod p { font-size: 14.5px; color: var(--ink-2); line-height: 1.55; }
+
+/* ── Chain ────────────────────────────────────────────────── */
+.chain { display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--s3); }
+.chain-item {
+  flex: 1 1 190px; padding: var(--s4) var(--s5);
+  border: 1px solid var(--border-soft); border-radius: 8px; background: var(--panel);
+  display: flex; flex-direction: column; gap: 5px;
+}
+.chain-item .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+.chain-item .t { font-size: 15px; font-weight: 600; }
+.chain-item .d { font-size: 13.5px; color: var(--ink-2); line-height: 1.5; }
+.chain .arrow { align-self: center; color: var(--ink-3); flex: none; }
+
+/* ── Install ──────────────────────────────────────────────── */
+.steps-num { display: flex; flex-direction: column; gap: var(--s4); counter-reset: st; }
+.st { display: grid; grid-template-columns: 30px minmax(0,1fr); gap: var(--s4); align-items: start; }
+.st .k {
+  counter-increment: st; font-family: var(--mono); font-size: 12px;
+  color: var(--ink-3); border: 1px solid var(--border); border-radius: 5px;
+  width: 30px; height: 30px; display: grid; place-items: center;
+}
+.st .k::before { content: counter(st); }
+.st p { font-size: 15px; color: var(--ink-2); }
+.st b { color: var(--ink); font-weight: 600; }
+
+.kbd {
+  font-family: var(--mono); font-size: 12px; padding: 1px 6px;
+  border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px;
+  background: var(--panel-2); color: var(--ink);
+}
+
+.pill {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.04em;
+  padding: 3px 9px; border-radius: 20px; border: 1px solid var(--border); color: var(--ink-2);
+}
+.pill.ok { color: var(--phys); border-color: color-mix(in srgb, var(--phys) 45%, transparent); }
+.pill.no { color: var(--ink-3); }
+
+/* ── Choose ───────────────────────────────────────────────── */
+.choose { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s5); }
+.ch {
+  padding: var(--s6); border: 1px solid var(--border); border-radius: 10px; background: var(--panel);
+  display: flex; flex-direction: column; gap: var(--s4);
+}
+.ch.p { border-top: 2px solid var(--phys); }
+.ch.s { border-top: 2px solid var(--studio); }
+.ch h4 { font-size: 17px; }
+.ch ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: var(--s3); }
+.ch li { font-size: 14.5px; color: var(--ink-2); display: flex; gap: var(--s3); align-items: flex-start; line-height: 1.5; }
+.ch li svg { flex: none; margin-top: 3px; }
+.ch.p li svg { color: var(--phys); }
+.ch.s li svg { color: var(--studio); }
+.ch .go {
+  margin-top: auto; padding-top: var(--s2);
+  font-family: var(--mono); font-size: 12.5px; letter-spacing: 0.05em;
+  display: inline-flex; align-items: center; gap: 7px; text-decoration: none;
+}
+.ch.p .go { color: var(--phys); }
+.ch.s .go { color: var(--studio); }
+.ch .go:hover svg { transform: translateX(3px); }
+.ch .go svg { transition: transform .2s ease; }
+
+/* ── Подвал-навигация: куда идти дальше ───────────────────── */
+.nextnav { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s4); }
+.nx {
+  --x: var(--ink-2);
+  display: flex; flex-direction: column; gap: 5px;
+  padding: var(--s5) var(--s6); text-decoration: none;
+  border: 1px solid var(--border); border-radius: 10px; background: var(--panel);
+  transition: border-color .2s ease, transform .2s ease;
+}
+.nx:hover { border-color: var(--x); transform: translateY(-2px); }
+.nx.to-phys   { --x: var(--phys); }
+.nx.to-studio { --x: var(--studio); }
+.nx .k {
+  font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--ink-3);
+  display: flex; align-items: center; gap: 7px;
+}
+.nx .t { font-size: 19px; font-weight: 650; color: var(--x); letter-spacing: -0.02em; }
+.nx .d { font-size: 14px; color: var(--ink-2); line-height: 1.5; }
+.nx svg { transition: transform .2s ease; }
+.nx:hover svg { transform: translateX(3px); }
+.nx.home:hover svg { transform: translateX(-3px); }
+
+/* ── Footer ───────────────────────────────────────────────── */
+footer {
+  border-top: 1px solid var(--border-soft); padding: var(--s7) 0 var(--s8);
+  color: var(--ink-3); font-size: 13.5px;
+}
+.foot-grid { display: flex; flex-wrap: wrap; gap: var(--s6); justify-content: space-between; align-items: flex-start; }
+.foot-grid div { display: flex; flex-direction: column; gap: 5px; }
+.foot-grid b { font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink-3); font-weight: 500; }
+.foot-grid span { color: var(--ink-2); }
+.foot-grid a { color: var(--ink-2); }
+
+/* ── Reveal ───────────────────────────────────────────────── */
+.rv { opacity: 0; transform: translateY(14px); transition: opacity .55s cubic-bezier(.16,1,.3,1), transform .55s cubic-bezier(.16,1,.3,1); }
+.rv.in { opacity: 1; transform: none; }
+
+:focus-visible { outline: 2px solid var(--phys); outline-offset: 3px; border-radius: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation-duration: .001ms !important; transition-duration: .001ms !important; }
+  .rv { opacity: 1; transform: none; }
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+@media (max-width: 1080px) {
+  .shell { grid-template-columns: 1fr; }
+  .rail { display: none; }
+  .topbar {
+    display: flex; position: sticky; top: 0; z-index: 20;
+    align-items: center; gap: var(--s4);
+    padding: var(--s3) var(--s5);
+    background: color-mix(in srgb, var(--panel) 92%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-soft);
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .topbar::-webkit-scrollbar { display: none; }
+  .topbar > a.home {
+    font-family: var(--mono); font-size: 13px; white-space: nowrap;
+    color: var(--ink); text-decoration: none; padding: 7px var(--s2);
+  }
+  .topbar nav { display: flex; gap: var(--s2); }
+  .topbar nav a {
+    white-space: nowrap; text-decoration: none; color: var(--ink-2);
+    font-size: 13.5px; padding: 7px var(--s3); border-radius: 5px; min-height: 34px;
+    display: inline-flex; align-items: center;
+  }
+  .topbar nav a.on { color: var(--ink); background: var(--panel-2); }
+  .wrap { padding: 0 var(--s5); }
+  .feats { grid-template-columns: repeat(2, 1fr); }
+  .pipe { grid-template-columns: repeat(2, 1fr); }
+  .step:not(:last-child)::after { display: none; }
+  .crop { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 720px) {
+  body { font-size: 16px; }
+  section { padding: var(--s8) 0; }
+  .duo, .choose, .mods, .limits, .nextnav { grid-template-columns: 1fr; }
+  .feats { grid-template-columns: 1fr; }
+  .pipe { grid-template-columns: 1fr; }
+  .bar-row { grid-template-columns: 1fr 60px; grid-template-areas: "lbl val" "bar bar"; gap: var(--s2) var(--s3); }
+  .bar-row .lbl { grid-area: lbl; }
+  .bar-row .val { grid-area: val; }
+  .bar-track { grid-area: bar; }
+  .hero { padding: var(--s7) 0 var(--s6); }
+  .page-head { padding: var(--s6) 0 var(--s5); }
+  .readout-body { padding: var(--s4); }
+  .readout-head, .readout-note { padding: var(--s4); }
+}
+</style>
+
+<div class="shell">
+
+  <!-- ══════════════════ РЕЙЛ ══════════════════ -->
+  <aside class="rail">
+    <a class="mark" href="#/">
+      <b>BOX3D&nbsp;/&nbsp;STUDIO</b>
+      <span>Два аддона для Blender</span>
+    </a>
+
+    <!-- Навигация главной -->
+    <nav class="nav" data-rail="home">
+      <div class="nav-group">Обзор</div>
+      <a href="#top">Что это</a>
+      <a href="#choose">Что мне нужно</a>
+      <a href="#install">Установка</a>
+
+      <div class="nav-group">Страницы аддонов</div>
+      <a class="nav-phys" href="#/box3d">Box3D Bake</a>
+      <a class="nav-studio" href="#/studio">Creative Studio Tools</a>
+    </nav>
+
+    <!-- Навигация Box3D -->
+    <nav class="nav" data-rail="box3d" hidden>
+      <a class="back" href="#/">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        На главную
+      </a>
+      <div class="nav-group">Box3D Bake</div>
+      <a class="nav-phys" href="#top">Зачем нужен</a>
+      <a class="nav-phys" href="#pipeline">Как работает</a>
+      <a class="nav-phys" href="#features">Возможности</a>
+      <a class="nav-phys" href="#output">Режимы вывода</a>
+      <a class="nav-phys" href="#numbers">Цифры</a>
+      <a class="nav-phys" href="#limits">Чего он не умеет</a>
+      <a class="nav-phys" href="#next">Дальше</a>
+    </nav>
+
+    <!-- Навигация Studio -->
+    <nav class="nav" data-rail="studio" hidden>
+      <a class="back" href="#/">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        На главную
+      </a>
+      <div class="nav-group">Creative Studio</div>
+      <a class="nav-studio" href="#top">Зачем нужен</a>
+      <a class="nav-studio" href="#modules">Модули</a>
+      <a class="nav-studio" href="#crops">Кропы</a>
+      <a class="nav-studio" href="#cleanup">Уборка сцены</a>
+      <a class="nav-studio" href="#next">Дальше</a>
+    </nav>
+
+    <!-- Кросс-ссылка на второй аддон -->
+    <a class="rail-cross" data-rail="box3d" href="#/studio" style="--x: var(--studio)" hidden>
+      <span class="k">Второй аддон →</span>
+      <span class="t">Creative Studio Tools</span>
+    </a>
+    <a class="rail-cross" data-rail="studio" href="#/box3d" style="--x: var(--phys)" hidden>
+      <span class="k">Второй аддон →</span>
+      <span class="t">Box3D Bake</span>
+    </a>
+
+    <div class="rail-foot">
+      <span>MIT · Blender 4.4+ / 4.2+</span>
+      <span>macOS arm64 · Windows x64</span>
+    </div>
+  </aside>
+
+  <!-- ══════════════════ ТОПБАР (узкие экраны) ══════════════════ -->
+  <div class="topbar">
+    <a class="home" href="#/">BOX3D / STUDIO</a>
+
+    <nav data-rail="home">
+      <a href="#top">Обзор</a>
+      <a href="#choose">Что выбрать</a>
+      <a href="#install">Установка</a>
+      <a href="#/box3d">Box3D →</a>
+      <a href="#/studio">Studio →</a>
+    </nav>
+
+    <nav data-rail="box3d" hidden>
+      <a href="#top">Зачем</a>
+      <a href="#pipeline">Как работает</a>
+      <a href="#features">Возможности</a>
+      <a href="#output">Вывод</a>
+      <a href="#numbers">Цифры</a>
+      <a href="#limits">Границы</a>
+      <a href="#next">Дальше</a>
+    </nav>
+
+    <nav data-rail="studio" hidden>
+      <a href="#top">Зачем</a>
+      <a href="#modules">Модули</a>
+      <a href="#crops">Кропы</a>
+      <a href="#cleanup">Уборка</a>
+      <a href="#next">Дальше</a>
+    </nav>
+  </div>
+
+  <main>
+
+    <!-- ═══════════════════════════════════════════════════════
+         СТРАНИЦА 1 · ГЛАВНАЯ
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" id="page-home">
+      <div class="wrap">
+
+        <section class="hero" id="top">
+          <h1>Физика, которая считается <em>до</em> того, как вы нажали Play.</h1>
+          <p class="lede">
+            Два независимых аддона для Blender. Первый заменяет встроенный Bullet на солвер
+            Box3D и запекает результат заранее. Второй убирает из продакшена видеокреативов
+            всё, что делается руками и поэтому забывается.
+          </p>
+
+          <div class="duo">
+            <a class="pcard rv" href="#/box3d">
+              <div class="top">
+                <h3>Box3D Bake</h3>
+                <span class="ver">0.21.0</span>
+              </div>
+              <p>Твёрдые тела на движке Box3D вместо Bullet. Симуляция считается заранее через
+                 ctypes и выгружается в сцену — ключами, кэшем или инстансами.</p>
+              <ul>
+                <li>Джойнты, эмиттеры, триггеры, силовые поля</li>
+                <li>Четыре режима вывода под разный масштаб сцены</li>
+                <li>3000 тел скрабятся за 0.47 мс/кадр</li>
+              </ul>
+              <span class="go">ОТКРЫТЬ СТРАНИЦУ
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+
+            <a class="pcard studio rv" href="#/studio">
+              <div class="top">
+                <h3>Creative Studio Tools</h3>
+                <span class="ver">0.1.0</span>
+              </div>
+              <p>Продакшен видеокреативов под мобильные игры: настройка файла одной кнопкой,
+                 направляющие кропов, автосейв, который действительно срабатывает, и уборка сцены.</p>
+              <ul>
+                <li>Пресет снят с рабочего проекта, а не набран по памяти</li>
+                <li>Автосейв работает во время модальных операторов</li>
+                <li>Дедупликация мешей, материалов и текстур</li>
+              </ul>
+              <span class="go">ОТКРЫТЬ СТРАНИЦУ
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <section id="choose">
+          <div class="sec-head rv">
+            <div class="eyebrow">Решение</div>
+            <h2>Что из этого нужно вам</h2>
+            <p class="lede">
+              Аддоны не зависят друг от друга и ставятся по отдельности. Можно взять оба —
+              они не пересекаются ни одной настройкой.
+            </p>
+          </div>
+
+          <div class="choose rv">
+            <div class="ch p">
+              <h4>Ставьте Box3D Bake, если…</h4>
+              <ul>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Bullet считает вашу сцену минутами, а вам нужно двадцать итераций</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>В сцене тысячи тел, и скраб превратился в слайд-шоу</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Нужны эмиттеры или триггеры, привязанные к анимации</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Ковш, экскаватор, сыпучка — вогнутая коллизия на движущемся объекте</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Результат должен быть воспроизводим побитово (Seed фиксирует всё)</li>
+              </ul>
+              <a class="go" href="#/box3d">ЧИТАТЬ ПРО BOX3D BAKE
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+
+            <div class="ch s">
+              <h4>Ставьте Creative Studio Tools, если…</h4>
+              <ul>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Каждый новый файл настраивается руками по одному и тому же списку</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Один мастер режется в несколько форматов, и композиция уезжает</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Штатный автосейв у вас молчит часами, потому что вы всё время в модальных операторах</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Пришёл чужой коллект, и в нём тысяча копий одного ящика и <code>Material.001</code></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Вьюпорт тормозит, и непонятно, на что именно уходит кадр</li>
+              </ul>
+              <a class="go" href="#/studio">ЧИТАТЬ ПРО CREATIVE STUDIO
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="install">
+          <div class="sec-head rv">
+            <div class="eyebrow">Установка</div>
+            <h2>Требования и порядок действий</h2>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Требования</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Аддон</th><th>Blender</th><th>Лицензия</th><th>Почему такая версия</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Box3D Bake</td><td class="num">4.4+</td><td>MIT</td>
+                      <td>Вся работа с анимацией идёт через API слотовых экшенов, которого до 4.4 просто нет. Разрабатывалось на 5.2 LTS</td>
+                    </tr>
+                    <tr>
+                      <td>Creative Studio Tools</td><td class="num">4.2+</td><td>MIT</td>
+                      <td>Чистый Python, нативных зависимостей нет</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Платформы</h3>
+              <p class="body">
+                Box3D — скомпилированная нативная библиотека, а не чистый Python, поэтому под
+                каждую платформу нужен свой бинарник. Creative Studio Tools работает везде,
+                где работает Blender.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Платформа</th><th>Box3D Bake</th><th>Creative Studio</th></tr></thead>
+                  <tbody>
+                    <tr><td>macOS · Apple Silicon</td><td><span class="pill ok">В КОМПЛЕКТЕ</span></td><td><span class="pill ok">РАБОТАЕТ</span></td></tr>
+                    <tr><td>Windows · x86_64</td><td><span class="pill ok">В КОМПЛЕКТЕ</span></td><td><span class="pill ok">РАБОТАЕТ</span></td></tr>
+                    <tr><td>macOS · Intel</td><td><span class="pill no">СОБРАТЬ САМОМУ</span></td><td><span class="pill ok">РАБОТАЕТ</span></td></tr>
+                    <tr><td>Linux</td><td><span class="pill no">СОБРАТЬ САМОМУ</span></td><td><span class="pill ok">РАБОТАЕТ</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Порядок действий</h3>
+              <div class="steps-num rv">
+                <div class="st"><span class="k"></span><p>Скачайте архив под свою платформу со страницы <b>Releases</b> (Box3D Bake) или скопируйте папку <code>zhb_creative_studio/</code> в каталог аддонов Blender (Creative Studio).</p></div>
+                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip.</p></div>
+                <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio настройки живут прямо там же, в развёрнутой карточке — каждый модуль за своим тумблером.</p></div>
+                <div class="st"><span class="k"></span><p>Box3D: выделите меш-объект и откройте <b>Properties → Physics</b>. Кнопка <b>Box3D Body</b> стоит в той же сетке, что и Rigid Body; бейк — в панели <b>Box3D World</b> ниже.</p></div>
+                <div class="st"><span class="k"></span><p>Creative Studio: меню <b>Studio</b> в верхней панели.</p></div>
+              </div>
+            </div>
+
+            <div class="note rv" style="--accent: var(--phys); --wash: var(--phys-wash)">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+              </span>
+              <p>
+                <strong>Собираете box3d сами — переключитесь ровно на зафиксированный коммит</strong>
+                (<code>3fc20f5</code>, v0.1.0-18). Библиотека в alpha, раскладка структур ещё
+                меняется, а расхождение через ctypes не даёт ошибки — оно даёт молча испорченную
+                симуляцию. При загрузке аддон проверяет размеры структур, версию и раскладку полей;
+                последняя проверка при расхождении отказывается грузиться намеренно.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Box3D Bake</b>
+              <span>0.21.0 · Blender 4.4+ · MIT</span>
+              <span>Движок: box3d, Erin Catto</span>
+            </div>
+            <div>
+              <b>Creative Studio Tools</b>
+              <span>0.1.0 · Blender 4.2+ · MIT</span>
+              <span>Автор: zhb</span>
+            </div>
+            <div>
+              <b>Цифры</b>
+              <span>tests/bench_vs_bullet.py</span>
+              <span>tests/bench_emitter.py</span>
+              <span>tests/bench_force_fields.py</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         СТРАНИЦА 2 · BOX3D BAKE
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" id="page-box3d" hidden>
+      <div class="wrap">
+
+        <section class="page-head" id="top">
+          <div class="eyebrow">Аддон 1 · Box3D Bake · 0.21.0</div>
+          <h1>Тот же солвер, что в Box2D, только для трёх измерений</h1>
+          <p class="lede">
+            Box3D — движок твёрдых тел Эрина Каттона, автора Box2D. Аддон не запускает его
+            внутри цикла кадров Blender: вся симуляция считается заранее через <code>ctypes</code>
+            против скомпилированной библиотеки, и только потом результат выгружается в сцену.
+          </p>
+
+          <!-- Benchmark readout: тезис страницы — измеренная цифра, а не обещание -->
+          <div class="readout rv">
+            <div class="readout-head">
+              <b>bench_vs_bullet.py</b>
+              <span>· 3000 кубов падают на пол · 120 кадров · Apple Silicon 4P+6E · время бейка, секунды</span>
+            </div>
+            <div class="readout-body" id="bars">
+              <div class="bar-row">
+                <div class="lbl">Bullet<span class="sub">родная физика Blender</span></div>
+                <div class="bar-track"><div class="bar-fill ref" data-w="100"></div></div>
+                <div class="val">8.08 с</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Keyframes<span class="sub">1 поток, честное сравнение солверов</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="8.5"></div></div>
+                <div class="val">0.69 с</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Instanced<span class="sub">режим для тысяч тел</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="4.9"></div></div>
+                <div class="val">0.40 с</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Instanced<span class="sub">10 sub-steps — точность как у Bullet</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="3.7"></div></div>
+                <div class="val">0.30 с</div>
+              </div>
+            </div>
+            <div class="readout-note">
+              Интеграция Bullet в Blender однопоточная, поэтому вторая строка — это сравнение
+              один-к-одному, и там всё равно ≈&nbsp;12×. Значения по умолчанию у движков разные
+              (у Bullet 10 substeps, у Box3D 4), поэтому последняя строка поднимает Box3D до 10 —
+              и он становится <em>быстрее</em>, а не медленнее.
+            </div>
+          </div>
+        </section>
+
+        <section id="why">
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Что это даёт на практике</h3>
+              <p class="body">
+                Bullet внутри Blender считает физику однопоточно и по кадру за раз, пока вы
+                смотрите на вьюпорт. Box3D считает весь диапазон одним заходом в фоне
+                (<span class="kbd">Esc</span> отменяет и <strong>сохраняет уже посчитанные кадры</strong>),
+                многопоточно, а потом отдаёт готовые данные — в том виде, который вы выберете.
+              </p>
+              <p class="body">
+                Разметка тел <strong>полностью независима от Rigid Body World</strong>: никакого
+                <code>Add Rigid Body World</code>, свои настройки, своя масса, свои джойнты.
+                Единственная точка соприкосновения опциональна — <em>Kinematic After Bake</em>,
+                чтобы Bullet не трогал уже забейканный результат, если у объекта есть и родное тело.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+              </span>
+              <p>
+                <strong>Правило проекта — «измерил, а не предположил».</strong> Каждая цифра на
+                этой странице воспроизведена бенчмарком из <code>tests/</code>, а не оценена.
+                Там же, где Box3D проигрывает, это написано прямым текстом — см. таблицу скраба
+                в разделе «Цифры».
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="pipeline">
+          <div class="sec-head rv">
+            <div class="eyebrow">Как работает</div>
+            <h2>Четыре шага от объекта до результата</h2>
+            <p class="lede">
+              Всё управление живёт в <strong>Properties → Physics</strong>, рядом с родными
+              физическими кнопками Blender. В сайдбаре вьюпорта (<span class="kbd">N</span>) —
+              маленькая вкладка только с Bake / Clear / Live Preview.
+            </p>
+          </div>
+
+          <div class="pipe rv">
+            <div class="step">
+              <span class="n">ШАГ 01</span>
+              <h4>Пометить</h4>
+              <p>Mark Active, Passive, Emitter, Trigger или Joint. Анимированный Passive
+                 становится кинематическим приводом — ковш физически толкает то, что везёт.</p>
+            </div>
+            <div class="step">
+              <span class="n">ШАГ 02</span>
+              <h4>Настроить</h4>
+              <p>Форма столкновений, масса в килограммах, трение, упругость, демпфирование,
+                 20 коллизионных каналов. <em>Show Collision Shapes</em> рисует ту форму, которой
+                 объект реально сталкивается.</p>
+            </div>
+            <div class="step">
+              <span class="n">ШАГ 03</span>
+              <h4>Посчитать</h4>
+              <p>Workers, Sub-Steps, Time Scale, диапазон кадров. Бейк идёт в фоне с полосой
+                 прогресса на таймлайне. Или просто нажмите Play — <em>Simulate On Playback</em>
+                 считает по ходу воспроизведения.</p>
+            </div>
+            <div class="step">
+              <span class="n">ШАГ 04</span>
+              <h4>Получить</h4>
+              <p>Ключевые кадры, кэш внутри .blend, кэш на диске или инстансы через Geometry
+                 Nodes. Забейканный диапазон отмечен бирюзовой полоской на таймлайне.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="features">
+          <div class="sec-head rv">
+            <div class="eyebrow">Возможности</div>
+            <h2>Что умеет солвер</h2>
+          </div>
+
+          <div class="feats rv">
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <h4>Джойнты</h4>
+              <p>Hinge, Ball и Fixed на обычном Empty. Ось задаётся его поворотом. Лимиты угла,
+                 конуса и закрутки, мотор с максимальным моментом, пружинящая сварка.</p>
+              <span class="tag">ДВЕРЬ · ЦЕПЬ · МАЯТНИК</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v6H4z"/><circle cx="17" cy="8" r="1.6"/><circle cx="20" cy="14" r="1.4"/><circle cx="15" cy="16" r="1.2"/><circle cx="19" cy="20" r="1"/></svg></span>
+              <h4>Эмиттеры</h4>
+              <p>Частицы спавнятся с поверхности меша, взвешенно по площади граней. Дробная
+                 скорость не теряет поток. Inherit Velocity: гравий из едущего ковша летит вместе
+                 с ковшом.</p>
+              <span class="tag">50 000 ЧАСТИЦ = 2.48 С</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span>
+              <h4>Триггеры</h4>
+              <p>Сенсорный объём включает, выключает или убирает физику у всего, что в него
+                 попало. Проведите анимированный триггер по куче камней — они посыплются по
+                 мере его прохода.</p>
+              <span class="tag">ENABLE · DISABLE · DELETE</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h11a3 3 0 100-3M3 13h15a3 3 0 110 6M3 18h7"/></svg></span>
+              <h4>Силовые поля</h4>
+              <p>Работают <em>родные</em> объекты Force Field Blender — Force, Wind и Drag,
+                 вместе с их затуханием, Min/Max Distance и анимированной силой. Отдельного
+                 «объекта силы Box3D» учить не надо.</p>
+              <span class="tag">≈1.2 МКС / ТЕЛО / КАДР</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5v10a4 4 0 004 4h6V9"/><path d="M5 5h10v4"/></svg></span>
+              <h4>Вогнутые формы</h4>
+              <p>Mesh — точная коллизия по треугольникам для статики. Compound — несколько
+                 выпуклых частей из детей объекта или из loose parts собственного меша; единственный
+                 вариант для <em>движущегося</em> ковша.</p>
+              <span class="tag">MESH · COMPOUND</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg></span>
+              <h4>Коллизионные каналы</h4>
+              <p>Те же 20 квадратиков, что у нативного Rigid Body. Это одновременно организация
+                 сцены и оптимизация: пара, которая не может столкнуться, не проверяется вообще.</p>
+              <span class="tag">BROAD-PHASE ФИЛЬТР</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20v-4"/></svg></span>
+              <h4>Профайлер тел</h4>
+              <p>Показывает десятку самых дорогих тел по числу контактов и времени без сна.
+                 Доля каждого объекта видна на его собственной панели Physics.</p>
+              <span class="tag">SAMPLE EVERY 5 КАДРОВ</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/><circle cx="12" cy="12" r="3"/></svg></span>
+              <h4>Риги через depsgraph</h4>
+              <p>Ковш на костях экскаватора — это не f-кривые, и быстрый путь его не прочитает.
+                 <em>Sample Rigs Through Depsgraph</em> спрашивает трансформы у самого Blender,
+                 по кадру, до начала симуляции.</p>
+              <span class="tag">КОНСТРЕЙНТЫ · ДРАЙВЕРЫ · NLA</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9z"/></svg></span>
+              <h4>Симуляция на воспроизведении</h4>
+              <p>Нажали Play — физика считается у вас на глазах и заполняет кэш. Пауза сохраняет
+                 мир живым, пропущенные кадры догоняются, кэш от явного Bake защищён от перезаписи.</p>
+              <span class="tag">SIMULATE ON PLAYBACK</span>
+            </article>
+          </div>
+        </section>
+
+        <section id="output">
+          <div class="sec-head rv">
+            <div class="eyebrow">Режимы вывода</div>
+            <h2>Четыре способа положить результат в сцену</h2>
+            <p class="lede">
+              Одна настройка на всю сцену. Выбор определяется не вкусом, а количеством тел
+              и тем, собираетесь ли вы потом править анимацию руками.
+            </p>
+          </div>
+
+          <div class="tbl-wrap rv">
+            <table>
+              <thead>
+                <tr>
+                  <th>Режим</th>
+                  <th>Где живут данные</th>
+                  <th>Когда выбирать</th>
+                  <th>Чем платите</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Keyframes</td>
+                  <td>F-кривые в .blend</td>
+                  <td>Нужно доработать движение руками в Graph Editor</td>
+                  <td>Раздувание f-кривых, самый медленный скраб на больших N</td>
+                </tr>
+                <tr>
+                  <td>Blend Cache</td>
+                  <td>Датаблок Text внутри .blend</td>
+                  <td>Ключи не нужны, файл должен путешествовать целиком</td>
+                  <td>Размер .blend, потолок скорости скраба</td>
+                </tr>
+                <tr>
+                  <td>Disk Cache</td>
+                  <td><code>//box3d_cache/</code> рядом с .blend</td>
+                  <td>То же, но .blend должен остаться маленьким</td>
+                  <td>Кэш назван по имени объекта — переименование его осиротит</td>
+                </tr>
+                <tr>
+                  <td>Instanced</td>
+                  <td>Точки + Geometry Nodes</td>
+                  <td class="best">Тысячи тел. Скраб ≈ в 40× быстрее Disk Cache</td>
+                  <td>Нужны общие датаблоки мешей (Alt+D), нет по-объектной правки</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="note rv" style="margin-top: var(--s5)">
+            <span class="ico">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5v8l-9 5-9-5V8z"/><path d="M12 12l9-4M12 12v9M12 12L3 8"/></svg>
+            </span>
+            <p>
+              После бейка в Instanced оригинальные объекты нужны только как источник формы.
+              Кнопка <strong>Exclude originals from view layer</strong> убирает их из обхода
+              depsgraph одним нажатием — <strong>7.84 → 0.40 мс/кадр на 3000 телах</strong> —
+              и полностью обратима: каждый объект возвращается ровно в те коллекции, откуда был взят.
+            </p>
+          </div>
+        </section>
+
+        <section id="numbers">
+          <div class="sec-head rv">
+            <div class="eyebrow">Цифры</div>
+            <h2>Включая те, где мы проигрываем</h2>
+            <p class="lede">
+              Одна и та же сцена с обеих сторон: N кубов сеткой падают на пол, 120 кадров,
+              Apple Silicon (4 производительных + 6 энергоэффективных ядра). Каждая конфигурация
+              проверяется на физически осмысленный результат, прежде чем её время попадает в отчёт.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Время бейка, секунды</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Тел</th>
+                      <th class="num">Bullet</th>
+                      <th class="num">Keyframes, 1 поток</th>
+                      <th class="num">Keyframes, 5 потоков</th>
+                      <th class="num">Disk Cache</th>
+                      <th class="num">Instanced</th>
+                      <th class="num">Instanced, 10 sub-steps</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>100</td><td class="num">0.23</td><td class="num">0.02</td><td class="num">0.02</td><td class="num">0.02</td><td class="num">0.01</td><td class="num best">0.01</td></tr>
+                    <tr><td>500</td><td class="num">1.14</td><td class="num">0.10</td><td class="num">0.10</td><td class="num">0.09</td><td class="num">0.06</td><td class="num best">0.04</td></tr>
+                    <tr><td>1500</td><td class="num">3.79</td><td class="num">0.34</td><td class="num">0.33</td><td class="num">0.29</td><td class="num">0.19</td><td class="num best">0.14</td></tr>
+                    <tr><td>3000</td><td class="num">8.08</td><td class="num">0.69</td><td class="num">0.68</td><td class="num">0.60</td><td class="num">0.40</td><td class="num best">0.30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Ускорение против Bullet на 3000 телах: <strong>11.7×</strong> (Keyframes, 1 поток),
+                <strong>13.6×</strong> (Disk Cache), <strong>20.2×</strong> (Instanced),
+                <strong>27.3×</strong> (Instanced при 10 sub-steps).
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Скраб готового результата, мс на кадр</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Тел</th>
+                      <th class="num">Bullet</th>
+                      <th class="num">Keyframes</th>
+                      <th class="num">Disk Cache</th>
+                      <th class="num">Instanced</th>
+                      <th class="num">Instanced, оригиналы исключены</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>100</td><td class="num">0.12</td><td class="num slow">0.17</td><td class="num slow">0.34</td><td class="num">0.16</td><td class="num best">0.09</td></tr>
+                    <tr><td>500</td><td class="num">0.57</td><td class="num slow">0.90</td><td class="num slow">1.66</td><td class="num">0.49</td><td class="num best">0.16</td></tr>
+                    <tr><td>1500</td><td class="num">3.11</td><td class="num slow">5.61</td><td class="num slow">7.14</td><td class="num">2.11</td><td class="num best">0.30</td></tr>
+                    <tr><td>3000</td><td class="num">7.92</td><td class="num slow">12.26</td><td class="num slow">16.48</td><td class="num">7.66</td><td class="num best">0.47</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+                </span>
+                <p>
+                  <strong>Bullet скрабит быстрее, чем Keyframes и Disk Cache, и это не изменится.</strong>
+                  Bullet пишет трансформы скомпилированным C внутри depsgraph; эти два режима пишут
+                  <code>location</code> / <code>rotation_quaternion</code> по объекту из Python, а
+                  bulk-эквивалента для независимых датаблоков Object в API Blender нет. Потолок
+                  архитектурный — именно поэтому существует Instanced.
+                </p>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Последняя колонка — та, что имеет значение на масштабе: <strong>0.47 мс/кадр против
+                7.92 у Bullet, ≈&nbsp;17×</strong>. И почти не растёт с числом тел, потому что работа
+                на кадр — две bulk-записи атрибутов независимо от N.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Эмиттеры</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Частиц</th>
+                      <th class="num">Бейк всего</th>
+                      <th class="num">из них солвер</th>
+                      <th class="num">бухгалтерия</th>
+                      <th class="num">Скраб</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>5 000</td><td class="num">0.16 с</td><td class="num">0.05 с</td><td class="num">0.08 с</td><td class="num">0.37 мс/кадр</td></tr>
+                    <tr><td>15 000</td><td class="num">0.53 с</td><td class="num">0.19 с</td><td class="num">0.27 с</td><td class="num">0.70 мс/кадр</td></tr>
+                    <tr><td>50 000</td><td class="num">2.48 с</td><td class="num">1.28 с</td><td class="num">0.96 с</td><td class="num">2.14 мс/кадр</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Для готового бейка важна последняя колонка: 2.14 мс/кадр на 50k означает, что
+                воспроизведение не является узким местом.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Сколько потоков ставить</h3>
+              <p class="body">
+                По умолчанию <code>логические ядра / 2</code>, но не больше 8. Собственная
+                рекомендация Box3D — закреплять Workers за <strong>физическими</strong> ядрами:
+                hyperthreading и энергоэффективные ядра дают мало и могут измеримо вредить.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>CPU</th><th>Оптимум измерен</th><th>Что ставит дефолт</th><th>Замечание</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Apple Silicon 4P+6E</td><td class="num">4</td><td class="num">5</td>
+                      <td>При 10 медленнее, чем при 4</td>
+                    </tr>
+                    <tr>
+                      <td>Ryzen 9 5900X</td><td class="num">12–16</td><td class="num">8</td>
+                      <td>≈4–4.5× против одного потока; запас стоит забрать руками</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="limits">
+          <div class="sec-head rv">
+            <div class="eyebrow">Границы</div>
+            <h2>Чего он не умеет</h2>
+            <p class="lede">
+              Список неполный, но здесь то, обо что упираются первым. Полный — в README аддона.
+            </p>
+          </div>
+
+          <div class="limits rv">
+            <div class="limit"><span class="x"></span><p><b>Ничего не делится с Bullet.</b> Настроенный Rigid Body и его констрейнты в бейк не попадают, и «Mass» из тех панелей не читается никогда.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Mesh-форма только на неподвижной статике.</b> Ограничение самого Box3D: меш-формы создают контакты исключительно на статичных телах. Движущаяся вогнутая геометрия — только Compound.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Нет автоматической выпуклой декомпозиции.</b> Герметично смоделированному ковшу придётся дать дочерние части коллизии или разрезать меш на loose parts.</p></div>
+            <div class="limit"><span class="x"></span><p><b>У сенсоров нет непрерывного обнаружения.</b> Триггер, за кадр целиком пересёкший тонкое тело, его не заметит. Объём делать толще, а не тоньше.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Частицы эмиттера не умирают.</b> Времени жизни и деспавна в этой версии нет; каждая частица живёт до конца бейка.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Одна форма частиц на сцену.</b> Несколько эмиттеров симулируются корректно, но все частицы отображаются формой первого — с предупреждением после бейка.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Vortex, Turbulence и Magnetic игнорируются.</b> Из полей Blender вычисляются Force, Wind и Drag; остальные перечисляются в предупреждении после бейка.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Бейк держит все кадры в памяти.</b> ≈29 байт на тело на кадр: 50k тел × 250 кадров ≈ 360 МБ. Для этого и существует Custom Frame Range.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Нет height-field формы</b> и джойнтов distance / prismatic / wheel / motor — в C API Box3D они есть, UI для них здесь нет.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Режим Output — одна настройка на сцену</b>, не на объект.</p></div>
+          </div>
+        </section>
+
+        <!-- ── Куда дальше ── -->
+        <section id="next">
+          <div class="sec-head rv">
+            <div class="eyebrow">Дальше</div>
+            <h2>Куда пойти отсюда</h2>
+          </div>
+
+          <div class="nextnav rv">
+            <a class="nx home" href="#/">
+              <span class="k">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                На главную
+              </span>
+              <span class="t">Обзор и установка</span>
+              <span class="d">Сравнение двух аддонов, требования, платформы и порядок установки.</span>
+            </a>
+
+            <a class="nx to-studio" href="#/studio">
+              <span class="k">
+                Второй аддон
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="t">Creative Studio Tools</span>
+              <span class="d">Пресет файла, направляющие кропов, автосейв и уборка сцены.</span>
+            </a>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Box3D Bake</b>
+              <span>0.21.0 · Blender 4.4+ · MIT</span>
+              <span>Движок: box3d, Erin Catto</span>
+            </div>
+            <div>
+              <b>Цифры</b>
+              <span>tests/bench_vs_bullet.py</span>
+              <span>tests/bench_emitter.py</span>
+              <span>tests/bench_force_fields.py</span>
+            </div>
+            <div>
+              <b>Навигация</b>
+              <span><a href="#/">Главная</a></span>
+              <span><a href="#/studio">Creative Studio Tools</a></span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         СТРАНИЦА 3 · CREATIVE STUDIO TOOLS
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" id="page-studio" hidden>
+      <div class="wrap">
+
+        <section class="page-head" id="top">
+          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.1.0</div>
+          <h1>Продакшен видеокреативов, с которого сняли ручную работу</h1>
+          <p class="lede">
+            Отдельный аддон от физики: другая аудитория, свой цикл релизов, и ничего здесь
+            не требует, чтобы Box3D был установлен. Каждая подсистема — свой модуль за своим
+            тумблером, чтобы сломанная часть выключалась, не утаскивая остальное.
+          </p>
+        </section>
+
+        <section id="preset">
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Одна кнопка на весь файл</h3>
+              <p class="body">
+                <strong>Studio → Make This File Mobile-Creative Ready</strong> ставит EEVEE,
+                1920×1920, 30 fps, кадры 1–1770 (это 59 секунд), прозрачную плёнку, PNG в RGBA,
+                Filmic + High Contrast, пасс Ambient Occlusion на <em>всех</em> view layer'ах
+                и собранный композитор.
+              </p>
+              <p class="body">
+                Все значения <strong>сняты с рабочего проекта</strong> — скрипт сравнивает
+                референсный <code>.blend</code> с заводскими значениями и печатает разницу.
+                В Blender несколько сотен свойств рендера, вывода и цветоуправления, и те,
+                которые студия реально меняла, — не те, которые вспоминаются, когда спросишь.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              </span>
+              <p>
+                Три вещи пресет ставит <strong>не копированием, а выводом</strong>: все 15 флагов
+                <code>use_stamp_*</code> выключаются принудительно (дата и имя файла, впечатанные
+                в доставляемый ролик, — это мусор), safe areas считаются из таблицы кропов,
+                а путь вывода <em>не</em> переносится — в референсе он вёл на диск другой машины.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="modules">
+          <div class="sec-head rv">
+            <div class="eyebrow">Модули</div>
+            <h2>Шесть независимых инструментов</h2>
+          </div>
+
+          <div class="mods rv">
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></span>
+                <h4>Пресет mobile-creative</h4>
+              </div>
+              <span class="path">Studio → Make This File Mobile-Creative Ready</span>
+              <p>Рендер, вывод, цветоуправление, мир, композитор и оверлеи вьюпорта — во всех
+                 3D-вьюпортах файла, включая невидимые сейчас экраны. Нодовые группы лежат
+                 датаблоками в шаблоне и аппендятся: ~103 ноды генерировать на Python было бы
+                 тысячей хрупких строк.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18M16 3v18M3 8h18M3 16h18"/></svg></span>
+                <h4>Направляющие кропов</h4>
+              </div>
+              <span class="path">View → Crop Guides · сайдбар N</span>
+              <p>Рисуются только в виде из камеры — вне его рамка это не то, что видит рендер,
+                 и уверенные линии там были бы враньём. Разбор — в интерактивной схеме ниже.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                <h4>Автосейв</h4>
+              </div>
+              <span class="path">Preferences → Add-ons · строка состояния</span>
+              <p>Штатный автосейв Blender <em>не срабатывает, пока работает модальный оператор</em>:
+                 таймер вместо сохранения перезапускается. Трансформ, скульпт, покраска и любой
+                 аддон со своим модальным циклом его откладывают. Здесь используется
+                 <code>bpy.app.timers</code>, который крутится от главного цикла.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></span>
+                <h4>Доктор сцены</h4>
+              </div>
+              <span class="path">Studio → Analyse Scene</span>
+              <p><strong>Ничего не изменяет</strong>, только считает: объекты в сцене против
+                 объектов в view layer, идентичные меши в отдельных датаблоках, дубли текстур,
+                 материалы с одинаковыми деревьями нод и список тех, кто станет плоским, если
+                 вырезать bump.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10H7z"/><path d="M4 4h10v3M20 20H10v-3"/></svg></span>
+                <h4>Дедупликация</h4>
+              </div>
+              <span class="path">Studio → Merge Duplicate Images / Materials / Meshes</span>
+              <p>Сначала считается план, план печатается в консоль, потом применяется ровно он.
+                 Есть Dry Run. Порядок важен: пока два одинаковых материала ссылаются на разные
+                 датаблоки одной картинки, их отпечатки не совпадают.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6a3 3 0 003 3h6M18 3v18"/><circle cx="6" cy="19" r="2"/></svg></span>
+                <h4>Чистка шейдеров</h4>
+              </div>
+              <span class="path">Studio → Strip Expensive Shader Nodes</span>
+              <p>Bump дорог не сам по себе: он берёт производные по входу Height, из-за чего весь
+                 граф за этим входом считается несколько раз. <strong>Normal Map не трогается
+                 никогда</strong> — он дёшев, а без него картинка станет плоской без выигрыша.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="crops">
+          <div class="sec-head rv">
+            <div class="eyebrow">Направляющие кропов</div>
+            <h2>Мастер один, доставок три</h2>
+            <p class="lede">
+              Пайплайн рендерит квадрат 1920×1920 один раз, а три формата режутся из него потом.
+              Blender об этом не знает — поэтому артист компонует вслепую.
+            </p>
+          </div>
+
+          <div class="crop">
+            <div class="crop-stage rv">
+              <svg class="crop-svg" viewBox="0 0 480 480" role="img" aria-label="Схема кропов: мастер 1920×1920 и три доставочных формата внутри него">
+                <defs>
+                  <pattern id="hatch" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1" opacity="0.5"/>
+                  </pattern>
+                </defs>
+
+                <!-- Мастер -->
+                <rect x="0.5" y="0.5" width="479" height="479" fill="var(--panel-2)" stroke="var(--border)" />
+
+                <!-- 16:9 -->
+                <g id="f169" opacity="0">
+                  <rect x="0" y="105" width="480" height="270" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="8" y="98" font-family="ui-monospace, monospace" font-size="10" fill="var(--studio)">16:9 · 1920×1080</text>
+                </g>
+
+                <!-- 9:16 -->
+                <g id="f916" opacity="0">
+                  <rect x="105" y="0" width="270" height="480" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="112" y="18" font-family="ui-monospace, monospace" font-size="11" fill="var(--studio)">9:16 · 1080×1920</text>
+                </g>
+
+                <!-- 4:5 -->
+                <g id="f45" opacity="0">
+                  <rect x="105" y="71.25" width="270" height="337.5" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="112" y="422" font-family="ui-monospace, monospace" font-size="11" fill="var(--studio)">4:5 · 1080×1350</text>
+                </g>
+
+                <!-- Общая область -->
+                <g id="fcore" opacity="0">
+                  <rect x="105" y="105" width="270" height="270" fill="url(#hatch)" stroke="var(--ink)" stroke-width="2"/>
+                  <text x="240" y="236" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="var(--ink)">1080 × 1080</text>
+                  <text x="240" y="253" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-2)">56.25 % от стороны</text>
+                </g>
+
+                <!-- Подпись мастера -->
+                <text x="8" y="458" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-3)">МАСТЕР</text>
+                <text x="8" y="471" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-3)">1920×1920</text>
+              </svg>
+
+              <div class="crop-toggles" role="group" aria-label="Показать форматы">
+                <button class="tgl" type="button" aria-pressed="false" data-t="f916"><span class="dot"></span>9:16</button>
+                <button class="tgl" type="button" aria-pressed="false" data-t="f169"><span class="dot"></span>16:9</button>
+                <button class="tgl" type="button" aria-pressed="false" data-t="f45"><span class="dot"></span>4:5</button>
+                <button class="tgl core" type="button" aria-pressed="false" data-t="fcore"><span class="dot"></span>ОБЩАЯ ОБЛАСТЬ</button>
+              </div>
+              <p class="crop-legend">Все три формата центрированы. Пересечение — центральные 1080×1080.</p>
+            </div>
+
+            <div class="stack rv">
+              <div class="stack-s">
+                <h3>Почему это не арифметика</h3>
+                <p class="body">
+                  Таблица снята с резайзной сетки студии, а не выведена формулой. Вписывание 4:5
+                  по высоте мастера дало бы 1536×1920 — и это <strong>не то</strong>, что режет
+                  студия. Центрирование тоже нельзя было предсказать: вертикальные форматы часто
+                  смещают вверх, чтобы персонажу не срезало голову.
+                </p>
+              </div>
+
+              <div class="tbl-wrap">
+                <table>
+                  <thead>
+                    <tr><th>Формат</th><th class="num">Из мастера</th><th>Как режется</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>9:16</td><td class="num">1080 × 1920</td><td>вся высота, бока обрезаны</td></tr>
+                    <tr><td>16:9</td><td class="num">1920 × 1080</td><td>вся ширина, верх и низ обрезаны</td></tr>
+                    <tr><td>4:5</td><td class="num">1080 × 1350</td><td>обрезано по обеим осям</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="stack-s">
+                <h3>Правило композиции</h3>
+                <p class="body">
+                  Всё, что обязано выжить <em>в каждой</em> доставке, должно лежать внутри
+                  центральных 1080×1080. Всё за пределами самого узкого кропа может не быть
+                  увидено никогда.
+                </p>
+              </div>
+
+              <div class="note">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                </span>
+                <p>
+                  Пресет берёт <code>scene.safe_areas</code> из <strong>этой же таблицы</strong> —
+                  <code>title = (0.4375, 0.4375)</code> даёт 1080×1080, <code>action =
+                  (0.4375, 0.296875)</code> даёт 1080×1350. Поэтому рамки в сайдбаре и рамки,
+                  которые Blender рисует на камере, разойтись не могут.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cleanup">
+          <div class="sec-head rv">
+            <div class="eyebrow">Уборка сцены</div>
+            <h2>Сначала измерить, потом удалять</h2>
+            <p class="lede">
+              Замер, с которого начался этот аддон: при 3000 твёрдых тел кадр стоил 7.66 мс,
+              из которых работа физики — 0.13 мс. Остальные 98% — Blender, обходящий объекты,
+              которые бейк уже свёл к инертным источникам. Этого никто не угадал.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="chain rv">
+              <div class="chain-item">
+                <span class="k">Шаг 1 · только чтение</span>
+                <span class="t">Analyse Scene</span>
+                <span class="d">Отчёт в текстовый блок Scene Report. Ничего не меняет.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Шаг 2</span>
+                <span class="t">Merge Images</span>
+                <span class="d">Первым: иначе одинаковые материалы не совпадут отпечатками.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Шаг 3</span>
+                <span class="t">Merge Materials</span>
+                <span class="d">Отпечаток собирается перебором RNA, а не списком вручную.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Шаг 4</span>
+                <span class="t">Merge Meshes</span>
+                <span class="d">Побочный эффект важнее прямого: появляется право на инстансинг.</span>
+              </div>
+            </div>
+
+            <div class="mods">
+              <article class="mod">
+                <h4>Ключ склейки картинок — это не путь</h4>
+                <p>В ключ входят путь, <strong>цветовое пространство</strong>, <strong>alpha
+                   mode</strong> и <strong>упакованность</strong>. Один и тот же PNG законно
+                   грузится дважды: как sRGB для базового цвета и как Non-Color для карты
+                   нормалей. Склеить их — прогнать карту нормалей через sRGB-преобразование.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Отпечаток меша — не координаты вершин</h4>
+                <p>Обходятся <em>все</em> атрибуты: топология живёт в <code>corner_vert</code> /
+                   <code>edge_verts</code>, так что два меша могут совпадать каждой координатой
+                   и собирать из них совершенно разные грани. Плюс UV, цвета, слоты материалов
+                   и shape keys.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Три категории не трогаются вообще</h4>
+                <p><strong>Анимированные</strong> (анимация не входит в отпечаток),
+                   <strong>ассеты</strong> (пометка ассетом — явное заявление, что датаблок
+                   самоценен) и <strong>связанные</strong> (их отсюда всё равно не перепривязать).</p>
+              </article>
+
+              <article class="mod">
+                <h4>Пороги намеренно строгие</h4>
+                <p>Побитовое совпадение координат и точный структурный хеш дерева нод. Цифры —
+                   нижняя граница, а не верхняя. Для инструмента, следующий шаг которого —
+                   удалять, ошибаться надо именно в эту сторону.</p>
+              </article>
+            </div>
+
+            <div class="stack">
+              <h3>Автосейв: почему по простою, а не по расписанию</h3>
+              <p class="body">
+                Сохранение <code>.blend</code> — это всегда запись файла целиком, дельта-формата
+                нет. На тяжёлой сцене это заметная пауза, и автосейв по расписанию
+                <strong>гарантированно</strong> однажды подвесит вас посреди штриха. Ровно из-за
+                этого люди его выключают и в итоге теряют сессию.
+              </p>
+              <p class="body">
+                Поэтому триггер — тишина: снимок пишется, когда ничего не менялось
+                <strong>8 секунд</strong> (по умолчанию). Интерактивная работа порождает
+                непрерывный поток обновлений depsgraph, так что запись попадает в паузу после
+                того, как вы остановились. Плюс потолок <strong>«не старше 15 минут»</strong> —
+                для случаев вроде долгого бейка, который дёргает depsgraph всё время, пока идёт.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Параметр</th><th>По умолчанию</th><th>Почему так</th></tr></thead>
+                  <tbody>
+                    <tr><td>Idle Before Save</td><td class="num">8 с</td><td>Пауза после того, как вы остановились, где запись ничего не стоит</td></tr>
+                    <tr><td>Never Staler Than</td><td class="num">15 мин</td><td>Страховка от работы, которая в простой не уходит вообще</td></tr>
+                    <tr><td>Keep Versions</td><td class="num">10</td><td>Хранятся в <code>&lt;проект&gt;/.autosave/</code>, а не в системном temp</td></tr>
+                    <tr><td>Метка времени</td><td class="num">до мс</td><td>При секундном разрешении два снимка в одну секунду затирают друг друга</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- ── Куда дальше ── -->
+        <section id="next">
+          <div class="sec-head rv">
+            <div class="eyebrow">Дальше</div>
+            <h2>Куда пойти отсюда</h2>
+          </div>
+
+          <div class="nextnav rv">
+            <a class="nx home" href="#/">
+              <span class="k">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                На главную
+              </span>
+              <span class="t">Обзор и установка</span>
+              <span class="d">Сравнение двух аддонов, требования, платформы и порядок установки.</span>
+            </a>
+
+            <a class="nx to-phys" href="#/box3d">
+              <span class="k">
+                Второй аддон
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="t">Box3D Bake</span>
+              <span class="d">Твёрдые тела на движке Box3D: джойнты, эмиттеры, триггеры и цифры.</span>
+            </a>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Creative Studio Tools</b>
+              <span>0.1.0 · Blender 4.2+ · MIT</span>
+              <span>Автор: zhb</span>
+            </div>
+            <div>
+              <b>Тесты</b>
+              <span>tests/test_autosave.py</span>
+              <span>tests/test_doctor.py</span>
+              <span>tests/test_safezones.py</span>
+            </div>
+            <div>
+              <b>Навигация</b>
+              <span><a href="#/">Главная</a></span>
+              <span><a href="#/box3d">Box3D Bake</a></span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<script>
+(function () {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  var PAGES = {
+    "/":       "page-home",
+    "/box3d":  "page-box3d",
+    "/studio": "page-studio"
+  };
+
+  // Смена страницы — это не восстановление истории: браузер иначе возвращает
+  // прокрутку предыдущей записи уже после нашего scrollTo.
+  try { if ("scrollRestoration" in history) history.scrollRestoration = "manual"; } catch (err) {}
+
+  function toTop() {
+    window.scrollTo(0, 0);
+    requestAnimationFrame(function () { window.scrollTo(0, 0); });
+  }
+
+  var io = null;
+  if (!reduce && "IntersectionObserver" in window) {
+    io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        e.target.classList.add("in");
+        io.unobserve(e.target);
+        var bars = e.target.querySelectorAll(".bar-fill");
+        bars.forEach(function (b, i) {
+          setTimeout(function () { b.style.width = b.dataset.w + "%"; }, 120 + i * 90);
+        });
+      });
+    }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
+  }
+
+  function armReveals(root) {
+    var els = root.querySelectorAll(".rv");
+    if (!io) {
+      els.forEach(function (el) { el.classList.add("in"); });
+      root.querySelectorAll(".bar-fill").forEach(function (b) { b.style.width = b.dataset.w + "%"; });
+      return;
+    }
+    els.forEach(function (el) { if (!el.classList.contains("in")) io.observe(el); });
+  }
+
+  /* ── Роутер ── */
+  var pages = document.querySelectorAll(".page");
+  var railBlocks = document.querySelectorAll("[data-rail]");
+  var current = null;
+
+  function parse() {
+    var h = location.hash || "";
+    // Якорь внутри страницы (#top, #numbers) не меняет страницу
+    if (h && h.charAt(1) !== "/") return null;
+    var route = h.slice(1) || "/";
+    return PAGES[route] ? route : "/";
+  }
+
+  function go(route, keepScroll) {
+    var id = PAGES[route];
+    if (current === id) return;
+    current = id;
+
+    pages.forEach(function (p) { p.hidden = (p.id !== id); });
+
+    var key = route === "/" ? "home" : route.slice(1);
+    railBlocks.forEach(function (b) { b.hidden = (b.dataset.rail !== key); });
+
+    var page = document.getElementById(id);
+    armReveals(page);
+    collectSpy();
+
+    if (!keepScroll) toTop();
+    spy();
+  }
+
+  function route(keepScroll) {
+    var r = parse();
+    if (r === null) return;          // это внутренний якорь — страницу не трогаем
+    go(r, keepScroll);
+  }
+
+  window.addEventListener("hashchange", function () { route(false); });
+
+  /* ── Scroll spy (только по видимой странице) ── */
+  var links = [], targets = [];
+
+  function collectSpy() {
+    var page = document.getElementById(current);
+    links = Array.prototype.slice.call(
+      document.querySelectorAll('[data-rail]:not([hidden]) a[href^="#"]:not([href^="#/"])')
+    );
+    targets = links.map(function (a) {
+      return page.querySelector(CSS.escape ? "#" + CSS.escape(a.getAttribute("href").slice(1)) : a.getAttribute("href"));
+    });
+  }
+
+  function spy() {
+    var best = -1, bestTop = -Infinity, probe = window.innerHeight * 0.32;
+    targets.forEach(function (t, i) {
+      if (!t) return;
+      var top = t.getBoundingClientRect().top;
+      if (top <= probe && top > bestTop) { bestTop = top; best = i; }
+    });
+    links.forEach(function (a, i) { a.classList.toggle("on", i === best); });
+  }
+
+  var ticking = false;
+  window.addEventListener("scroll", function () {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(function () { spy(); ticking = false; });
+  }, { passive: true });
+
+  /* ── Клики ── */
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest('a[href^="#"]');
+    if (!a) return;
+    var href = a.getAttribute("href");
+
+    // Переход между страницами
+    if (href.charAt(1) === "/" || href === "#/") {
+      e.preventDefault();
+      var r = href.slice(1) || "/";
+      if (!PAGES[r]) return;
+      // Страницу переключаем сразу, не дожидаясь hashchange: в некоторых
+      // контекстах (file://, data:) запись в location.hash не проходит.
+      go(r, false);
+      try { if (location.hash !== href) location.hash = href; } catch (err) { /* адрес не обновился — навигация уже произошла */ }
+      toTop();
+      return;
+    }
+
+    // Якорь внутри текущей страницы
+    var page = document.getElementById(current);
+    var el = page && page.querySelector('[id="' + href.slice(1) + '"]');
+    if (!el) return;
+    e.preventDefault();
+    el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+  });
+
+  /* ── Переключатели кропов ── */
+  function setTgl(btn, on) {
+    btn.setAttribute("aria-pressed", on ? "true" : "false");
+    var g = document.getElementById(btn.dataset.t);
+    if (g) {
+      g.style.transition = reduce ? "none" : "opacity .25s ease";
+      g.style.opacity = on ? "1" : "0";
+    }
+  }
+  document.querySelectorAll(".tgl").forEach(function (btn) {
+    btn.addEventListener("click", function () {
+      setTgl(btn, btn.getAttribute("aria-pressed") !== "true");
+    });
+  });
+  /* Стартовое состояние: 9:16 + общая область — самый частый вопрос */
+  setTgl(document.querySelector('[data-t="f916"]'), true);
+  setTgl(document.querySelector('[data-t="fcore"]'), true);
+
+  /* ── Старт ── */
+  current = null;
+  go(parse() || "/", true);
+})();
+</script>
