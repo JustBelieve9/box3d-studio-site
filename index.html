@@ -1241,6 +1241,104 @@ footer {
             </div>
 
             <div class="stack">
+              <h3>Против molecular-plus</h3>
+              <p class="body">
+                <a href="https://github.com/u3dreal/molecular-plus" target="_blank" rel="noopener noreferrer">molecular-plus</a>
+                v1.21.9 (GPL-3.0) — ближайший сопоставимый аддон для Blender: тоже
+                скомпилированное физическое ядро, управляющее большими количествами частиц.
+                Та же машина, те же 100 кадров, по 4 потока с каждой стороны, частицы радиусом
+                0.25, падающие на плоскость.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Частиц</th>
+                      <th class="num">Этот аддон</th>
+                      <th class="num">molecular-plus</th>
+                      <th class="num">наш солвер</th>
+                      <th class="num">их солвер</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>5 000</td><td class="num">0.16 с</td><td class="num">0.18 с</td><td class="num best">0.05 с</td><td class="num">0.14 с</td></tr>
+                    <tr><td>15 000</td><td class="num">0.53 с</td><td class="num">0.53 с</td><td class="num best">0.19 с</td><td class="num">0.42 с</td></tr>
+                    <tr><td>50 000</td><td class="num slow">2.48 с</td><td class="num">2.08 с</td><td class="num best">1.28 с</td><td class="num">1.70 с</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Итоговые времена расходятся не более чем на ~16%, и это скрывает два
+                противоположных эффекта. <strong>Солвер</strong> здесь примерно на 33% быстрее
+                на 50k, делая при этом строго больше работы на элемент: у нас твёрдые тела
+                с ориентацией и инерцией, у них точки с радиусом. Их <strong>накладные расходы
+                на кадр</strong> примерно втрое дешевле, потому что они не хранят историю —
+                позиции живут в родной системе частиц Blender, которая их интегрирует
+                и кеширует. Этот аддон накапливает трансформы каждого кадра, чтобы скраб
+                никогда ничего не пересимулировал; вот что эти накладные расходы покупают.
+              </p>
+
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8l-3 6h6zM19 8l-3 6h6z"/><path d="M4 6h16"/></svg>
+                </span>
+                <p>
+                  <strong>Две оговорки в их пользу, прямым текстом:</strong> наше время включает
+                  запись полного дискового кеша, а их — не включает отдельный шаг Point Cache
+                  bake (он не измерялся); и мы храним 7 float на частицу на кадр (позиция плюс
+                  кватернион) против их 3.
+                </p>
+              </div>
+
+              <p class="body" style="max-width: 78ch">
+                <strong>Sub-steps стоят совершенно по-разному с двух сторон.</strong> Таблица
+                выше берёт наш Sub-Steps по умолчанию, равный 4, против их
+                <code>mol_substep = 0</code> — это не сравнение при равной точности.
+                Перемеряно на 50k по обоим регуляторам:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Sub-steps</th>
+                      <th class="num">Этот аддон, всего / солвер</th>
+                      <th class="num">molecular-plus, всего / солвер</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>1</td><td class="num">2.40 / 1.21 с</td><td class="num">2.15 / 1.77 с</td></tr>
+                    <tr><td>4</td><td class="num best">2.51 / 1.29 с</td><td class="num slow">8.92 / 7.52 с</td></tr>
+                    <tr><td>8</td><td class="num">2.64 / 1.43 с</td><td class="num">не измерялось</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Здесь они почти бесплатны — с 1 до 8 sub-steps солвер дорожает на 18%, —
+                потому что Box3D ищет контакты один раз за шаг и переиспользует их между
+                sub-steps, так что дорогая широкая фаза не повторяется. У них масштабируются
+                линейно, потому что <code>mol_substep</code> — это вообще не внутренняя итерация
+                солвера: он умножает диапазон кадров сцены, и каждый sub-step становится целым
+                лишним кадром со своей упаковкой данных и обратной записью скоростей.
+                Сравнивается <em>цена регулятора</em>, а не проверенная равная точность:
+                схемы разные, сравнения по проникновению и джиттеру не проводилось.
+              </p>
+
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+                </span>
+                <p>
+                  <strong>Инструменты решают разные задачи.</strong> У molecular-plus частичный
+                  солвер со связями между частицами, нацеленный на мягкие тела и сыпучие
+                  материалы, и он умеет то, чего этот аддон не умеет: связи, натяжение,
+                  weak maps по частицам. Выбирать надо сначала по возможностям — цифры выше
+                  говорят только о том, что ни один из двух не теряет очевидной
+                  производительности относительно другого.
+                </p>
+              </div>
+            </div>
+
+            <div class="stack">
               <h3>Сколько потоков ставить</h3>
               <p class="body">
                 По умолчанию <code>логические ядра / 2</code>, но не больше 8. Собственная
