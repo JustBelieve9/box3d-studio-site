@@ -620,6 +620,7 @@ footer {
       <a class="nav-studio" href="#pathanim">Анимация по пути</a>
       <a class="nav-studio" href="#crops">Кропы</a>
       <a class="nav-studio" href="#cleanup">Уборка сцены</a>
+      <a class="nav-studio" href="#proxy">Прокси-текстуры</a>
       <a class="nav-studio" href="#collect">Сборка проекта</a>
       <a class="nav-studio" href="#next">Дальше</a>
     </nav>
@@ -668,6 +669,7 @@ footer {
       <a href="#pathanim">Путь</a>
       <a href="#crops">Кропы</a>
       <a href="#cleanup">Уборка</a>
+      <a href="#proxy">Прокси</a>
       <a href="#collect">Сборка</a>
       <a href="#next">Дальше</a>
     </nav>
@@ -710,14 +712,14 @@ footer {
             <a class="pcard studio rv" href="#/studio">
               <div class="top">
                 <h3>Creative Studio Tools</h3>
-                <span class="ver">0.4.0</span>
+                <span class="ver">0.5.0</span>
               </div>
               <p>Продакшен видеокреативов под мобильные игры: анимация по пути, настройка файла
-                 одной кнопкой, направляющие кропов, автосейв, уборка сцены и сборка проекта.</p>
+                 одной кнопкой, кропы, прокси-текстуры, автосейв, уборка сцены и сборка проекта.</p>
               <ul>
                 <li>Путь с остановками, постоянная скорость, бег без скольжения ног</li>
-                <li>Пресет снят с рабочего проекта, а не набран по памяти</li>
-                <li>Автосейв, уборка сцены и сборка проекта в одну папку</li>
+                <li>Прокси-текстуры: память на рендере и вес, оригиналы не трогаются</li>
+                <li>Уборка сцены держит 25 000 объектов и сборка проекта в одну папку</li>
               </ul>
               <span class="go">ОТКРЫТЬ СТРАНИЦУ
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -758,6 +760,7 @@ footer {
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Каждый новый файл настраивается руками по одному и тому же списку</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Один мастер режется в несколько форматов, и композиция уезжает</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Штатный автосейв у вас молчит часами, потому что вы всё время в модальных операторах</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Сцена не влезает в память из-за текстур 4K, которых на телефоне никто не увидит</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Проект надо отдать на другую машину, и текстуры не должны стать розовыми</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Пришёл чужой коллект, и в нём тысяча копий одного ящика и <code>Material.001</code></li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Вьюпорт тормозит, и непонятно, на что именно уходит кадр</li>
@@ -852,7 +855,7 @@ footer {
             </div>
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.4.0 · Blender 4.2+ · MIT</span>
+              <span>0.5.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
@@ -1346,7 +1349,7 @@ footer {
       <div class="wrap">
 
         <section class="page-head" id="top">
-          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.4.0</div>
+          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.5.0</div>
           <h1>Продакшен видеокреативов, с которого сняли ручную работу</h1>
           <p class="lede">
             Отдельный аддон от физики: другая аудитория, свой цикл релизов, и ничего здесь
@@ -1356,7 +1359,7 @@ footer {
           <p class="lede">
             Всё живёт во вкладке <strong>Studio</strong> в сайдбаре 3D-вьюпорта
             (<span class="kbd">N</span>): Project Setup, Path Animation, Crop Guides,
-            Scene Cleanup, Deliver, Autosave. Именно в сайдбаре, а не в редакторе свойств
+            Scene Cleanup, Texture Proxies, Deliver, Autosave. Именно в сайдбаре, а не в редакторе свойств
             рядом с Render и Physics: список контекстов там захардкожен в C и из Python
             не расширяется.
           </p>
@@ -1410,7 +1413,7 @@ footer {
         <section id="modules">
           <div class="sec-head rv">
             <div class="eyebrow">Модули</div>
-            <h2>Восемь независимых инструментов</h2>
+            <h2>Девять независимых инструментов</h2>
             <p class="lede">
               Каждый — свой модуль за своим тумблером в настройках. Панели перечислены
               в том порядке, в котором стоят во вкладке Studio.
@@ -1497,6 +1500,16 @@ footer {
               <p>Bump дорог не сам по себе: он берёт производные по входу Height, из-за чего весь
                  граф за этим входом считается несколько раз. <strong>Normal Map не трогается
                  никогда</strong> — он дёшев, а без него картинка станет плоской без выигрыша.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="13" height="13" rx="1.5"/><path d="M3 12l3.5-3.5L11 13"/><circle cx="12" cy="7" r="1.2"/><path d="M19 12v8M19 20l-2.5-2.5M19 20l2.5-2.5"/></svg></span>
+                <h4>Прокси-текстуры</h4>
+              </div>
+              <span class="path">Studio → Texture Proxies</span>
+              <p>Облегчённые копии в папке <code>proxy</code> рядом с оригиналами. Оригиналы
+                 не изменяются никогда, переключение туда и обратно — одна кнопка. Разбор ниже.</p>
             </article>
 
             <article class="mod">
@@ -1806,6 +1819,37 @@ footer {
                    нижняя граница, а не верхняя. Для инструмента, следующий шаг которого —
                    удалять, ошибаться надо именно в эту сторону.</p>
               </article>
+
+              <article class="mod">
+                <h4>Ignore Vertex Order</h4>
+                <p>Тумблер в операторе склейки мешей, включён по умолчанию.
+                   <code>Separate</code> не сохраняет порядок вершин между кусками, поэтому
+                   без него 25 000 одинаковых кубов сходятся кучками по 50–200 штук.
+                   С ним геометрия описывается своими же координатами, а не индексами.
+                   Цена: после склейки порядок вершин — от оставшегося меша, так что всё,
+                   что читает Index (Geometry Nodes, частицы по индексу), увидит другие номера.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Держит большие сцены</h4>
+                <p>25 000 объектов с 20 различными геометриями: <strong>план 0.54 с,
+                   применение 1.15 с</strong>. Кривая линейная — удвоение объектов удваивает
+                   время. Прогресс показывается в курсоре: даже быстрый проход на большой сцене
+                   блокирует интерфейс, а молчание читается как зависание.</p>
+              </article>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+              </span>
+              <p>
+                <strong>Перед склейкой мешей сбросьте origin:</strong>
+                Object → Set Origin → Origin to Geometry. Если у кусков origin не сброшен,
+                их координаты действительно разные — каждый лежит в своём меше на своём месте,
+                и они не склеятся. Это верно, а не дефект: склейка поставила бы их все
+                в одну точку.
+              </p>
             </div>
 
             <div class="stack">
@@ -1834,6 +1878,122 @@ footer {
                   </tbody>
                 </table>
               </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="proxy">
+          <div class="sec-head rv">
+            <div class="eyebrow">Прокси-текстуры</div>
+            <h2>Память экономит даунскейл, а не перекодирование</h2>
+            <p class="lede">
+              <strong>Studio → Texture Proxies</strong> кладёт облегчённые копии в папку
+              <code>proxy</code> рядом с оригиналами. Оригиналы не изменяются никогда,
+              переключение туда и обратно — одна кнопка.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Почему нужны обе настройки</h3>
+              <p class="body">
+                Blender держит картинку распакованной в RGBA независимо от формата на диске:
+                4096×4096 — это <strong>64 МБ в памяти</strong>, лежит она как PNG на 48 МБ
+                или как WebP на 2 МБ. Поэтому прокси делает две разные вещи:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Настройка</th><th>Что даёт</th><th>Чего не даёт</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Перекодирование</td>
+                      <td>Вес на диске и время загрузки</td>
+                      <td class="slow">Память не трогает вообще</td>
+                    </tr>
+                    <tr>
+                      <td>Потолок разрешения</td>
+                      <td class="best">Память на рендере и вес</td>
+                      <td>—</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                Потолок по умолчанию <strong>2048</strong> — записанное мнение аддона о том,
+                что на телефонной рекламе больше не разрешается.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Какой кодек к какой текстуре</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Текстура</th><th>Кодек</th></tr></thead>
+                  <tbody>
+                    <tr><td>Non-Color, непрозрачная</td><td>WebP q100 — без потерь</td></tr>
+                    <tr><td>Non-Color, с альфой</td><td>PNG</td></tr>
+                    <tr><td>Цветная, непрозрачная</td><td>WebP с потерями, качество из настроек</td></tr>
+                    <tr><td>Цветная, с альфой</td><td>PNG, если не включён <code>Lossy Alpha Textures</code></td></tr>
+                    <tr><td>float / EXR / HDR</td><td class="slow">Пропускается — 8-битный кодек её уничтожит</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                Blender пишет WebP сам, той же <code>libwebp</code>, что <code>cwebp</code>
+                и Pillow, так что внешний компрессор не нужен. На сотне libwebp переключается
+                в lossless-режим — отсюда обрыв между q100 и q99 в замере на шуме 1024×1024:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Кодек</th><th class="num">Вес</th><th>Ошибка</th></tr></thead>
+                  <tbody>
+                    <tr><td>PNG</td><td class="num">3079 КБ</td><td>без потерь</td></tr>
+                    <tr><td>WebP q100</td><td class="num">3072 КБ</td><td class="best">без потерь</td></tr>
+                    <tr><td>WebP q99</td><td class="num">1139 КБ</td><td>253 из 255</td></tr>
+                    <tr><td>WebP q95</td><td class="num">982 КБ</td><td>249</td></tr>
+                    <tr><td>AVIF q100</td><td class="num">1774 КБ</td><td>251</td></tr>
+                    <tr><td>JPEG q95</td><td class="num">1201 КБ</td><td>253</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                AVIF не даёт ни отсутствия потерь на q100, ни скорости (в 3–5 раз медленнее),
+                поэтому не используется. JPEG XL Blender не читает вовсе.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+              </span>
+              <p>
+                <strong>Всё с альфой идёт в PNG</strong>, и это не осторожность.
+                WebP q100 возвращает всё бит в бит, <em>кроме пикселей, где альфа ровно ноль</em> —
+                там RGB приходит разрушенным. У вырезов (листва, волосы) цвет под полностью
+                прозрачными пикселями красят намеренно, чтобы фильтрация не подмешивала чёрное
+                в видимый край. Потерять его — получить классическую тёмную кайму.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Переключение</h3>
+              <p class="body">
+                Один датаблок с подменой <code>filepath</code>, а не два датаблока с
+                <code>user_remap</code>, как в дедупликации: два датаблока держали бы обе
+                картинки распакованными в памяти — ровно наоборот к цели. Оригинальный путь
+                запоминается в свойстве изображения, так что возврат всегда возможен.
+              </p>
+              <p class="body">
+                Присвоение <code>filepath</code> заставляет Blender перечитать файл и заново
+                угадать colorspace и alpha mode, поэтому оба <strong>сохраняются
+                и восстанавливаются явно</strong>: карта нормалей, вернувшаяся как sRGB,
+                неверна везде, где используется, и без видимой причины.
+              </p>
+              <p class="body">
+                Устаревание выводится из манифеста <code>proxy/.studio_proxy.json</code>:
+                поменяли оригинал, потолок или качество — прокси пересоберётся, иначе повторный
+                запуск бесплатный.
+              </p>
             </div>
           </div>
         </section>
@@ -1916,14 +2076,14 @@ footer {
           <div class="foot-grid">
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.4.0 · Blender 4.2+ · MIT</span>
+              <span>0.5.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
               <b>Панели</b>
               <span>Project Setup · Path Animation</span>
               <span>Crop Guides · Scene Cleanup</span>
-              <span>Deliver · Autosave</span>
+              <span>Texture Proxies · Deliver · Autosave</span>
             </div>
             <div>
               <b>Навигация</b>
