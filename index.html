@@ -1,5 +1,16 @@
 <title>Box3D Bake и Creative Studio</title>
 
+<script>
+/* Выбор темы применяется до разбора остального документа, иначе на загрузке
+   мигает не та тема. Отсутствие атрибута = «как в системе». */
+(function () {
+  try {
+    var t = localStorage.getItem("studio-theme");
+    if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+  } catch (e) { /* localStorage может быть недоступен — тогда просто системная */ }
+})();
+</script>
+
 <style>
 /* ─────────────────────────────────────────────────────────────
    Tokens. Dark-first: :root is the primary (dark) palette.
@@ -169,6 +180,24 @@ p { margin: 0; }
   margin-top: auto; display: flex; flex-direction: column; gap: var(--s3);
   font-size: 12.5px; color: var(--ink-3);
 }
+
+/* ── Переключатель темы ───────────────────────────────────── */
+.theme {
+  display: inline-flex; gap: 2px; padding: 2px; flex: none;
+  border: 1px solid var(--border); border-radius: 7px; background: var(--panel-2);
+}
+.th {
+  width: 40px; height: 30px; display: grid; place-items: center;
+  border: 0; border-radius: 5px; background: transparent; color: var(--ink-3);
+  cursor: pointer; touch-action: manipulation;
+  transition: color .15s ease, background .15s ease;
+}
+.th:hover { color: var(--ink-2); }
+.th[aria-pressed="true"] {
+  color: var(--ink); background: var(--panel);
+  box-shadow: 0 0 0 1px var(--border), 0 1px 2px rgba(0, 0, 0, .18);
+}
+.rail .theme { align-self: flex-start; margin-bottom: var(--s2); }
 
 .topbar { display: none; }
 
@@ -533,14 +562,21 @@ footer {
     background: color-mix(in srgb, var(--panel) 92%, transparent);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-soft);
-    overflow-x: auto; scrollbar-width: none;
   }
-  .topbar::-webkit-scrollbar { display: none; }
   .topbar > a.home {
+    flex: none;
     font-family: var(--mono); font-size: 13px; white-space: nowrap;
     color: var(--ink); text-decoration: none; padding: 7px var(--s2);
   }
-  .topbar nav { display: flex; gap: var(--s2); }
+  /* Скроллится только полоса ссылок — переключатель темы остаётся на месте. */
+  .topbar nav {
+    display: flex; gap: var(--s2);
+    flex: 1 1 auto; min-width: 0;
+    overflow-x: auto; scrollbar-width: none;
+  }
+  .topbar nav::-webkit-scrollbar { display: none; }
+  .topbar .theme { margin-left: var(--s2); }
+  .th { width: 44px; height: 36px; }
   .topbar nav a {
     white-space: nowrap; text-decoration: none; color: var(--ink-2);
     font-size: 13.5px; padding: 7px var(--s3); border-radius: 5px; min-height: 34px;
@@ -552,6 +588,14 @@ footer {
   .pipe { grid-template-columns: repeat(2, 1fr); }
   .step:not(:last-child)::after { display: none; }
   .crop { grid-template-columns: 1fr; }
+}
+
+/* Логотип и переключатель зажимают полосу ссылок на узких экранах. */
+@media (max-width: 520px) {
+  .topbar { padding: var(--s3) var(--s4); gap: var(--s3); }
+  .topbar > a.home { font-size: 11.5px; padding: 7px 4px; }
+  .topbar .theme { margin-left: 4px; }
+  .th { width: 38px; height: 36px; }
 }
 
 @media (max-width: 720px) {
@@ -636,6 +680,17 @@ footer {
     </a>
 
     <div class="rail-foot">
+      <div class="theme" role="group" aria-label="Тема оформления">
+        <button class="th" type="button" data-theme-set="auto" aria-pressed="true" title="Как в системе" aria-label="Тема как в системе">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 010 16z" fill="currentColor" stroke="none"/></svg>
+        </button>
+        <button class="th" type="button" data-theme-set="light" aria-pressed="false" title="Светлая" aria-label="Светлая тема">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></svg>
+        </button>
+        <button class="th" type="button" data-theme-set="dark" aria-pressed="false" title="Тёмная" aria-label="Тёмная тема">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+        </button>
+      </div>
       <span>MIT · Blender 4.4+ / 4.2+</span>
       <span>macOS arm64 · Windows x64</span>
     </div>
@@ -673,6 +728,18 @@ footer {
       <a href="#collect">Сборка</a>
       <a href="#next">Дальше</a>
     </nav>
+
+    <div class="theme" role="group" aria-label="Тема оформления">
+      <button class="th" type="button" data-theme-set="auto" aria-pressed="true" title="Как в системе" aria-label="Тема как в системе">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 4a8 8 0 010 16z" fill="currentColor" stroke="none"/></svg>
+      </button>
+      <button class="th" type="button" data-theme-set="light" aria-pressed="false" title="Светлая" aria-label="Светлая тема">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.2 5.2l1.6 1.6M17.2 17.2l1.6 1.6M18.8 5.2l-1.6 1.6M6.8 17.2l-1.6 1.6"/></svg>
+      </button>
+      <button class="th" type="button" data-theme-set="dark" aria-pressed="false" title="Тёмная" aria-label="Тёмная тема">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
+      </button>
+    </div>
   </div>
 
   <main>
@@ -2356,6 +2423,31 @@ footer {
     e.preventDefault();
     el.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
   });
+
+  /* ── Тема ── */
+  var themeBtns = document.querySelectorAll("[data-theme-set]");
+
+  function applyTheme(mode) {
+    if (mode === "light" || mode === "dark") {
+      document.documentElement.setAttribute("data-theme", mode);
+    } else {
+      document.documentElement.removeAttribute("data-theme");
+      mode = "auto";
+    }
+    // Контролов два — в рейле и в топбаре; виден всегда один, но состояние общее.
+    themeBtns.forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.themeSet === mode ? "true" : "false");
+    });
+    try {
+      if (mode === "auto") localStorage.removeItem("studio-theme");
+      else localStorage.setItem("studio-theme", mode);
+    } catch (e) { /* выбор не переживёт перезагрузку, но на этой странице работает */ }
+  }
+
+  themeBtns.forEach(function (b) {
+    b.addEventListener("click", function () { applyTheme(b.dataset.themeSet); });
+  });
+  applyTheme(document.documentElement.getAttribute("data-theme") || "auto");
 
   /* ── Переключатели кропов ── */
   function setTgl(btn, on) {
