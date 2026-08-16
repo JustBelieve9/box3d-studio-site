@@ -818,9 +818,9 @@ footer {
             <div class="stack">
               <h3>Порядок действий</h3>
               <div class="steps-num rv">
-                <div class="st"><span class="k"></span><p>Скачайте архив под свою платформу со страницы <b>Releases</b>. Creative Studio собирается своим <code>tools/make_release.sh</code>, который прогоняет тесты против <em>распакованного архива</em>, а не рабочего дерева.</p></div>
-                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip. Если ставите Creative Studio из рабочего дерева, есть <code>tools/resync_addon.sh</code> — он копирует дерево в профиль Blender и <b>доказывает, что копии совпадают</b>.</p></div>
-                <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio настройки автосейва живут там же, в развёрнутой карточке — каждый модуль за своим тумблером.</p></div>
+                <div class="st"><span class="k"></span><p>Скачайте архив под свою платформу со страницы <b>Releases</b>.</p></div>
+                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip.</p></div>
+                <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio там же, в развёрнутой карточке, — тумблер на каждый модуль и настройки автосейва.</p></div>
                 <div class="st"><span class="k"></span><p>Box3D: выделите меш-объект и откройте <b>Properties → Physics</b>. Кнопка <b>Box3D Body</b> стоит в той же сетке, что и Rigid Body; бейк — в панели <b>Box3D World</b> ниже.</p></div>
                 <div class="st"><span class="k"></span><p>Creative Studio: вкладка <b>Studio</b> в сайдбаре 3D-вьюпорта (<span class="kbd">N</span>) — панели Project Setup, Path Animation, Crop Guides, Scene Cleanup, Deliver, Autosave.</p></div>
               </div>
@@ -856,10 +856,9 @@ footer {
               <span>Автор: zhb</span>
             </div>
             <div>
-              <b>Цифры</b>
-              <span>tests/bench_vs_bullet.py</span>
-              <span>tests/bench_emitter.py</span>
-              <span>tests/bench_force_fields.py</span>
+              <b>Платформы</b>
+              <span>macOS · Apple Silicon</span>
+              <span>Windows · x86_64</span>
             </div>
           </div>
         </footer>
@@ -937,17 +936,6 @@ footer {
               </p>
             </div>
 
-            <div class="note rv">
-              <span class="ico">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
-              </span>
-              <p>
-                <strong>Правило проекта — «измерил, а не предположил».</strong> Каждая цифра на
-                этой странице воспроизведена бенчмарком из <code>tests/</code>, а не оценена.
-                Там же, где Box3D проигрывает, это написано прямым текстом — см. таблицу скраба
-                в разделе «Цифры».
-              </p>
-            </div>
           </div>
         </section>
 
@@ -1143,7 +1131,7 @@ footer {
         <section id="numbers">
           <div class="sec-head rv">
             <div class="eyebrow">Цифры</div>
-            <h2>Включая те, где мы проигрываем</h2>
+            <h2>Измеренные, включая те, где Box3D проигрывает</h2>
             <p class="lede">
               Одна и та же сцена с обеих сторон: N кубов сеткой падают на пол, 120 кадров,
               Apple Silicon (4 производительных + 6 энергоэффективных ядра). Каждая конфигурация
@@ -1336,10 +1324,9 @@ footer {
               <span>Движок: box3d, Erin Catto</span>
             </div>
             <div>
-              <b>Цифры</b>
-              <span>tests/bench_vs_bullet.py</span>
-              <span>tests/bench_emitter.py</span>
-              <span>tests/bench_force_fields.py</span>
+              <b>Платформы</b>
+              <span>macOS · Apple Silicon</span>
+              <span>Windows · x86_64</span>
             </div>
             <div>
               <b>Навигация</b>
@@ -1411,11 +1398,10 @@ footer {
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="12.5" r="3.5"/></svg>
               </span>
               <p>
-                Раньше значения safe areas ставились, а <strong>галка их показа — нет</strong>,
-                и не рисовалось ничего: показ это флаг камеры, а не сцены. Теперь пресет
-                проходит по всем камерам файла. Фокусное расстояние ставится (100 мм,
-                параметром меняется), а DOF и дистанция фокуса — нет: это кадр, а не
-                настройка файла.
+                Показ safe areas — <strong>флаг камеры, а не сцены</strong>, поэтому пресет
+                проходит по всем камерам файла и включает его на каждой. Там же ставится
+                фокусное расстояние (100 мм, параметром меняется). DOF и дистанция фокуса
+                не трогаются: это кадр, а не настройка файла.
               </p>
             </div>
           </div>
@@ -1526,10 +1512,9 @@ footer {
           </div>
         </section>
 
-        <!-- ── Новое в 0.4.0 ── -->
         <section id="pathanim">
           <div class="sec-head rv">
-            <div class="eyebrow">Новое в 0.4.0 · Анимация по пути</div>
+            <div class="eyebrow">Анимация по пути</div>
             <h2>Анимируется расстояние в метрах, а не доля пути</h2>
             <p class="lede">
               Это одно решение, и из него следует почти весь модуль. «Одинаковая скорость»
@@ -1572,34 +1557,18 @@ footer {
             </div>
 
             <div class="stack">
-              <h3>Почему длина кешируется, а не читается живьём</h3>
+              <h3>Работает при выключенном «Auto Run Python Scripts»</h3>
               <p class="body">
-                Очевидная реализация считает долю выражением
-                <code>self.target.data.splines[0].calc_length()</code>. Это <em>скриптовый</em>
-                драйвер, а такие вычисляются только при включённом «Auto Run Python Scripts».
-                При выключенном они падают <strong>молча</strong> — измерено:
-                <code>offset_factor</code> остаётся 0.0, объект просто не едет, а причина лежит
-                в консоли.
+                Длина пути хранится в свойстве кривой, а драйвер доли — это <code>d / L</code>:
+                две переменные и деление. Скриптовых драйверов здесь нет, и это важно:
+                они вычисляются только при включённом авто-запуске, а при выключенном падают
+                <strong>молча</strong> — <code>offset_factor</code> остаётся 0.0, объект просто
+                не едет, и причина лежит в консоли.
               </p>
               <p class="body">
-                Поэтому длина кешируется в свойстве кривой, а драйвер — это <code>d / L</code>:
-                две переменные и деление. Проверено, что считается при <em>выключенном</em>
-                авто-запуске. Плата — кеш надо обновлять после правки кривой, для этого есть
-                <strong>Refresh Path Length</strong>.
+                Цена хранения — кеш длины надо обновлять после правки кривой, для этого есть
+                кнопка <strong>Refresh Path Length</strong>.
               </p>
-              <div class="note rv">
-                <span class="ico">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
-                </span>
-                <p>
-                  <strong>Мина, на которой это чуть не сломалось.</strong> Присвоение
-                  пользовательского свойства <em>не помечает</em> датаблок для пересчёта
-                  copy-on-write. Драйверы читают вычисленную копию, поэтому оригинал показывал
-                  длину 10.0, а <code>evaluated_get()</code> — <code>None</code>, и драйвер делил
-                  на пустоту. Лечится <code>update_tag()</code> после записи; без теста это
-                  выглядело бы как «иногда не работает».
-                </p>
-              </div>
               <p class="body">
                 Модуль дружит с аддоном <strong>Follow Path +</strong>: если объект уже настроен
                 им, ключи ставятся на <em>его</em> свойство <code>followpath_distance</code>,
@@ -1626,19 +1595,17 @@ footer {
               <div class="mods">
                 <article class="mod">
                   <h4>Подстилка и полосы поверх</h4>
-                  <p>Нижняя дорожка <code>Studio Idle</code> — одна полоса стойки на весь диапазон
-                     с экстраполяцией HOLD. Верхняя <code>Studio Run</code> — по полосе на каждый
-                     движущийся отрезок. Blender меряет blend <em>внутри</em> полосы, поэтому
-                     перекрытие полос и анимация influence не нужны вообще: во время перехода
-                     снизу просто проступает стойка.</p>
+                  <p>Нижняя дорожка <code>Studio Idle</code> — одна полоса стойки на весь диапазон.
+                     Верхняя <code>Studio Run</code> — по полосе на каждый движущийся отрезок,
+                     с <code>blend_in</code> и <code>blend_out</code>. Blender меряет blend
+                     <em>внутри</em> полосы, так что перекрытие полос и анимация influence
+                     не нужны: во время перехода снизу просто проступает стойка.</p>
                 </article>
 
                 <article class="mod">
-                  <h4>Экстраполяция бега — NOTHING, а не HOLD</h4>
-                  <p>Blender переключает полосу в <code>HOLD_FORWARD</code>, как только на дорожке
-                     появляется следующая, и удержанная поза бега легла бы поверх стойки до конца
-                     ролика. Тест ловит это сравнением вычисленной позы с той же сценой при
-                     выключенной дорожке бега.</p>
+                  <h4>Бег не тянется за свой отрезок</h4>
+                  <p>Полоса бега кончается там, где кончается движение, — за её пределами снова
+                     видна стойка, а не удержанная поза бега до конца ролика.</p>
                 </article>
 
                 <article class="mod">
@@ -1646,16 +1613,15 @@ footer {
                   <p>Отрезок длиной D метров играет <code>D / run_cycle_distance</code> циклов,
                      и уже потом полоса масштабируется под те кадры, которые у неё есть. Это
                      и есть то, что не даёт ногам скользить. Сколько метров покрывает один цикл —
-                     вывести неоткуда, это свойство самой анимации, поэтому настройка.</p>
+                     свойство самой анимации, поэтому это настройка.</p>
                 </article>
 
                 <article class="mod">
-                  <h4>Длина полосы — через repeat и scale</h4>
-                  <p><strong>Никогда через <code>frame_end</code></strong>: присвоение конца
-                     двигает его, не трогая repeat и scale, и полоса начинает описывать не то,
-                     что играет. Отдельная мина — слот экшена: полоса, у экшена которой больше
-                     одного слота, возвращается с <code>action_slot = None</code> и не играет
-                     ничего, молча. Измерено на 5.2, слот выбирается явно.</p>
+                  <h4>Если циклы отвязались от земли — предупреждение</h4>
+                  <p>Скорость по пути постоянна, поэтому все полосы бега обязаны получить
+                     одинаковый scale. Если нет — значит ключи расстояния правили руками
+                     и циклы больше не привязаны к земле. Это попадает в отчёт, а не остаётся
+                     незамеченным.</p>
                 </article>
               </div>
             </div>
@@ -1776,9 +1742,10 @@ footer {
             <div class="eyebrow">Уборка сцены</div>
             <h2>Сначала измерить, потом удалять</h2>
             <p class="lede">
-              Замер, с которого начался этот аддон: при 3000 твёрдых тел кадр стоил 7.66 мс,
-              из которых работа физики — 0.13 мс. Остальные 98% — Blender, обходящий объекты,
-              которые бейк уже свёл к инертным источникам. Этого никто не угадал.
+              Кадр в тяжёлой сцене почти никогда не стоит там, где кажется: на сцене из 3000
+              твёрдых тел кадр стоит 7.66 мс, и работа физического аддона в этом — 0.13 мс.
+              Остальные 98% — Blender, обходящий объекты. Поэтому первый инструмент здесь тот,
+              который <strong>только считает</strong>, и лишь потом идут те, которые удаляют.
             </p>
           </div>
 
@@ -1871,11 +1838,10 @@ footer {
           </div>
         </section>
 
-        <!-- ── Новое в 0.4.0 ── -->
         <section id="collect">
           <div class="sec-head rv">
-            <div class="eyebrow">Новое в 0.4.0 · Сборка проекта</div>
-            <h2>Порядок не тот, в котором его хочется написать</h2>
+            <div class="eyebrow">Сборка проекта</div>
+            <h2>Всё, что нужно файлу, в одной папке</h2>
             <p class="lede">
               <strong>Studio → Deliver → Collect Project</strong> собирает всё в папку
               <code>&lt;имя файла&gt;_Blender&lt;версия&gt;_collect</code> рядом с проектом.
@@ -1886,11 +1852,14 @@ footer {
           </div>
 
           <div class="stack-l">
-            <div class="steps-num rv">
+            <div class="stack">
+              <h3>Порядок шагов</h3>
+              <div class="steps-num rv">
               <div class="st"><span class="k"></span><p><b>Сначала отчёт о битых путях.</b> Файл, которого уже нет, собрать нельзя — а узнать об этом после копирования значит узнать об этом в доставке.</p></div>
               <div class="st"><span class="k"></span><p><b>Сначала purge, потом копирование.</b> Наоборот — это мегабайты ассетов, которые вот-вот удалятся.</p></div>
               <div class="st"><span class="k"></span><p><b>Упакованные текстуры пишутся вручную.</b> <code>unpack_all</code> кладёт их рядом с <em>текущим</em> файлом, а не в папку сборки, поэтому байты пишутся в назначение, а пакет снимается без второй записи.</p></div>
               <div class="st"><span class="k"></span><p><b>Копирование и перепись путей, потом сохранение.</b> <code>//textures/x.png</code> разрешается относительно того, где лежит <code>.blend</code>, так что копия, сохранённая в папку сборки, попадает ровно на положенные рядом файлы.</p></div>
+              </div>
             </div>
 
             <div class="mods rv">
@@ -1912,18 +1881,6 @@ footer {
               </article>
             </div>
 
-            <div class="note rv">
-              <span class="ico">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
-              </span>
-              <p>
-                <strong>Чего не покрывают тесты:</strong> сам revert.
-                <code>revert_mainfile()</code> перезагружает файл и обрывает выполнение фонового
-                скрипта немедленно, без трейсбека. Проверяется гарантия, которая реально защищает
-                артиста, — что <code>copy=True</code> не переписывает рабочий <code>.blend</code>
-                (сверяется mtime).
-              </p>
-            </div>
           </div>
         </section>
 
@@ -1963,10 +1920,10 @@ footer {
               <span>Автор: zhb</span>
             </div>
             <div>
-              <b>Тесты</b>
-              <span>tests/test_pathanim.py</span>
-              <span>tests/test_collect.py</span>
-              <span>tests/test_autosave.py · test_doctor.py</span>
+              <b>Панели</b>
+              <span>Project Setup · Path Animation</span>
+              <span>Crop Guides · Scene Cleanup</span>
+              <span>Deliver · Autosave</span>
             </div>
             <div>
               <b>Навигация</b>
