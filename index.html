@@ -1973,14 +1973,34 @@ footer {
     }, { rootMargin: "0px 0px -12% 0px", threshold: 0.08 });
   }
 
+  function revealNow(el) {
+    if (el.classList.contains("in")) return;
+    el.classList.add("in");
+    if (io) io.unobserve(el);
+    el.querySelectorAll(".bar-fill").forEach(function (b) { b.style.width = b.dataset.w + "%"; });
+  }
+
   function armReveals(root) {
     var els = root.querySelectorAll(".rv");
     if (!io) {
-      els.forEach(function (el) { el.classList.add("in"); });
-      root.querySelectorAll(".bar-fill").forEach(function (b) { b.style.width = b.dataset.w + "%"; });
+      els.forEach(revealNow);
       return;
     }
     els.forEach(function (el) { if (!el.classList.contains("in")) io.observe(el); });
+    sweep();
+  }
+
+  // Страховка: контент не должен зависеть от того, сработал ли
+  // IntersectionObserver. Всё, что уже попало в окно, показывается и так.
+  function sweep() {
+    var h = window.innerHeight || document.documentElement.clientHeight || 0;
+    var page = current && document.getElementById(current);
+    if (!page) return;
+    page.querySelectorAll(".rv:not(.in)").forEach(function (el) {
+      if (h <= 0) { revealNow(el); return; }
+      var r = el.getBoundingClientRect();
+      if (r.top < h * 0.95 && r.bottom > 0) revealNow(el);
+    });
   }
 
   /* ── Роутер ── */
@@ -2049,7 +2069,7 @@ footer {
   window.addEventListener("scroll", function () {
     if (ticking) return;
     ticking = true;
-    requestAnimationFrame(function () { spy(); ticking = false; });
+    requestAnimationFrame(function () { spy(); sweep(); ticking = false; });
   }, { passive: true });
 
   /* ── Клики ── */
