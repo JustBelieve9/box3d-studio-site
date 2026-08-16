@@ -431,6 +431,14 @@ td.slow { color: var(--warn); }
 .st p { font-size: 15px; color: var(--ink-2); }
 .st b { color: var(--ink); font-weight: 600; }
 
+.formula {
+  font-family: var(--mono); font-size: 13.5px; line-height: 1.8;
+  color: var(--ink); background: var(--panel); border: 1px solid var(--border);
+  border-radius: 8px; padding: var(--s4) var(--s5); margin: 0;
+  overflow-x: auto; white-space: pre;
+}
+.formula .c { color: var(--ink-3); }
+
 .kbd {
   font-family: var(--mono); font-size: 12px; padding: 1px 6px;
   border: 1px solid var(--border); border-bottom-width: 2px; border-radius: 4px;
@@ -609,8 +617,10 @@ footer {
       <div class="nav-group">Creative Studio</div>
       <a class="nav-studio" href="#top">Зачем нужен</a>
       <a class="nav-studio" href="#modules">Модули</a>
+      <a class="nav-studio" href="#pathanim">Анимация по пути</a>
       <a class="nav-studio" href="#crops">Кропы</a>
       <a class="nav-studio" href="#cleanup">Уборка сцены</a>
+      <a class="nav-studio" href="#collect">Сборка проекта</a>
       <a class="nav-studio" href="#next">Дальше</a>
     </nav>
 
@@ -655,8 +665,10 @@ footer {
     <nav data-rail="studio" hidden>
       <a href="#top">Зачем</a>
       <a href="#modules">Модули</a>
+      <a href="#pathanim">Путь</a>
       <a href="#crops">Кропы</a>
       <a href="#cleanup">Уборка</a>
+      <a href="#collect">Сборка</a>
       <a href="#next">Дальше</a>
     </nav>
   </div>
@@ -698,14 +710,14 @@ footer {
             <a class="pcard studio rv" href="#/studio">
               <div class="top">
                 <h3>Creative Studio Tools</h3>
-                <span class="ver">0.1.0</span>
+                <span class="ver">0.4.0</span>
               </div>
-              <p>Продакшен видеокреативов под мобильные игры: настройка файла одной кнопкой,
-                 направляющие кропов, автосейв, который действительно срабатывает, и уборка сцены.</p>
+              <p>Продакшен видеокреативов под мобильные игры: анимация по пути, настройка файла
+                 одной кнопкой, направляющие кропов, автосейв, уборка сцены и сборка проекта.</p>
               <ul>
+                <li>Путь с остановками, постоянная скорость, бег без скольжения ног</li>
                 <li>Пресет снят с рабочего проекта, а не набран по памяти</li>
-                <li>Автосейв работает во время модальных операторов</li>
-                <li>Дедупликация мешей, материалов и текстур</li>
+                <li>Автосейв, уборка сцены и сборка проекта в одну папку</li>
               </ul>
               <span class="go">ОТКРЫТЬ СТРАНИЦУ
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -742,9 +754,11 @@ footer {
             <div class="ch s">
               <h4>Ставьте Creative Studio Tools, если…</h4>
               <ul>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Персонаж должен пройти по пути с остановками, а ноги — не скользить</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Каждый новый файл настраивается руками по одному и тому же списку</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Один мастер режется в несколько форматов, и композиция уезжает</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Штатный автосейв у вас молчит часами, потому что вы всё время в модальных операторах</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Проект надо отдать на другую машину, и текстуры не должны стать розовыми</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Пришёл чужой коллект, и в нём тысяча копий одного ящика и <code>Material.001</code></li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Вьюпорт тормозит, и непонятно, на что именно уходит кадр</li>
               </ul>
@@ -804,11 +818,11 @@ footer {
             <div class="stack">
               <h3>Порядок действий</h3>
               <div class="steps-num rv">
-                <div class="st"><span class="k"></span><p>Скачайте архив под свою платформу со страницы <b>Releases</b> (Box3D Bake) или скопируйте папку <code>zhb_creative_studio/</code> в каталог аддонов Blender (Creative Studio).</p></div>
-                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip.</p></div>
-                <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio настройки живут прямо там же, в развёрнутой карточке — каждый модуль за своим тумблером.</p></div>
+                <div class="st"><span class="k"></span><p>Скачайте архив под свою платформу со страницы <b>Releases</b>. Creative Studio собирается своим <code>tools/make_release.sh</code>, который прогоняет тесты против <em>распакованного архива</em>, а не рабочего дерева.</p></div>
+                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip. Если ставите Creative Studio из рабочего дерева, есть <code>tools/resync_addon.sh</code> — он копирует дерево в профиль Blender и <b>доказывает, что копии совпадают</b>.</p></div>
+                <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio настройки автосейва живут там же, в развёрнутой карточке — каждый модуль за своим тумблером.</p></div>
                 <div class="st"><span class="k"></span><p>Box3D: выделите меш-объект и откройте <b>Properties → Physics</b>. Кнопка <b>Box3D Body</b> стоит в той же сетке, что и Rigid Body; бейк — в панели <b>Box3D World</b> ниже.</p></div>
-                <div class="st"><span class="k"></span><p>Creative Studio: меню <b>Studio</b> в верхней панели.</p></div>
+                <div class="st"><span class="k"></span><p>Creative Studio: вкладка <b>Studio</b> в сайдбаре 3D-вьюпорта (<span class="kbd">N</span>) — панели Project Setup, Path Animation, Crop Guides, Scene Cleanup, Deliver, Autosave.</p></div>
               </div>
             </div>
 
@@ -836,7 +850,7 @@ footer {
             </div>
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.1.0 · Blender 4.2+ · MIT</span>
+              <span>0.4.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
@@ -1307,7 +1321,7 @@ footer {
                 <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
               </span>
               <span class="t">Creative Studio Tools</span>
-              <span class="d">Пресет файла, направляющие кропов, автосейв и уборка сцены.</span>
+              <span class="d">Анимация по пути, пресет файла, направляющие кропов, уборка сцены и сборка проекта.</span>
             </a>
           </div>
         </section>
@@ -1343,12 +1357,19 @@ footer {
       <div class="wrap">
 
         <section class="page-head" id="top">
-          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.1.0</div>
+          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.4.0</div>
           <h1>Продакшен видеокреативов, с которого сняли ручную работу</h1>
           <p class="lede">
             Отдельный аддон от физики: другая аудитория, свой цикл релизов, и ничего здесь
             не требует, чтобы Box3D был установлен. Каждая подсистема — свой модуль за своим
             тумблером, чтобы сломанная часть выключалась, не утаскивая остальное.
+          </p>
+          <p class="lede">
+            Всё живёт во вкладке <strong>Studio</strong> в сайдбаре 3D-вьюпорта
+            (<span class="kbd">N</span>): Project Setup, Path Animation, Crop Guides,
+            Scene Cleanup, Deliver, Autosave. Именно в сайдбаре, а не в редакторе свойств
+            рядом с Render и Physics: список контекстов там захардкожен в C и из Python
+            не расширяется.
           </p>
         </section>
 
@@ -1357,9 +1378,10 @@ footer {
             <div class="stack">
               <h3>Одна кнопка на весь файл</h3>
               <p class="body">
-                <strong>Studio → Make This File Mobile-Creative Ready</strong> ставит EEVEE,
-                1920×1920, 30 fps, кадры 1–1770 (это 59 секунд), прозрачную плёнку, PNG в RGBA,
-                Filmic + High Contrast, пасс Ambient Occlusion на <em>всех</em> view layer'ах
+                <strong>Studio → Project Setup → Make This File Mobile-Creative Ready</strong>
+                ставит EEVEE, 1920×1920, 30 fps, кадры 1–1770 (это 59 секунд), прозрачную плёнку,
+                PNG в RGBA, Filmic + High Contrast, пасс Ambient Occlusion на <em>всех</em>
+                view layer'ах, фокусное 100 мм с включённым показом safe areas на всех камерах —
                 и собранный композитор.
               </p>
               <p class="body">
@@ -1381,13 +1403,30 @@ footer {
                 а путь вывода <em>не</em> переносится — в референсе он вёл на диск другой машины.
               </p>
             </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="12.5" r="3.5"/></svg>
+              </span>
+              <p>
+                Раньше значения safe areas ставились, а <strong>галка их показа — нет</strong>,
+                и не рисовалось ничего: показ это флаг камеры, а не сцены. Теперь пресет
+                проходит по всем камерам файла. Фокусное расстояние ставится (100 мм,
+                параметром меняется), а DOF и дистанция фокуса — нет: это кадр, а не
+                настройка файла.
+              </p>
+            </div>
           </div>
         </section>
 
         <section id="modules">
           <div class="sec-head rv">
             <div class="eyebrow">Модули</div>
-            <h2>Шесть независимых инструментов</h2>
+            <h2>Восемь независимых инструментов</h2>
+            <p class="lede">
+              Каждый — свой модуль за своим тумблером в настройках. Панели перечислены
+              в том порядке, в котором стоят во вкладке Studio.
+            </p>
           </div>
 
           <div class="mods rv">
@@ -1396,7 +1435,7 @@ footer {
                 <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></span>
                 <h4>Пресет mobile-creative</h4>
               </div>
-              <span class="path">Studio → Make This File Mobile-Creative Ready</span>
+              <span class="path">Studio → Project Setup</span>
               <p>Рендер, вывод, цветоуправление, мир, композитор и оверлеи вьюпорта — во всех
                  3D-вьюпортах файла, включая невидимые сейчас экраны. Нодовые группы лежат
                  датаблоками в шаблоне и аппендятся: ~103 ноды генерировать на Python было бы
@@ -1408,9 +1447,22 @@ footer {
                 <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18M16 3v18M3 8h18M3 16h18"/></svg></span>
                 <h4>Направляющие кропов</h4>
               </div>
-              <span class="path">View → Crop Guides · сайдбар N</span>
+              <span class="path">Studio → Crop Guides</span>
               <p>Рисуются только в виде из камеры — вне его рамка это не то, что видит рендер,
                  и уверенные линии там были бы враньём. Разбор — в интерактивной схеме ниже.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c6 0 6-12 12-12"/><circle cx="4" cy="18" r="2"/><circle cx="16" cy="6" r="2"/><path d="M10.5 12.5v3"/></svg></span>
+                <h4>Анимация по пути</h4>
+              </div>
+              <span class="path">Studio → Path Animation · подпанель Idle / Run</span>
+              <p>Кривая через расставленные пустышки, остановки на ней, движение с постоянной
+                 скоростью. Анимируется <strong>расстояние в метрах</strong>, а не доля пути —
+                 из-за этого весь модуль оказался маленьким. Подпанель <em>Idle / Run</em> кладёт
+                 сверху две NLA-дорожки: персонаж бежит там, где путь его двигает, и стоит там,
+                 где путь стоит. Разбор ниже.</p>
             </article>
 
             <article class="mod">
@@ -1430,7 +1482,7 @@ footer {
                 <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></span>
                 <h4>Доктор сцены</h4>
               </div>
-              <span class="path">Studio → Analyse Scene</span>
+              <span class="path">Studio → Scene Cleanup → Analyse Scene</span>
               <p><strong>Ничего не изменяет</strong>, только считает: объекты в сцене против
                  объектов в view layer, идентичные меши в отдельных датаблоках, дубли текстур,
                  материалы с одинаковыми деревьями нод и список тех, кто станет плоским, если
@@ -1442,7 +1494,7 @@ footer {
                 <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10H7z"/><path d="M4 4h10v3M20 20H10v-3"/></svg></span>
                 <h4>Дедупликация</h4>
               </div>
-              <span class="path">Studio → Merge Duplicate Images / Materials / Meshes</span>
+              <span class="path">Studio → Scene Cleanup → Merge Duplicate…</span>
               <p>Сначала считается план, план печатается в консоль, потом применяется ровно он.
                  Есть Dry Run. Порядок важен: пока два одинаковых материала ссылаются на разные
                  датаблоки одной картинки, их отпечатки не совпадают.</p>
@@ -1453,11 +1505,158 @@ footer {
                 <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6a3 3 0 003 3h6M18 3v18"/><circle cx="6" cy="19" r="2"/></svg></span>
                 <h4>Чистка шейдеров</h4>
               </div>
-              <span class="path">Studio → Strip Expensive Shader Nodes</span>
+              <span class="path">Studio → Scene Cleanup → Strip Expensive Shader Nodes</span>
               <p>Bump дорог не сам по себе: он берёт производные по входу Height, из-за чего весь
                  граф за этим входом считается несколько раз. <strong>Normal Map не трогается
                  никогда</strong> — он дёшев, а без него картинка станет плоской без выигрыша.</p>
             </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>
+                <h4>Сборка проекта</h4>
+              </div>
+              <span class="path">Studio → Deliver → Collect Project</span>
+              <p>В Blender нет команды collect. <code>unpack_all</code> разбирается только
+                 с упакованными текстурами, а «Save As» с относительными путями всё равно
+                 указывает на то, что было на машине, где сохраняли. Разбор ниже.</p>
+            </article>
+          </div>
+        </section>
+
+        <!-- ── Новое в 0.4.0 ── -->
+        <section id="pathanim">
+          <div class="sec-head rv">
+            <div class="eyebrow">Новое в 0.4.0 · Анимация по пути</div>
+            <h2>Анимируется расстояние в метрах, а не доля пути</h2>
+            <p class="lede">
+              Это одно решение, и из него следует почти весь модуль. «Одинаковая скорость»
+              становится линейной интерполяцией — буквально прямой. «Остановка на 30 кадров» —
+              двумя ключами с одним значением через 30 кадров. «Удлинил путь, объект не поехал» —
+              исчезает, потому что доля пересчитывается драйвером из расстояния.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="chain rv">
+              <div class="chain-item">
+                <span class="k">Шаг 1</span>
+                <span class="t">Path From Points</span>
+                <span class="d">Гладкая кривая через выделенные пустышки. Порядок — по имени: Blender порядок кликов не запоминает, а имя можно переименовать, не перевыделяя.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Шаг 2</span>
+                <span class="t">Add Stop</span>
+                <span class="d">Пустышка на месте 3D-курсора проецируется на путь и парентится к нему. Длительность стоянки — своё свойство у каждой.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Шаг 3</span>
+                <span class="t">Animate Along Path</span>
+                <span class="d">Выделить объект и путь, задать первый и последний кадр. Всё остальное считается.</span>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Тайминг</h3>
+              <pre class="formula"><span class="c">travel_frames</span> = (последний кадр − первый) − сумма стоянок
+<span class="c">скорость     </span> = длина / travel_frames</pre>
+              <p class="body">
+                У всех движущихся отрезков одинаковый наклон — это и есть «одна скорость везде».
+                Если стоянки просят больше кадров, чем есть в диапазоне, это <strong>ошибка
+                с числами</strong>, а не молча сжатая анимация.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Почему длина кешируется, а не читается живьём</h3>
+              <p class="body">
+                Очевидная реализация считает долю выражением
+                <code>self.target.data.splines[0].calc_length()</code>. Это <em>скриптовый</em>
+                драйвер, а такие вычисляются только при включённом «Auto Run Python Scripts».
+                При выключенном они падают <strong>молча</strong> — измерено:
+                <code>offset_factor</code> остаётся 0.0, объект просто не едет, а причина лежит
+                в консоли.
+              </p>
+              <p class="body">
+                Поэтому длина кешируется в свойстве кривой, а драйвер — это <code>d / L</code>:
+                две переменные и деление. Проверено, что считается при <em>выключенном</em>
+                авто-запуске. Плата — кеш надо обновлять после правки кривой, для этого есть
+                <strong>Refresh Path Length</strong>.
+              </p>
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+                </span>
+                <p>
+                  <strong>Мина, на которой это чуть не сломалось.</strong> Присвоение
+                  пользовательского свойства <em>не помечает</em> датаблок для пересчёта
+                  copy-on-write. Драйверы читают вычисленную копию, поэтому оригинал показывал
+                  длину 10.0, а <code>evaluated_get()</code> — <code>None</code>, и драйвер делил
+                  на пустоту. Лечится <code>update_tag()</code> после записи; без теста это
+                  выглядело бы как «иногда не работает».
+                </p>
+              </div>
+              <p class="body">
+                Модуль дружит с аддоном <strong>Follow Path +</strong>: если объект уже настроен
+                им, ключи ставятся на <em>его</em> свойство <code>followpath_distance</code>,
+                а констрейнт не трогается.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Стойка и бег: ключи расстояния — единственный источник правды</h3>
+              <p class="body">
+                Выбрать экшен стойки, экшен бега, указать <strong>сколько метров персонаж
+                проходит за один цикл бега</strong>, нажать <em>Apply Idle / Run</em>. Разметка
+                движения <strong>читается обратно из уже расставленных ключей</strong>, а не
+                планируется заново по кривой. Поэтому две части не могут разойтись: описание
+                движения одно, а второй проход — его потребитель.
+              </p>
+              <p class="body">
+                Правка ключей руками, изменение остановок, другой диапазон кадров — всё
+                подхватывается повторным нажатием, без собственных настроек, которые пришлось бы
+                держать синхронными. Дорожки пересобираются целиком по имени, так что кнопку
+                можно жать сколько угодно.
+              </p>
+
+              <div class="mods">
+                <article class="mod">
+                  <h4>Подстилка и полосы поверх</h4>
+                  <p>Нижняя дорожка <code>Studio Idle</code> — одна полоса стойки на весь диапазон
+                     с экстраполяцией HOLD. Верхняя <code>Studio Run</code> — по полосе на каждый
+                     движущийся отрезок. Blender меряет blend <em>внутри</em> полосы, поэтому
+                     перекрытие полос и анимация influence не нужны вообще: во время перехода
+                     снизу просто проступает стойка.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Экстраполяция бега — NOTHING, а не HOLD</h4>
+                  <p>Blender переключает полосу в <code>HOLD_FORWARD</code>, как только на дорожке
+                     появляется следующая, и удержанная поза бега легла бы поверх стойки до конца
+                     ролика. Тест ловит это сравнением вычисленной позы с той же сценой при
+                     выключенной дорожке бега.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Циклы берутся из метров, а не из кадров</h4>
+                  <p>Отрезок длиной D метров играет <code>D / run_cycle_distance</code> циклов,
+                     и уже потом полоса масштабируется под те кадры, которые у неё есть. Это
+                     и есть то, что не даёт ногам скользить. Сколько метров покрывает один цикл —
+                     вывести неоткуда, это свойство самой анимации, поэтому настройка.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Длина полосы — через repeat и scale</h4>
+                  <p><strong>Никогда через <code>frame_end</code></strong>: присвоение конца
+                     двигает его, не трогая repeat и scale, и полоса начинает описывать не то,
+                     что играет. Отдельная мина — слот экшена: полоса, у экшена которой больше
+                     одного слота, возвращается с <code>action_slot = None</code> и не играет
+                     ничего, молча. Измерено на 5.2, слот выбирается явно.</p>
+                </article>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -1670,6 +1869,62 @@ footer {
           </div>
         </section>
 
+        <!-- ── Новое в 0.4.0 ── -->
+        <section id="collect">
+          <div class="sec-head rv">
+            <div class="eyebrow">Новое в 0.4.0 · Сборка проекта</div>
+            <h2>Порядок не тот, в котором его хочется написать</h2>
+            <p class="lede">
+              <strong>Studio → Deliver → Collect Project</strong> собирает всё в папку
+              <code>&lt;имя файла&gt;_Blender&lt;версия&gt;_collect</code> рядом с проектом.
+              В Blender такой команды нет: <code>unpack_all</code> разбирается только
+              с упакованными текстурами, а алембики, USD, тома, звуки, шрифты и клипы остаются
+              позади — и файл открывается у коллеги с розовыми текстурами.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="steps-num rv">
+              <div class="st"><span class="k"></span><p><b>Сначала отчёт о битых путях.</b> Файл, которого уже нет, собрать нельзя — а узнать об этом после копирования значит узнать об этом в доставке.</p></div>
+              <div class="st"><span class="k"></span><p><b>Сначала purge, потом копирование.</b> Наоборот — это мегабайты ассетов, которые вот-вот удалятся.</p></div>
+              <div class="st"><span class="k"></span><p><b>Упакованные текстуры пишутся вручную.</b> <code>unpack_all</code> кладёт их рядом с <em>текущим</em> файлом, а не в папку сборки, поэтому байты пишутся в назначение, а пакет снимается без второй записи.</p></div>
+              <div class="st"><span class="k"></span><p><b>Копирование и перепись путей, потом сохранение.</b> <code>//textures/x.png</code> разрешается относительно того, где лежит <code>.blend</code>, так что копия, сохранённая в папку сборки, попадает ровно на положенные рядом файлы.</p></div>
+            </div>
+
+            <div class="mods rv">
+              <article class="mod">
+                <h4>Что намеренно только сообщается</h4>
+                <p><strong>Линкованные библиотеки</strong> и <strong>директории кэшей симуляций</strong>
+                   (жидкости, point cache). Библиотека тянет собственные внешние ассеты, и копирование
+                   <code>.blend</code> без обхода её зависимостей даёт то, что <em>выглядит</em>
+                   собранным и не является — хуже, чем честно сказать «пропущено». Они перечисляются
+                   поимённо.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Рабочий файл не трогается</h4>
+                <p>Всё происходит в памяти, сборка пишется с <code>copy=True</code>, поэтому сессия
+                   остаётся на исходном файле, а потом делается revert, чтобы выбросить purge
+                   и перепись путей из памяти. Collect, который молча вычистил бы рабочий файл
+                   артиста, был бы очень дорогим сюрпризом.</p>
+              </article>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+              </span>
+              <p>
+                <strong>Чего не покрывают тесты:</strong> сам revert.
+                <code>revert_mainfile()</code> перезагружает файл и обрывает выполнение фонового
+                скрипта немедленно, без трейсбека. Проверяется гарантия, которая реально защищает
+                артиста, — что <code>copy=True</code> не переписывает рабочий <code>.blend</code>
+                (сверяется mtime).
+              </p>
+            </div>
+          </div>
+        </section>
+
         <!-- ── Куда дальше ── -->
         <section id="next">
           <div class="sec-head rv">
@@ -1702,14 +1957,14 @@ footer {
           <div class="foot-grid">
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.1.0 · Blender 4.2+ · MIT</span>
+              <span>0.4.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
               <b>Тесты</b>
-              <span>tests/test_autosave.py</span>
-              <span>tests/test_doctor.py</span>
-              <span>tests/test_safezones.py</span>
+              <span>tests/test_pathanim.py</span>
+              <span>tests/test_collect.py</span>
+              <span>tests/test_autosave.py · test_doctor.py</span>
             </div>
             <div>
               <b>Навигация</b>
