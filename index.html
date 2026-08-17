@@ -197,7 +197,9 @@ p { margin: 0; }
   color: var(--ink); background: var(--panel);
   box-shadow: 0 0 0 1px var(--border), 0 1px 2px rgba(0, 0, 0, .18);
 }
-.rail .theme { align-self: flex-start; margin-bottom: var(--s2); }
+.rail .theme { align-self: flex-start; }
+.rail .lang { margin-bottom: var(--s2); }
+.lang .th { width: 34px; font-family: var(--mono); font-size: 11.5px; letter-spacing: 0.06em; }
 
 .topbar { display: none; }
 
@@ -619,13 +621,14 @@ footer {
 
   <!-- ══════════════════ РЕЙЛ ══════════════════ -->
   <aside class="rail">
-    <a class="mark" href="#/">
+    <a class="mark" href="#/" data-home-link>
       <b>BOX3D&nbsp;/&nbsp;STUDIO</b>
-      <span>Два аддона для Blender</span>
+      <span data-lang="ru">Два аддона для Blender</span>
+      <span data-lang="en" hidden>Two Blender add-ons</span>
     </a>
 
     <!-- Навигация главной -->
-    <nav class="nav" data-rail="home">
+    <nav class="nav" data-rail="home" data-lang="ru">
       <div class="nav-group">Обзор</div>
       <a href="#top">Что это</a>
       <a href="#choose">Что мне нужно</a>
@@ -636,8 +639,19 @@ footer {
       <a class="nav-studio" href="#/studio">Creative Studio Tools</a>
     </nav>
 
+    <nav class="nav" data-rail="home" data-lang="en" hidden>
+      <div class="nav-group">Overview</div>
+      <a href="#top">What these are</a>
+      <a href="#choose">Which one you need</a>
+      <a href="#install">Installation</a>
+
+      <div class="nav-group">Add-on pages</div>
+      <a class="nav-phys" href="#/en/box3d">Box3D Bake</a>
+      <a class="nav-studio" href="#/en/studio">Creative Studio Tools</a>
+    </nav>
+
     <!-- Навигация Box3D -->
-    <nav class="nav" data-rail="box3d" hidden>
+    <nav class="nav" data-rail="box3d" data-lang="ru" hidden>
       <a class="back" href="#/">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         На главную
@@ -652,8 +666,23 @@ footer {
       <a class="nav-phys" href="#next">Дальше</a>
     </nav>
 
+    <nav class="nav" data-rail="box3d" data-lang="en" hidden>
+      <a class="back" href="#/en">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Home
+      </a>
+      <div class="nav-group">Box3D Bake</div>
+      <a class="nav-phys" href="#top">Why it exists</a>
+      <a class="nav-phys" href="#pipeline">How it works</a>
+      <a class="nav-phys" href="#features">Features</a>
+      <a class="nav-phys" href="#output">Output modes</a>
+      <a class="nav-phys" href="#numbers">Numbers</a>
+      <a class="nav-phys" href="#limits">What it can't do</a>
+      <a class="nav-phys" href="#next">Next</a>
+    </nav>
+
     <!-- Навигация Studio -->
-    <nav class="nav" data-rail="studio" hidden>
+    <nav class="nav" data-rail="studio" data-lang="ru" hidden>
       <a class="back" href="#/">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
         На главную
@@ -669,13 +698,37 @@ footer {
       <a class="nav-studio" href="#next">Дальше</a>
     </nav>
 
+    <nav class="nav" data-rail="studio" data-lang="en" hidden>
+      <a class="back" href="#/en">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+        Home
+      </a>
+      <div class="nav-group">Creative Studio</div>
+      <a class="nav-studio" href="#top">Why it exists</a>
+      <a class="nav-studio" href="#modules">Modules</a>
+      <a class="nav-studio" href="#pathanim">Path animation</a>
+      <a class="nav-studio" href="#crops">Crops</a>
+      <a class="nav-studio" href="#cleanup">Scene cleanup</a>
+      <a class="nav-studio" href="#proxy">Texture proxies</a>
+      <a class="nav-studio" href="#collect">Collect</a>
+      <a class="nav-studio" href="#next">Next</a>
+    </nav>
+
     <!-- Кросс-ссылка на второй аддон -->
-    <a class="rail-cross" data-rail="box3d" href="#/studio" style="--x: var(--studio)" hidden>
+    <a class="rail-cross" data-rail="box3d" data-lang="ru" href="#/studio" style="--x: var(--studio)" hidden>
       <span class="k">Второй аддон →</span>
       <span class="t">Creative Studio Tools</span>
     </a>
-    <a class="rail-cross" data-rail="studio" href="#/box3d" style="--x: var(--phys)" hidden>
+    <a class="rail-cross" data-rail="studio" data-lang="ru" href="#/box3d" style="--x: var(--phys)" hidden>
       <span class="k">Второй аддон →</span>
+      <span class="t">Box3D Bake</span>
+    </a>
+    <a class="rail-cross" data-rail="box3d" data-lang="en" href="#/en/studio" style="--x: var(--studio)" hidden>
+      <span class="k">Other add-on →</span>
+      <span class="t">Creative Studio Tools</span>
+    </a>
+    <a class="rail-cross" data-rail="studio" data-lang="en" href="#/en/box3d" style="--x: var(--phys)" hidden>
+      <span class="k">Other add-on →</span>
       <span class="t">Box3D Bake</span>
     </a>
 
@@ -691,6 +744,10 @@ footer {
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
         </button>
       </div>
+      <div class="theme lang" role="group" aria-label="Language">
+        <button class="th" type="button" data-lang-set="ru" aria-pressed="true">RU</button>
+        <button class="th" type="button" data-lang-set="en" aria-pressed="false">EN</button>
+      </div>
       <span>MIT · Blender 4.4+ / 4.2+</span>
       <span>macOS arm64 · Windows x64</span>
     </div>
@@ -698,17 +755,24 @@ footer {
 
   <!-- ══════════════════ ТОПБАР (узкие экраны) ══════════════════ -->
   <div class="topbar">
-    <a class="home" href="#/">BOX3D / STUDIO</a>
+    <a class="home" href="#/" data-home-link>BOX3D / STUDIO</a>
 
-    <nav data-rail="home">
+    <nav data-rail="home" data-lang="ru">
       <a href="#top">Обзор</a>
       <a href="#choose">Что выбрать</a>
       <a href="#install">Установка</a>
       <a href="#/box3d">Box3D →</a>
       <a href="#/studio">Studio →</a>
     </nav>
+    <nav data-rail="home" data-lang="en" hidden>
+      <a href="#top">Overview</a>
+      <a href="#choose">Which one</a>
+      <a href="#install">Install</a>
+      <a href="#/en/box3d">Box3D →</a>
+      <a href="#/en/studio">Studio →</a>
+    </nav>
 
-    <nav data-rail="box3d" hidden>
+    <nav data-rail="box3d" data-lang="ru" hidden>
       <a href="#top">Зачем</a>
       <a href="#pipeline">Как работает</a>
       <a href="#features">Возможности</a>
@@ -717,8 +781,17 @@ footer {
       <a href="#limits">Границы</a>
       <a href="#next">Дальше</a>
     </nav>
+    <nav data-rail="box3d" data-lang="en" hidden>
+      <a href="#top">Why</a>
+      <a href="#pipeline">How</a>
+      <a href="#features">Features</a>
+      <a href="#output">Output</a>
+      <a href="#numbers">Numbers</a>
+      <a href="#limits">Limits</a>
+      <a href="#next">Next</a>
+    </nav>
 
-    <nav data-rail="studio" hidden>
+    <nav data-rail="studio" data-lang="ru" hidden>
       <a href="#top">Зачем</a>
       <a href="#modules">Модули</a>
       <a href="#pathanim">Путь</a>
@@ -727,6 +800,16 @@ footer {
       <a href="#proxy">Прокси</a>
       <a href="#collect">Сборка</a>
       <a href="#next">Дальше</a>
+    </nav>
+    <nav data-rail="studio" data-lang="en" hidden>
+      <a href="#top">Why</a>
+      <a href="#modules">Modules</a>
+      <a href="#pathanim">Path</a>
+      <a href="#crops">Crops</a>
+      <a href="#cleanup">Cleanup</a>
+      <a href="#proxy">Proxies</a>
+      <a href="#collect">Collect</a>
+      <a href="#next">Next</a>
     </nav>
 
     <div class="theme" role="group" aria-label="Тема оформления">
@@ -740,6 +823,11 @@ footer {
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8.5 8.5 0 019.5 4a8.5 8.5 0 1010.5 10.5z"/></svg>
       </button>
     </div>
+
+    <div class="theme lang" role="group" aria-label="Language">
+      <button class="th" type="button" data-lang-set="ru" aria-pressed="true">RU</button>
+      <button class="th" type="button" data-lang-set="en" aria-pressed="false">EN</button>
+    </div>
   </div>
 
   <main>
@@ -747,7 +835,7 @@ footer {
     <!-- ═══════════════════════════════════════════════════════
          СТРАНИЦА 1 · ГЛАВНАЯ
          ═══════════════════════════════════════════════════════ -->
-    <div class="page" id="page-home">
+    <div class="page" data-lang="ru" id="page-home">
       <div class="wrap">
 
         <section class="hero" id="top">
@@ -939,7 +1027,7 @@ footer {
     <!-- ═══════════════════════════════════════════════════════
          СТРАНИЦА 2 · BOX3D BAKE
          ═══════════════════════════════════════════════════════ -->
-    <div class="page" id="page-box3d" hidden>
+    <div class="page" data-lang="ru" id="page-box3d" hidden>
       <div class="wrap">
 
         <section class="page-head" id="top">
@@ -1510,7 +1598,7 @@ footer {
     <!-- ═══════════════════════════════════════════════════════
          СТРАНИЦА 3 · CREATIVE STUDIO TOOLS
          ═══════════════════════════════════════════════════════ -->
-    <div class="page" id="page-studio" hidden>
+    <div class="page" data-lang="ru" id="page-studio" hidden>
       <div class="wrap">
 
         <section class="page-head" id="top">
@@ -2261,6 +2349,1463 @@ footer {
       </div>
     </div>
 
+    <!-- ═══════════════════════════════════════════════════════
+         EN · HOME
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" data-lang="en" id="page-home-en" hidden>
+      <div class="wrap">
+
+        <section class="hero" id="top">
+          <h1>Physics that's solved <em>before</em> you press Play.</h1>
+          <p class="lede">
+            Two independent Blender add-ons. The first replaces the built-in Bullet solver with
+            Box3D and bakes the result up front. The second removes everything from mobile-game
+            creative production that gets done by hand and therefore gets forgotten.
+          </p>
+
+          <div class="duo">
+            <a class="pcard rv" href="#/en/box3d">
+              <div class="top">
+                <h3>Box3D Bake</h3>
+                <span class="ver">0.21.0</span>
+              </div>
+              <p>Rigid bodies on the Box3D engine instead of Bullet. The simulation runs up front
+                 through ctypes and is written back into the scene — as keyframes, cache or instances.</p>
+              <ul>
+                <li>Joints, emitters, triggers, force fields</li>
+                <li>Four output modes for different scene sizes</li>
+                <li>3000 bodies scrub at 0.47 ms/frame</li>
+              </ul>
+              <span class="go">OPEN PAGE
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+
+            <a class="pcard studio rv" href="#/en/studio">
+              <div class="top">
+                <h3>Creative Studio Tools</h3>
+                <span class="ver">0.5.0</span>
+              </div>
+              <p>Mobile-game creative production: path animation, one-button file setup, crop guides,
+                 texture proxies, autosave, scene cleanup and project collect.</p>
+              <ul>
+                <li>Paths with stops, constant speed, running without foot sliding</li>
+                <li>Texture proxies: render memory and weight, originals untouched</li>
+                <li>Scene cleanup handles 25 000 objects; collect gathers everything into one folder</li>
+              </ul>
+              <span class="go">OPEN PAGE
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+            </a>
+          </div>
+        </section>
+
+        <section id="choose">
+          <div class="sec-head rv">
+            <div class="eyebrow">Decision</div>
+            <h2>Which one you need</h2>
+            <p class="lede">
+              The add-ons do not depend on each other and install separately. Take both if you like —
+              they don't share a single setting.
+            </p>
+          </div>
+
+          <div class="choose rv">
+            <div class="ch p">
+              <h4>Install Box3D Bake if…</h4>
+              <ul>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Bullet takes minutes on your scene and you need twenty iterations</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The scene has thousands of bodies and scrubbing became a slideshow</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>You need emitters or triggers tied to animation</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A scoop, an excavator, loose material — concave collision on a moving object</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The result has to be bit-for-bit reproducible (Seed pins everything)</li>
+              </ul>
+              <a class="go" href="#/en/box3d">READ ABOUT BOX3D BAKE
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+
+            <div class="ch s">
+              <h4>Install Creative Studio Tools if…</h4>
+              <ul>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A character has to travel a path with stops, and the feet must not slide</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every new file gets configured by hand from the same list</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>One master is cut into several formats and the composition drifts</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Blender's own autosave stays silent for hours because you live in modal operators</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The scene won't fit in memory because of 4K textures nobody will see on a phone</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The project has to go to another machine and the textures must not turn pink</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Someone else's collect arrived with a thousand copies of one crate and <code>Material.001</code></li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The viewport is slow and it's unclear where the frame actually goes</li>
+              </ul>
+              <a class="go" href="#/en/studio">READ ABOUT CREATIVE STUDIO
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </a>
+            </div>
+          </div>
+        </section>
+
+        <section id="install">
+          <div class="sec-head rv">
+            <div class="eyebrow">Installation</div>
+            <h2>Requirements and steps</h2>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Requirements</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Add-on</th><th>Blender</th><th>License</th><th>Why that version</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Box3D Bake</td><td class="num">4.4+</td><td>MIT</td>
+                      <td>Every animation read goes through the slotted-action API, which simply doesn't exist before 4.4. Developed on 5.2 LTS</td>
+                    </tr>
+                    <tr>
+                      <td>Creative Studio Tools</td><td class="num">4.2+</td><td>MIT</td>
+                      <td>Pure Python, no native dependencies</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Platforms</h3>
+              <p class="body">
+                Box3D is a compiled native library, not pure Python, so every platform needs its own
+                binary. Creative Studio Tools runs anywhere Blender runs.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Platform</th><th>Box3D Bake</th><th>Creative Studio</th></tr></thead>
+                  <tbody>
+                    <tr><td>macOS · Apple Silicon</td><td><span class="pill ok">BUNDLED</span></td><td><span class="pill ok">WORKS</span></td></tr>
+                    <tr><td>Windows · x86_64</td><td><span class="pill ok">BUNDLED</span></td><td><span class="pill ok">WORKS</span></td></tr>
+                    <tr><td>macOS · Intel</td><td><span class="pill no">BUILD IT YOURSELF</span></td><td><span class="pill ok">WORKS</span></td></tr>
+                    <tr><td>Linux</td><td><span class="pill no">BUILD IT YOURSELF</span></td><td><span class="pill ok">WORKS</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Steps</h3>
+              <div class="steps-num rv">
+                <div class="st"><span class="k"></span><p>Download the archive for your platform from the <b>Releases</b> page.</p></div>
+                <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, pick the zip.</p></div>
+                <div class="st"><span class="k"></span><p>Enable the add-on in the list. Creative Studio keeps a toggle per module and the autosave settings right there in the expanded card.</p></div>
+                <div class="st"><span class="k"></span><p>Box3D: select a mesh object and open <b>Properties → Physics</b>. The <b>Box3D Body</b> button sits in the same grid as Rigid Body; baking lives in the <b>Box3D World</b> panel below.</p></div>
+                <div class="st"><span class="k"></span><p>Creative Studio: the <b>Studio</b> tab in the 3D viewport sidebar (<span class="kbd">N</span>) — Project Setup, Path Animation, Crop Guides, Scene Cleanup, Texture Proxies, Deliver, Autosave.</p></div>
+              </div>
+            </div>
+
+            <div class="note rv" style="--accent: var(--phys); --wash: var(--phys-wash)">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+              </span>
+              <p>
+                <strong>Building box3d yourself — check out exactly the pinned commit</strong>
+                <code>3fc20f5</code>. That is the version of the <em>third-party</em> box3d library
+                (its own tag is <code>v0.1.0-18</code>, unrelated to the add-on versions): it is alpha,
+                struct layout still moves, and a mismatch through ctypes does not raise an error —
+                it silently corrupts the simulation. On load the add-on verifies struct sizes,
+                the version and the field layout; the last check deliberately refuses to load
+                on a mismatch.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Box3D Bake</b>
+              <span>0.21.0 · Blender 4.4+ · MIT</span>
+              <span>Engine: box3d, Erin Catto</span>
+            </div>
+            <div>
+              <b>Creative Studio Tools</b>
+              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>Author: zhb</span>
+            </div>
+            <div>
+              <b>Platforms</b>
+              <span>macOS · Apple Silicon</span>
+              <span>Windows · x86_64</span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         EN · BOX3D BAKE
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" data-lang="en" id="page-box3d-en" hidden>
+      <div class="wrap">
+
+        <section class="page-head" id="top">
+          <div class="eyebrow">Add-on 1 · Box3D Bake · 0.21.0</div>
+          <h1>The same solver as Box2D, in three dimensions</h1>
+          <p class="lede">
+            Box3D is Erin Catto's rigid-body engine — the author of Box2D. The add-on never runs it
+            inside Blender's own frame loop: the whole simulation runs up front through
+            <code>ctypes</code> against a compiled library, and only then is the result written
+            into the scene.
+          </p>
+
+          <div class="readout rv">
+            <div class="readout-head">
+              <b>bench_vs_bullet.py</b>
+              <span>· 3000 cubes falling onto a floor · 120 frames · Apple Silicon 4P+6E · bake time, seconds</span>
+            </div>
+            <div class="readout-body">
+              <div class="bar-row">
+                <div class="lbl">Bullet<span class="sub">Blender's native physics</span></div>
+                <div class="bar-track"><div class="bar-fill ref" data-w="100"></div></div>
+                <div class="val">8.08 s</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Keyframes<span class="sub">1 thread, solver-to-solver</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="8.5"></div></div>
+                <div class="val">0.69 s</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Instanced<span class="sub">the mode for thousands of bodies</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="4.9"></div></div>
+                <div class="val">0.40 s</div>
+              </div>
+              <div class="bar-row">
+                <div class="lbl">Box3D · Instanced<span class="sub">10 sub-steps — accuracy comparable to Bullet</span></div>
+                <div class="bar-track"><div class="bar-fill" data-w="3.7"></div></div>
+                <div class="val">0.30 s</div>
+              </div>
+            </div>
+            <div class="readout-note">
+              Blender's Bullet integration is single-threaded, so the second row is the
+              one-to-one comparison — and it is still ≈&nbsp;12×. The engines also don't default to
+              the same amount of work (Bullet does 10 substeps, Box3D 4), so the last row raises
+              Box3D to 10 — and it gets <em>faster</em>, not slower.
+            </div>
+          </div>
+        </section>
+
+        <section id="why">
+          <div class="stack-l">
+            <div class="stack">
+              <h3>What this buys you</h3>
+              <p class="body">
+                Bullet inside Blender solves single-threaded, one frame at a time, while you watch
+                the viewport. Box3D solves the whole range in one pass in the background
+                (<span class="kbd">Esc</span> cancels and <strong>keeps the frames already
+                solved</strong>), multi-threaded, and then hands over finished data in whatever
+                form you chose.
+              </p>
+              <p class="body">
+                Body marking is <strong>completely independent of the Rigid Body World</strong>:
+                no <code>Add Rigid Body World</code>, own settings, own mass, own joints. The single
+                point of contact is optional — <em>Kinematic After Bake</em>, so Bullet won't touch
+                an already baked result on objects that also carry a native body.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="pipeline">
+          <div class="sec-head rv">
+            <div class="eyebrow">How it works</div>
+            <h2>Four steps from object to result</h2>
+            <p class="lede">
+              Everything lives in <strong>Properties → Physics</strong>, next to Blender's native
+              physics buttons. The viewport sidebar (<span class="kbd">N</span>) keeps a small tab
+              with just Bake / Clear / Live Preview.
+            </p>
+          </div>
+
+          <div class="pipe rv">
+            <div class="step">
+              <span class="n">STEP 01</span>
+              <h4>Mark</h4>
+              <p>Mark Active, Passive, Emitter, Trigger or Joint. An animated Passive becomes
+                 a kinematic driver — a scoop physically pushes what it carries.</p>
+            </div>
+            <div class="step">
+              <span class="n">STEP 02</span>
+              <h4>Configure</h4>
+              <p>Collision shape, mass in kilograms, friction, restitution, damping, 20 collision
+                 collections. <em>Show Collision Shapes</em> draws the shape the object actually
+                 collides with.</p>
+            </div>
+            <div class="step">
+              <span class="n">STEP 03</span>
+              <h4>Solve</h4>
+              <p>Workers, Sub-Steps, Time Scale, frame range. The bake runs in the background with
+                 a progress bar on the timeline. Or just press Play — <em>Simulate On Playback</em>
+                 solves as playback goes.</p>
+            </div>
+            <div class="step">
+              <span class="n">STEP 04</span>
+              <h4>Get the result</h4>
+              <p>Keyframes, a cache inside the .blend, a cache on disk, or instances through
+                 Geometry Nodes. The baked range is marked by a turquoise bar on the timeline.</p>
+            </div>
+          </div>
+        </section>
+
+        <section id="features">
+          <div class="sec-head rv">
+            <div class="eyebrow">Features</div>
+            <h2>What the solver can do</h2>
+          </div>
+
+          <div class="feats rv">
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="18" r="3"/><path d="M8.5 8.5l7 7"/></svg></span>
+              <h4>Joints</h4>
+              <p>Hinge, Ball and Fixed on a plain Empty. The axis comes from the Empty's rotation.
+                 Angle, cone and twist limits, a motor with max torque, springy welds.</p>
+              <span class="tag">DOOR · CHAIN · PENDULUM</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 4h6v6H4z"/><circle cx="17" cy="8" r="1.6"/><circle cx="20" cy="14" r="1.4"/><circle cx="15" cy="16" r="1.2"/><circle cx="19" cy="20" r="1"/></svg></span>
+              <h4>Emitters</h4>
+              <p>Particles spawn from the mesh surface, area-weighted by triangle. Fractional rates
+                 don't lose flow. Inherit Velocity: gravel from a moving scoop travels with
+                 the scoop.</p>
+              <span class="tag">50 000 PARTICLES = 2.48 S</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12h4l3-7 4 14 3-7h4"/></svg></span>
+              <h4>Triggers</h4>
+              <p>A sensor volume enables, disables or removes physics for everything that enters it.
+                 Sweep an animated trigger across a pile of rocks and they fall as it passes.</p>
+              <span class="tag">ENABLE · DISABLE · DELETE</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h11a3 3 0 100-3M3 13h15a3 3 0 110 6M3 18h7"/></svg></span>
+              <h4>Force fields</h4>
+              <p>Blender's <em>own</em> Force Field objects drive the bake — Force, Wind and Drag,
+                 with their falloff, Min/Max Distance and animated strength. No separate
+                 "Box3D force object" to learn.</p>
+              <span class="tag">≈1.2 µS / BODY / FRAME</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 5v10a4 4 0 004 4h6V9"/><path d="M5 5h10v4"/></svg></span>
+              <h4>Concave shapes</h4>
+              <p>Mesh — exact triangle collision for static geometry. Compound — several convex
+                 parts from the object's children or from its own loose parts; the only option for
+                 a <em>moving</em> scoop.</p>
+              <span class="tag">MESH · COMPOUND</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 17.5h7M17.5 14v7"/></svg></span>
+              <h4>Collision collections</h4>
+              <p>The same 20 checkboxes as native Rigid Body. This is both scene organisation and
+                 an optimisation: a pair that cannot collide is never tested at all.</p>
+              <span class="tag">BROAD-PHASE FILTER</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20v-4"/></svg></span>
+              <h4>Body profiler</h4>
+              <p>Shows the ten most expensive bodies by contact count and awake time. Each object's
+                 share is visible on its own Physics panel.</p>
+              <span class="tag">SAMPLE EVERY 5 FRAMES</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v4M12 17v4M3 12h4M17 12h4M6 6l2.5 2.5M15.5 15.5L18 18M18 6l-2.5 2.5M8.5 15.5L6 18"/><circle cx="12" cy="12" r="3"/></svg></span>
+              <h4>Rigs through the depsgraph</h4>
+              <p>A scoop on an excavator's bones is not f-curves, and the fast path can't read it.
+                 <em>Sample Rigs Through Depsgraph</em> asks Blender itself for the transforms,
+                 frame by frame, before the simulation starts.</p>
+              <span class="tag">CONSTRAINTS · DRIVERS · NLA</span>
+            </article>
+
+            <article class="feat">
+              <span class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9z"/></svg></span>
+              <h4>Simulate on playback</h4>
+              <p>Press Play and the physics solves in front of you, filling the cache. Pausing keeps
+                 the world alive, dropped frames are caught up, and a cache from an explicit Bake
+                 is protected from being overwritten.</p>
+              <span class="tag">SIMULATE ON PLAYBACK</span>
+            </article>
+          </div>
+        </section>
+
+        <section id="output">
+          <div class="sec-head rv">
+            <div class="eyebrow">Output modes</div>
+            <h2>Four ways to put the result into the scene</h2>
+            <p class="lede">
+              One setting for the whole scene. The choice is decided by body count and by whether
+              you plan to edit the animation by hand afterwards.
+            </p>
+          </div>
+
+          <div class="tbl-wrap rv">
+            <table>
+              <thead>
+                <tr><th>Mode</th><th>Where the data lives</th><th>When to pick it</th><th>What it costs</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Keyframes</td>
+                  <td>F-curves in the .blend</td>
+                  <td>You need to refine the motion by hand in the Graph Editor</td>
+                  <td>F-curve bloat, slowest scrub at large N</td>
+                </tr>
+                <tr>
+                  <td>Blend Cache</td>
+                  <td>A Text datablock inside the .blend</td>
+                  <td>No keyframes needed, the file must travel whole</td>
+                  <td>.blend size, scrub-speed ceiling</td>
+                </tr>
+                <tr>
+                  <td>Disk Cache</td>
+                  <td><code>//box3d_cache/</code> next to the .blend</td>
+                  <td>Same, but the .blend must stay small</td>
+                  <td>The cache is named after the object — renaming orphans it</td>
+                </tr>
+                <tr>
+                  <td>Instanced</td>
+                  <td>Points + Geometry Nodes</td>
+                  <td class="best">Thousands of bodies. Scrub ≈ 40× faster than Disk Cache</td>
+                  <td>Needs shared mesh datablocks (Alt+D), no per-object editing</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="note rv" style="margin-top: var(--s5)">
+            <span class="ico">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l9 5v8l-9 5-9-5V8z"/><path d="M12 12l9-4M12 12v9M12 12L3 8"/></svg>
+            </span>
+            <p>
+              After an Instanced bake the original objects are only shape sources.
+              <strong>Exclude originals from view layer</strong> takes them out of the depsgraph
+              traversal in one click — <strong>7.84 → 0.40 ms/frame on 3000 bodies</strong> —
+              and is fully reversible: every object returns to exactly the collections it came from.
+            </p>
+          </div>
+        </section>
+
+        <section id="numbers">
+          <div class="sec-head rv">
+            <div class="eyebrow">Numbers</div>
+            <h2>Measured, including where Box3D loses</h2>
+            <p class="lede">
+              The same scene on both sides: N cubes in a grid falling onto a floor, 120 frames,
+              Apple Silicon (4 performance + 6 efficiency cores). Every configuration is checked for
+              a physically sensible result before its time is reported.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Bake time, seconds</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bodies</th><th class="num">Bullet</th><th class="num">Keyframes, 1 thread</th>
+                      <th class="num">Keyframes, 5 threads</th><th class="num">Disk Cache</th>
+                      <th class="num">Instanced</th><th class="num">Instanced, 10 sub-steps</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>100</td><td class="num">0.23</td><td class="num">0.02</td><td class="num">0.02</td><td class="num">0.02</td><td class="num">0.01</td><td class="num best">0.01</td></tr>
+                    <tr><td>500</td><td class="num">1.14</td><td class="num">0.10</td><td class="num">0.10</td><td class="num">0.09</td><td class="num">0.06</td><td class="num best">0.04</td></tr>
+                    <tr><td>1500</td><td class="num">3.79</td><td class="num">0.34</td><td class="num">0.33</td><td class="num">0.29</td><td class="num">0.19</td><td class="num best">0.14</td></tr>
+                    <tr><td>3000</td><td class="num">8.08</td><td class="num">0.69</td><td class="num">0.68</td><td class="num">0.60</td><td class="num">0.40</td><td class="num best">0.30</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Speed-up against Bullet at 3000 bodies: <strong>11.7×</strong> (Keyframes, 1 thread),
+                <strong>13.6×</strong> (Disk Cache), <strong>20.2×</strong> (Instanced),
+                <strong>27.3×</strong> (Instanced at 10 sub-steps).
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Scrubbing a finished result, ms per frame</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Bodies</th><th class="num">Bullet</th><th class="num">Keyframes</th>
+                      <th class="num">Disk Cache</th><th class="num">Instanced</th>
+                      <th class="num">Instanced, originals excluded</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>100</td><td class="num">0.12</td><td class="num slow">0.17</td><td class="num slow">0.34</td><td class="num">0.16</td><td class="num best">0.09</td></tr>
+                    <tr><td>500</td><td class="num">0.57</td><td class="num slow">0.90</td><td class="num slow">1.66</td><td class="num">0.49</td><td class="num best">0.16</td></tr>
+                    <tr><td>1500</td><td class="num">3.11</td><td class="num slow">5.61</td><td class="num slow">7.14</td><td class="num">2.11</td><td class="num best">0.30</td></tr>
+                    <tr><td>3000</td><td class="num">7.92</td><td class="num slow">12.26</td><td class="num slow">16.48</td><td class="num">7.66</td><td class="num best">0.47</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+                </span>
+                <p>
+                  <strong>Bullet scrubs faster than Keyframes and Disk Cache, and that will not
+                  change.</strong> Bullet writes transforms in compiled C inside the depsgraph;
+                  those two modes write <code>location</code> / <code>rotation_quaternion</code>
+                  per object from Python, and Blender's API has no bulk equivalent for independent
+                  Object datablocks. The ceiling is architectural — which is exactly why Instanced
+                  exists.
+                </p>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                The last column is the one that matters at scale: <strong>0.47 ms/frame against
+                7.92 for Bullet, ≈&nbsp;17×</strong>. And it barely grows with body count, because
+                the per-frame work is two bulk attribute writes regardless of N.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Emitters</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>Particles</th><th class="num">Bake total</th><th class="num">of that, solver</th><th class="num">bookkeeping</th><th class="num">Scrub</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>5 000</td><td class="num">0.16 s</td><td class="num">0.05 s</td><td class="num">0.08 s</td><td class="num">0.37 ms/frame</td></tr>
+                    <tr><td>15 000</td><td class="num">0.53 s</td><td class="num">0.19 s</td><td class="num">0.27 s</td><td class="num">0.70 ms/frame</td></tr>
+                    <tr><td>50 000</td><td class="num">2.48 s</td><td class="num">1.28 s</td><td class="num">0.96 s</td><td class="num">2.14 ms/frame</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                For a finished bake the last column is what counts: 2.14 ms/frame at 50k means
+                playback is not the bottleneck.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Against molecular-plus</h3>
+              <p class="body">
+                <a href="https://github.com/u3dreal/molecular-plus" target="_blank" rel="noopener noreferrer">molecular-plus</a>
+                v1.21.9 (GPL-3.0) is the closest comparable Blender add-on: also a compiled physics
+                core driving large particle counts. Same machine, same 100 frames, 4 threads on each
+                side, particles of radius 0.25 falling onto a plane.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>Particles</th><th class="num">This add-on</th><th class="num">molecular-plus</th><th class="num">our solver</th><th class="num">their solver</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>5 000</td><td class="num">0.16 s</td><td class="num">0.18 s</td><td class="num best">0.05 s</td><td class="num">0.14 s</td></tr>
+                    <tr><td>15 000</td><td class="num">0.53 s</td><td class="num">0.53 s</td><td class="num best">0.19 s</td><td class="num">0.42 s</td></tr>
+                    <tr><td>50 000</td><td class="num slow">2.48 s</td><td class="num">2.08 s</td><td class="num best">1.28 s</td><td class="num">1.70 s</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                The totals differ by no more than ~16%, and that hides two opposite effects.
+                The <strong>solver</strong> here is about 33% faster at 50k while doing strictly more
+                work per element: rigid bodies with orientation and inertia against points with
+                a radius. Their <strong>per-frame overhead</strong> is about three times cheaper
+                because they keep no history — positions live in Blender's native particle system,
+                which integrates and caches them. This add-on accumulates every frame's transforms
+                so that scrubbing never re-simulates anything; that is what the overhead buys.
+              </p>
+
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v18M5 8l-3 6h6zM19 8l-3 6h6z"/><path d="M4 6h16"/></svg>
+                </span>
+                <p>
+                  <strong>Two caveats in their favour, stated plainly:</strong> our time includes
+                  writing a full disk cache, theirs does not include their separate Point Cache bake
+                  step (it wasn't measured); and we store 7 floats per particle per frame (position
+                  plus quaternion) against their 3.
+                </p>
+              </div>
+
+              <p class="body" style="max-width: 78ch">
+                <strong>Sub-steps cost completely different things on the two sides.</strong>
+                The table above uses our default Sub-Steps of 4 against their
+                <code>mol_substep = 0</code> — that is not an equal-accuracy comparison.
+                Re-measured at 50k across both dials:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>Sub-steps</th><th class="num">This add-on, total / solver</th><th class="num">molecular-plus, total / solver</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>1</td><td class="num">2.40 / 1.21 s</td><td class="num">2.15 / 1.77 s</td></tr>
+                    <tr><td>4</td><td class="num best">2.51 / 1.29 s</td><td class="num slow">8.92 / 7.52 s</td></tr>
+                    <tr><td>8</td><td class="num">2.64 / 1.43 s</td><td class="num">not measured</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Here they are nearly free — from 1 to 8 sub-steps the solver gets 18% more
+                expensive — because Box3D finds contacts once per step and reuses them across
+                sub-steps, so the expensive broad phase is not repeated. Theirs scale linearly,
+                because <code>mol_substep</code> is not an internal solver iteration at all:
+                it multiplies the scene frame range, so every sub-step becomes a whole extra frame
+                with its own data packing and velocity write-back. What's compared is the
+                <em>price of the dial</em>, not verified equal accuracy: the schemes differ and no
+                penetration or jitter comparison was made.
+              </p>
+
+              <div class="note rv">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+                </span>
+                <p>
+                  <strong>The tools solve different problems.</strong> molecular-plus has a particle
+                  solver with links between particles, aimed at soft bodies and granular material,
+                  and it does things this add-on cannot: links, tension, per-particle weak maps.
+                  Choose on capabilities first — the numbers above only say that neither one loses
+                  obvious performance against the other.
+                </p>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>How many threads to set</h3>
+              <p class="body">
+                The default is <code>logical cores / 2</code>, capped at 8. Box3D's own advice is to
+                pin Workers to <strong>physical</strong> cores: hyperthreading and efficiency cores
+                give little and can measurably hurt.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>CPU</th><th>Measured optimum</th><th>What the default sets</th><th>Note</th></tr></thead>
+                  <tbody>
+                    <tr><td>Apple Silicon 4P+6E</td><td class="num">4</td><td class="num">5</td><td>At 10 it is slower than at 4</td></tr>
+                    <tr><td>Ryzen 9 5900X</td><td class="num">12–16</td><td class="num">8</td><td>≈4–4.5× against a single thread; the headroom is worth taking by hand</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="limits">
+          <div class="sec-head rv">
+            <div class="eyebrow">Limits</div>
+            <h2>What it can't do</h2>
+            <p class="lede">
+              Not an exhaustive list, but these are the ones people hit first. The full list is in
+              the add-on's README.
+            </p>
+          </div>
+
+          <div class="limits rv">
+            <div class="limit"><span class="x"></span><p><b>Nothing is shared with Bullet.</b> A configured Rigid Body and its constraints don't enter the bake, and "Mass" from those panels is never read.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Mesh shape only on non-animated static bodies.</b> A Box3D limitation: mesh shapes create contacts exclusively on static bodies. Moving concave geometry must be Compound.</p></div>
+            <div class="limit"><span class="x"></span><p><b>No automatic convex decomposition.</b> A watertight scoop needs child collision parts, or the mesh split into loose parts.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Sensors have no continuous detection.</b> A trigger that crosses a thin body entirely within one frame won't notice it. Make the volume thicker, not thinner.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Emitter particles never die.</b> No lifetime or despawn in this version; every particle lives to the end of the bake.</p></div>
+            <div class="limit"><span class="x"></span><p><b>One particle shape per scene.</b> Multiple emitters simulate correctly, but all particles display with the first one's shape — with a warning after the bake.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Vortex, Turbulence and Magnetic are ignored.</b> Of Blender's fields, Force, Wind and Drag are evaluated; the rest are listed in a warning after the bake.</p></div>
+            <div class="limit"><span class="x"></span><p><b>The bake holds all frames in memory.</b> ≈29 bytes per body per frame: 50k bodies × 250 frames ≈ 360 MB. Custom Frame Range exists exactly for this.</p></div>
+            <div class="limit"><span class="x"></span><p><b>No height-field shape</b> and no distance / prismatic / wheel / motor joints — they exist in Box3D's C API, but there is no UI for them here.</p></div>
+            <div class="limit"><span class="x"></span><p><b>Output mode is one setting per scene</b>, not per object.</p></div>
+          </div>
+        </section>
+
+        <section id="next">
+          <div class="sec-head rv">
+            <div class="eyebrow">Next</div>
+            <h2>Where to go from here</h2>
+          </div>
+
+          <div class="nextnav rv">
+            <a class="nx home" href="#/en">
+              <span class="k">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                Home
+              </span>
+              <span class="t">Overview and install</span>
+              <span class="d">Comparison of the two add-ons, requirements, platforms and install steps.</span>
+            </a>
+
+            <a class="nx to-studio" href="#/en/studio">
+              <span class="k">
+                Other add-on
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="t">Creative Studio Tools</span>
+              <span class="d">Path animation, file preset, crop guides, scene cleanup and project collect.</span>
+            </a>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Box3D Bake</b>
+              <span>0.21.0 · Blender 4.4+ · MIT</span>
+              <span>Engine: box3d, Erin Catto</span>
+            </div>
+            <div>
+              <b>Platforms</b>
+              <span>macOS · Apple Silicon</span>
+              <span>Windows · x86_64</span>
+            </div>
+            <div>
+              <b>Navigation</b>
+              <span><a href="#/en">Home</a></span>
+              <span><a href="#/en/studio">Creative Studio Tools</a></span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════════════
+         EN · CREATIVE STUDIO TOOLS
+         ═══════════════════════════════════════════════════════ -->
+    <div class="page" data-lang="en" id="page-studio-en" hidden>
+      <div class="wrap">
+
+        <section class="page-head" id="top">
+          <div class="eyebrow">Add-on 2 · Creative Studio Tools · 0.5.0</div>
+          <h1>Creative production with the hand work taken out</h1>
+          <p class="lede">
+            A separate add-on from the physics one: different audience, its own release cycle,
+            and nothing here requires Box3D to be installed. Every subsystem is its own module
+            behind its own toggle, so a broken part can be switched off without taking the rest down.
+          </p>
+          <p class="lede">
+            Everything lives in the <strong>Studio</strong> tab of the 3D viewport sidebar
+            (<span class="kbd">N</span>): Project Setup, Path Animation, Crop Guides, Scene Cleanup,
+            Texture Proxies, Deliver, Autosave. The sidebar rather than the Properties editor next to
+            Render and Physics because that context list is hardcoded in C and cannot be extended
+            from Python.
+          </p>
+        </section>
+
+        <section id="preset">
+          <div class="stack-l">
+            <div class="stack">
+              <h3>One button for the whole file</h3>
+              <p class="body">
+                <strong>Studio → Project Setup → Make This File Mobile-Creative Ready</strong> sets
+                EEVEE, 1920×1920, 30 fps, frames 1–1770 (that's 59 seconds), transparent film,
+                PNG in RGBA, Filmic + High Contrast, an Ambient Occlusion pass on <em>every</em>
+                view layer, 100 mm focal length with safe-area display enabled on every camera —
+                and an assembled compositor.
+              </p>
+              <p class="body">
+                Every value was <strong>captured from a working project</strong> — a script compares
+                a reference <code>.blend</code> against factory defaults and prints the difference.
+                Blender has several hundred render, output and colour-management properties, and the
+                ones a studio actually changes are not the ones that come to mind when you ask.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
+              </span>
+              <p>
+                Three things are <strong>derived, not copied</strong>: all 15 <code>use_stamp_*</code>
+                flags are forced off (a date and filename burned into a delivered video are garbage
+                in the result), safe areas are computed from the crop table, and the output path is
+                <em>not</em> carried over — in the reference it pointed at another machine's disk.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h4l2-3h6l2 3h4v12H3z"/><circle cx="12" cy="12.5" r="3.5"/></svg>
+              </span>
+              <p>
+                Safe-area display is a <strong>camera flag, not a scene one</strong>, so the preset
+                walks every camera in the file and enables it on each. Focal length is set there too
+                (100 mm, overridable). DOF and focus distance are left alone: that's the shot,
+                not the file setup.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="modules">
+          <div class="sec-head rv">
+            <div class="eyebrow">Modules</div>
+            <h2>Nine independent tools</h2>
+            <p class="lede">
+              Each is its own module behind its own toggle. Listed in the order the panels appear
+              in the Studio tab.
+            </p>
+          </div>
+
+          <div class="mods rv">
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></span>
+                <h4>Mobile-creative preset</h4>
+              </div>
+              <span class="path">Studio → Project Setup</span>
+              <p>Render, output, colour management, world, compositor and viewport overlays — in every
+                 3D viewport of the file, including screens not currently visible. Node groups live as
+                 datablocks in a template and get appended: generating ~103 nodes in Python would be
+                 a thousand brittle lines.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3v18M16 3v18M3 8h18M3 16h18"/></svg></span>
+                <h4>Crop guides</h4>
+              </div>
+              <span class="path">Studio → Crop Guides</span>
+              <p>Drawn only in camera view — outside it the frame is not what the render sees, and
+                 confident lines there would be a lie. Breakdown in the interactive diagram below.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 18c6 0 6-12 12-12"/><circle cx="4" cy="18" r="2"/><circle cx="16" cy="6" r="2"/><path d="M10.5 12.5v3"/></svg></span>
+                <h4>Path animation</h4>
+              </div>
+              <span class="path">Studio → Path Animation · Idle / Run subpanel</span>
+              <p>A curve through placed empties, stops on it, motion at constant speed. What gets
+                 animated is <strong>distance in metres</strong>, not a 0..1 factor — which is why the
+                 whole module turned out small. The <em>Idle / Run</em> subpanel lays two NLA tracks
+                 on top: the character runs where the path moves it and stands where it stands.
+                 Breakdown below.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+                <h4>Autosave</h4>
+              </div>
+              <span class="path">Preferences → Add-ons · status bar</span>
+              <p>Blender's own autosave <em>does not fire while a modal operator is running</em>:
+                 the timer restarts instead of saving. Transform, sculpt, paint and any add-on with
+                 its own modal loop postpone it. This one uses <code>bpy.app.timers</code>, which runs
+                 off the main loop.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M16.5 16.5L21 21"/></svg></span>
+                <h4>Scene doctor</h4>
+              </div>
+              <span class="path">Studio → Scene Cleanup → Analyse Scene</span>
+              <p><strong>Changes nothing</strong>, only counts: objects in the scene against objects
+                 in the view layer, identical meshes in separate datablocks, duplicate textures,
+                 materials with identical node trees, and a list of the ones that would go flat
+                 if bump were stripped.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 7h10v10H7z"/><path d="M4 4h10v3M20 20H10v-3"/></svg></span>
+                <h4>Deduplication</h4>
+              </div>
+              <span class="path">Studio → Scene Cleanup → Merge Duplicate…</span>
+              <p>The plan is computed first, printed to the console, and then exactly that plan is
+                 applied. There's a Dry Run. Order matters: while two identical materials point at
+                 different datablocks of the same image, their fingerprints don't match.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3v6a3 3 0 003 3h6M18 3v18"/><circle cx="6" cy="19" r="2"/></svg></span>
+                <h4>Shader stripping</h4>
+              </div>
+              <span class="path">Studio → Scene Cleanup → Strip Expensive Shader Nodes</span>
+              <p>Bump isn't expensive by itself: it takes derivatives of its Height input, so the whole
+                 graph behind that input is evaluated several times. <strong>Normal Map is never
+                 touched</strong> — it's cheap, and without it the image goes flat for no gain.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="13" height="13" rx="1.5"/><path d="M3 12l3.5-3.5L11 13"/><circle cx="12" cy="7" r="1.2"/><path d="M19 12v8M19 20l-2.5-2.5M19 20l2.5-2.5"/></svg></span>
+                <h4>Texture proxies</h4>
+              </div>
+              <span class="path">Studio → Texture Proxies</span>
+              <p>Lighter copies in a <code>proxy</code> folder beside the originals. Originals are
+                 never modified; switching back and forth is one button. Breakdown below.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4v10l-9 4-9-4z"/><path d="M3 7l9 4 9-4M12 11v10"/></svg></span>
+                <h4>Project collect</h4>
+              </div>
+              <span class="path">Studio → Deliver → Collect Project</span>
+              <p>Blender has no collect command. <code>unpack_all</code> only deals with packed
+                 textures, and "Save As" with relative paths still points at whatever was on the
+                 machine that saved it. Breakdown below.</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="pathanim">
+          <div class="sec-head rv">
+            <div class="eyebrow">Path animation</div>
+            <h2>Distance in metres is what gets animated, not a path factor</h2>
+            <p class="lede">
+              That single decision produces almost the whole module. "Constant speed" becomes linear
+              interpolation — literally a straight line. "A 30-frame stop" becomes two keys with the
+              same value 30 frames apart. "I made the path longer and the object didn't move" goes
+              away, because the factor is recomputed by a driver from the distance.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="chain rv">
+              <div class="chain-item">
+                <span class="k">Step 1</span>
+                <span class="t">Path From Points</span>
+                <span class="d">A smooth curve through the selected empties. Ordered by name, not by selection: Blender doesn't remember click order, and a name can be changed without reselecting.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Step 2</span>
+                <span class="t">Add Stop</span>
+                <span class="d">An empty at the 3D cursor is projected onto the path and parented to it. Dwell time is a property of each stop.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Step 3</span>
+                <span class="t">Animate Along Path</span>
+                <span class="d">Select the object and the path, set the first and last frame. Everything else is computed.</span>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Timing</h3>
+              <pre class="formula"><span class="c">travel_frames</span> = (last frame − first) − sum of stops
+<span class="c">speed        </span> = length / travel_frames</pre>
+              <p class="body">
+                Every moving segment has the same slope — that is what "one speed everywhere" means.
+                If the stops ask for more frames than the range has, that's a <strong>numeric
+                error</strong>, not silently compressed animation.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Works with "Auto Run Python Scripts" off</h3>
+              <p class="body">
+                Path length is stored in a curve property and the factor driver is
+                <code>d / L</code>: two variables and a division. There are no scripted drivers here,
+                and that matters: those are only evaluated with auto-run enabled, and with it off they
+                fail <strong>silently</strong> — <code>offset_factor</code> stays 0.0, the object just
+                doesn't move, and the reason sits in the console.
+              </p>
+              <p class="body">
+                The cost of storing it: the cached length has to be refreshed after editing the curve,
+                which is what <strong>Refresh Path Length</strong> is for.
+              </p>
+              <p class="body">
+                The module cooperates with the <strong>Follow Path +</strong> add-on: if an object is
+                already set up by it, keys go on <em>its</em> <code>followpath_distance</code> property
+                and the constraint is left alone.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Idle and Run: distance keys are the single source of truth</h3>
+              <p class="body">
+                Pick an idle action, a run action, state <strong>how many metres the character covers
+                in one run cycle</strong>, press <em>Apply Idle / Run</em>. The motion layout is
+                <strong>read back from the keys already placed</strong>, not planned again from the
+                curve. That's why the two halves cannot drift apart: there is one description of the
+                motion, and the second pass consumes it.
+              </p>
+              <p class="body">
+                Editing keys by hand, changing stops, a different frame range — all of it is picked up
+                by pressing the button again, with no settings of its own to keep in sync. Tracks are
+                rebuilt whole by name, so the button can be pressed as often as you like.
+              </p>
+
+              <div class="mods">
+                <article class="mod">
+                  <h4>A bed with strips on top</h4>
+                  <p>The lower <code>Studio Idle</code> track is a single idle strip across the whole
+                     range. The upper <code>Studio Run</code> gets one strip per moving segment, with
+                     <code>blend_in</code> and <code>blend_out</code>. Blender measures blend
+                     <em>inside</em> the strip, so overlapping strips and animated influence aren't
+                     needed: during a transition the idle simply shows through from below.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Running doesn't bleed past its segment</h4>
+                  <p>A run strip ends where the motion ends — beyond it you see the idle again,
+                     not a held run pose for the rest of the video.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Cycles come from metres, not frames</h4>
+                  <p>A segment of D metres plays <code>D / run_cycle_distance</code> cycles, and only
+                     then is the strip scaled to the frames it has. That is what stops the feet from
+                     sliding. How many metres one cycle covers is a property of the animation itself,
+                     which is why it's a setting.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>A warning if cycles come off the ground</h4>
+                  <p>Speed along the path is constant, so every run strip must get the same scale.
+                     If they don't, the distance keys were edited by hand and the cycles are no longer
+                     tied to the ground. That goes into the report rather than passing unnoticed.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="crops">
+          <div class="sec-head rv">
+            <div class="eyebrow">Crop guides</div>
+            <h2>One master, three deliveries</h2>
+            <p class="lede">
+              The pipeline renders a 1920×1920 square once, and three formats are cut from it later.
+              Blender doesn't know that — so the artist composes blind.
+            </p>
+          </div>
+
+          <div class="crop">
+            <div class="crop-stage rv">
+              <svg class="crop-svg" viewBox="0 0 480 480" role="img" aria-label="Crop diagram: a 1920×1920 master with three delivery formats inside it">
+                <defs>
+                  <pattern id="hatch-en" width="7" height="7" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                    <line x1="0" y1="0" x2="0" y2="7" stroke="var(--ink-3)" stroke-width="1" opacity="0.5"/>
+                  </pattern>
+                </defs>
+
+                <rect x="0.5" y="0.5" width="479" height="479" fill="var(--panel-2)" stroke="var(--border)" />
+
+                <g id="e169" opacity="0">
+                  <rect x="0" y="105" width="480" height="270" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="8" y="98" font-family="ui-monospace, monospace" font-size="10" fill="var(--studio)">16:9 · 1920×1080</text>
+                </g>
+
+                <g id="e916" opacity="0">
+                  <rect x="105" y="0" width="270" height="480" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="112" y="18" font-family="ui-monospace, monospace" font-size="11" fill="var(--studio)">9:16 · 1080×1920</text>
+                </g>
+
+                <g id="e45" opacity="0">
+                  <rect x="105" y="71.25" width="270" height="337.5" fill="var(--studio-wash)" stroke="var(--studio)" stroke-width="1.5" stroke-dasharray="5 4"/>
+                  <text x="112" y="422" font-family="ui-monospace, monospace" font-size="11" fill="var(--studio)">4:5 · 1080×1350</text>
+                </g>
+
+                <g id="ecore" opacity="0">
+                  <rect x="105" y="105" width="270" height="270" fill="url(#hatch-en)" stroke="var(--ink)" stroke-width="2"/>
+                  <text x="240" y="236" text-anchor="middle" font-family="ui-monospace, monospace" font-size="12" font-weight="600" fill="var(--ink)">1080 × 1080</text>
+                  <text x="240" y="253" text-anchor="middle" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-2)">56.25 % of each side</text>
+                </g>
+
+                <text x="8" y="458" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-3)">MASTER</text>
+                <text x="8" y="471" font-family="ui-monospace, monospace" font-size="10" fill="var(--ink-3)">1920×1920</text>
+              </svg>
+
+              <div class="crop-toggles" role="group" aria-label="Show formats">
+                <button class="tgl" type="button" aria-pressed="false" data-t="e916"><span class="dot"></span>9:16</button>
+                <button class="tgl" type="button" aria-pressed="false" data-t="e169"><span class="dot"></span>16:9</button>
+                <button class="tgl" type="button" aria-pressed="false" data-t="e45"><span class="dot"></span>4:5</button>
+                <button class="tgl core" type="button" aria-pressed="false" data-t="ecore"><span class="dot"></span>SHARED AREA</button>
+              </div>
+              <p class="crop-legend">All three formats are centred. Their intersection is the central 1080×1080.</p>
+            </div>
+
+            <div class="stack rv">
+              <div class="stack-s">
+                <h3>Why this isn't arithmetic</h3>
+                <p class="body">
+                  The table was taken from the studio's resize grid, not derived by formula. Fitting
+                  4:5 to the master's height would give 1536×1920 — and that is <strong>not</strong>
+                  what the studio cuts. Centring couldn't be predicted either: vertical formats are
+                  often shifted up so a character's head doesn't get cropped.
+                </p>
+              </div>
+
+              <div class="tbl-wrap">
+                <table>
+                  <thead><tr><th>Format</th><th class="num">From the master</th><th>How it's cut</th></tr></thead>
+                  <tbody>
+                    <tr><td>9:16</td><td class="num">1080 × 1920</td><td>full height, sides cropped</td></tr>
+                    <tr><td>16:9</td><td class="num">1920 × 1080</td><td>full width, top and bottom cropped</td></tr>
+                    <tr><td>4:5</td><td class="num">1080 × 1350</td><td>cropped on both axes</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="stack-s">
+                <h3>The composition rule</h3>
+                <p class="body">
+                  Anything that must survive <em>every</em> delivery has to sit inside the central
+                  1080×1080. Anything outside the narrowest crop may never be seen at all.
+                </p>
+              </div>
+
+              <div class="note">
+                <span class="ico">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+                </span>
+                <p>
+                  The preset takes <code>scene.safe_areas</code> from <strong>this same table</strong> —
+                  <code>title = (0.4375, 0.4375)</code> gives 1080×1080,
+                  <code>action = (0.4375, 0.296875)</code> gives 1080×1350. So the sidebar frames and
+                  the frames Blender draws on the camera cannot disagree.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="cleanup">
+          <div class="sec-head rv">
+            <div class="eyebrow">Scene cleanup</div>
+            <h2>Measure first, delete second</h2>
+            <p class="lede">
+              A frame in a heavy scene almost never costs what you think: in a scene of 3000 rigid
+              bodies the frame costs 7.66 ms, and the physics add-on's own work in that is 0.13 ms.
+              The other 98% is Blender walking objects. That's why the first tool here is the one
+              that <strong>only counts</strong>, and the ones that delete come after.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="chain rv">
+              <div class="chain-item">
+                <span class="k">Step 1 · read only</span>
+                <span class="t">Analyse Scene</span>
+                <span class="d">A report into the Scene Report text block. Changes nothing.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Step 2</span>
+                <span class="t">Merge Images</span>
+                <span class="d">First: otherwise identical materials won't match fingerprints.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Step 3</span>
+                <span class="t">Merge Materials</span>
+                <span class="d">The fingerprint is collected by walking RNA, not from a hand-written list.</span>
+              </div>
+              <span class="arrow"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+              <div class="chain-item">
+                <span class="k">Step 4</span>
+                <span class="t">Merge Meshes</span>
+                <span class="d">The side effect matters more than the direct one: instancing becomes possible.</span>
+              </div>
+            </div>
+
+            <div class="mods">
+              <article class="mod">
+                <h4>The image merge key is not the path</h4>
+                <p>The key includes the path, the <strong>colour space</strong>, the <strong>alpha
+                   mode</strong> and whether it's <strong>packed</strong>. The same PNG is legitimately
+                   loaded twice: as sRGB for base colour and as Non-Color for a normal map. Merging
+                   them would push a normal map through an sRGB conversion.</p>
+              </article>
+
+              <article class="mod">
+                <h4>The mesh fingerprint is not vertex coordinates</h4>
+                <p><em>Every</em> attribute is walked: topology lives in <code>corner_vert</code> /
+                   <code>edge_verts</code>, so two meshes can match on every coordinate and build
+                   completely different faces from them. Plus UVs, colours, material slots and
+                   shape keys.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Three categories are never touched</h4>
+                <p><strong>Animated</strong> (animation isn't part of the fingerprint),
+                   <strong>assets</strong> (marking something an asset is an explicit statement that
+                   the datablock has value on its own) and <strong>linked</strong> (they can't be
+                   remapped from here anyway).</p>
+              </article>
+
+              <article class="mod">
+                <h4>The thresholds are deliberately strict</h4>
+                <p>Bit-exact coordinate match and an exact structural hash of the node tree. The numbers
+                   are a lower bound, not an upper one. For a tool whose next step is deletion, that is
+                   the direction to be wrong in.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Ignore Vertex Order</h4>
+                <p>A toggle on the mesh merge operator, on by default. <code>Separate</code> does not
+                   preserve vertex order between pieces, so without it 25 000 identical cubes settle
+                   into clusters of 50–200. With it, geometry is described by its own coordinates
+                   rather than indices. The cost: after merging, vertex order comes from the surviving
+                   mesh, so anything reading Index (Geometry Nodes, particles by index) will see
+                   different numbers.</p>
+              </article>
+
+              <article class="mod">
+                <h4>Handles large scenes</h4>
+                <p>25 000 objects with 20 distinct geometries: <strong>plan 0.54 s, apply 1.15 s</strong>.
+                   The curve is linear — doubling the objects doubles the time. Progress is shown in the
+                   cursor: even a fast pass on a big scene blocks the interface, and silence reads as
+                   a hang.</p>
+              </article>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg>
+              </span>
+              <p>
+                <strong>Reset origins before merging meshes:</strong> Object → Set Origin → Origin to
+                Geometry. If the pieces' origins weren't reset, their coordinates genuinely differ —
+                each one sits at its own place inside its mesh — and they won't merge. That is correct,
+                not a defect: merging would stack them all at one point.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Autosave: why on idle rather than on a schedule</h3>
+              <p class="body">
+                Saving a <code>.blend</code> is always a whole-file write; there is no delta format.
+                On a heavy scene that's a noticeable pause, and a scheduled autosave will
+                <strong>guaranteed</strong> hang you mid-stroke one day. That is exactly why people
+                switch it off and then lose a session.
+              </p>
+              <p class="body">
+                So the trigger is silence: a snapshot is written when nothing has changed for
+                <strong>8 seconds</strong> (by default). Interactive work produces a continuous stream
+                of depsgraph updates, so the write lands in the pause after you stop. Plus a
+                <strong>"never staler than 15 minutes"</strong> ceiling — for things like a long bake
+                that keeps poking the depsgraph the whole time it runs.
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Setting</th><th>Default</th><th>Why</th></tr></thead>
+                  <tbody>
+                    <tr><td>Idle Before Save</td><td class="num">8 s</td><td>The pause after you stop, where a write costs nothing</td></tr>
+                    <tr><td>Never Staler Than</td><td class="num">15 min</td><td>Insurance against work that never goes idle at all</td></tr>
+                    <tr><td>Keep Versions</td><td class="num">10</td><td>Stored in <code>&lt;project&gt;/.autosave/</code>, not the system temp</td></tr>
+                    <tr><td>Timestamp</td><td class="num">to ms</td><td>At second resolution two snapshots in one second overwrite each other</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section id="proxy">
+          <div class="sec-head rv">
+            <div class="eyebrow">Texture proxies</div>
+            <h2>Downscaling saves memory, re-encoding doesn't</h2>
+            <p class="lede">
+              <strong>Studio → Texture Proxies</strong> puts lighter copies into a <code>proxy</code>
+              folder beside the originals. Originals are never modified; switching back and forth is
+              one button.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Why both settings are needed</h3>
+              <p class="body">
+                Blender keeps an image decompressed in RGBA regardless of its format on disk:
+                4096×4096 is <strong>64 MB in memory</strong>, whether it sits there as a 48 MB PNG
+                or a 2 MB WebP. So a proxy does two different things:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Setting</th><th>What it gives</th><th>What it doesn't</th></tr></thead>
+                  <tbody>
+                    <tr><td>Re-encoding</td><td>Disk weight and load time</td><td class="slow">Doesn't touch memory at all</td></tr>
+                    <tr><td>Resolution cap</td><td class="best">Render memory and weight</td><td>—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                The default cap is <strong>2048</strong> — the add-on's recorded opinion that mobile
+                advertising doesn't warrant more.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Which codec for which texture</h3>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Texture</th><th>Codec</th></tr></thead>
+                  <tbody>
+                    <tr><td>Non-Color, opaque</td><td>WebP q100 — lossless</td></tr>
+                    <tr><td>Non-Color, with alpha</td><td>PNG</td></tr>
+                    <tr><td>Colour, opaque</td><td>Lossy WebP, quality from settings</td></tr>
+                    <tr><td>Colour, with alpha</td><td>PNG, unless <code>Lossy Alpha Textures</code> is on</td></tr>
+                    <tr><td>float / EXR / HDR</td><td class="slow">Skipped — an 8-bit codec would destroy it</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                Blender writes WebP itself, with the same <code>libwebp</code> as <code>cwebp</code>
+                and Pillow, so no external compressor is needed. At one hundred, libwebp switches to
+                lossless mode — hence the cliff between q100 and q99 in a measurement on 1024×1024
+                noise:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Codec</th><th class="num">Weight</th><th>Error</th></tr></thead>
+                  <tbody>
+                    <tr><td>PNG</td><td class="num">3079 KB</td><td>lossless</td></tr>
+                    <tr><td>WebP q100</td><td class="num">3072 KB</td><td class="best">lossless</td></tr>
+                    <tr><td>WebP q99</td><td class="num">1139 KB</td><td>253 of 255</td></tr>
+                    <tr><td>WebP q95</td><td class="num">982 KB</td><td>249</td></tr>
+                    <tr><td>AVIF q100</td><td class="num">1774 KB</td><td>251</td></tr>
+                    <tr><td>JPEG q95</td><td class="num">1201 KB</td><td>253</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                AVIF gives neither losslessness at q100 nor speed (3–5× slower), so it isn't used.
+                Blender doesn't read JPEG XL at all.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg>
+              </span>
+              <p>
+                <strong>Anything with alpha goes to PNG</strong>, and that isn't caution.
+                WebP q100 returns everything bit for bit <em>except pixels where alpha is exactly
+                zero</em> — there the RGB comes back destroyed. On cut-outs (foliage, hair) the colour
+                under fully transparent pixels is painted deliberately so filtering doesn't blend black
+                into the visible edge. Losing it gives you the classic dark fringe.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Switching</h3>
+              <p class="body">
+                One datablock with a swapped <code>filepath</code>, not two datablocks with
+                <code>user_remap</code> as in deduplication: two datablocks would keep both images
+                decompressed in memory — exactly the opposite of the goal. The original path is stored
+                on the image, so going back is always possible.
+              </p>
+              <p class="body">
+                Assigning <code>filepath</code> makes Blender re-read the file and guess colorspace and
+                alpha mode again, so both are <strong>saved and restored explicitly</strong>: a normal
+                map that comes back as sRGB is wrong everywhere it's used, and for no visible reason.
+              </p>
+              <p class="body">
+                Staleness is derived from a <code>proxy/.studio_proxy.json</code> manifest: change the
+                original, the cap or the quality and the proxy is rebuilt; otherwise a second run
+                is free.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="collect">
+          <div class="sec-head rv">
+            <div class="eyebrow">Project collect</div>
+            <h2>Everything the file needs, in one folder</h2>
+            <p class="lede">
+              <strong>Studio → Deliver → Collect Project</strong> gathers everything into a
+              <code>&lt;filename&gt;_Blender&lt;version&gt;_collect</code> folder beside the project.
+              Blender has no such command: <code>unpack_all</code> only deals with packed textures,
+              while Alembics, USD, volumes, sounds, fonts and clips get left behind — and the file
+              opens on a colleague's machine with pink textures.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Order of operations</h3>
+              <div class="steps-num rv">
+                <div class="st"><span class="k"></span><p><b>Broken paths are reported first.</b> A file that no longer exists can't be collected — and learning that after copying means learning it in delivery.</p></div>
+                <div class="st"><span class="k"></span><p><b>Purge first, then copy.</b> The other way round means megabytes of assets that are about to be deleted.</p></div>
+                <div class="st"><span class="k"></span><p><b>Packed textures are written manually.</b> <code>unpack_all</code> puts them next to the <em>current</em> file rather than into the collect folder, so the bytes are written to the destination and the pack is dropped without a second write.</p></div>
+                <div class="st"><span class="k"></span><p><b>Copy and rewrite paths, then save.</b> <code>//textures/x.png</code> resolves relative to wherever the <code>.blend</code> sits, so the copy saved into the collect folder lands exactly on the files placed beside it.</p></div>
+              </div>
+            </div>
+
+            <div class="mods rv">
+              <article class="mod">
+                <h4>What is reported rather than collected</h4>
+                <p><strong>Linked libraries</strong> and <strong>simulation cache directories</strong>
+                   (fluids, point cache). A library pulls its own external assets, and copying the
+                   <code>.blend</code> without walking its dependencies produces something that
+                   <em>looks</em> collected and isn't — worse than honestly saying "skipped".
+                   They are listed by name.</p>
+              </article>
+
+              <article class="mod">
+                <h4>The working file is left alone</h4>
+                <p>Everything happens in memory, the collect is written with <code>copy=True</code>,
+                   so the session stays on the original file, and a revert afterwards throws the purge
+                   and path rewrites out of memory. A collect that silently cleaned out an artist's
+                   working file would be a very expensive surprise.</p>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section id="next">
+          <div class="sec-head rv">
+            <div class="eyebrow">Next</div>
+            <h2>Where to go from here</h2>
+          </div>
+
+          <div class="nextnav rv">
+            <a class="nx home" href="#/en">
+              <span class="k">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6"/></svg>
+                Home
+              </span>
+              <span class="t">Overview and install</span>
+              <span class="d">Comparison of the two add-ons, requirements, platforms and install steps.</span>
+            </a>
+
+            <a class="nx to-phys" href="#/en/box3d">
+              <span class="k">
+                Other add-on
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+              </span>
+              <span class="t">Box3D Bake</span>
+              <span class="d">Rigid bodies on the Box3D engine: joints, emitters, triggers and numbers.</span>
+            </a>
+          </div>
+        </section>
+
+        <footer>
+          <div class="foot-grid">
+            <div>
+              <b>Creative Studio Tools</b>
+              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>Author: zhb</span>
+            </div>
+            <div>
+              <b>Panels</b>
+              <span>Project Setup · Path Animation</span>
+              <span>Crop Guides · Scene Cleanup</span>
+              <span>Texture Proxies · Deliver · Autosave</span>
+            </div>
+            <div>
+              <b>Navigation</b>
+              <span><a href="#/en">Home</a></span>
+              <span><a href="#/en/box3d">Box3D Bake</a></span>
+            </div>
+          </div>
+        </footer>
+
+      </div>
+    </div>
+
   </main>
 </div>
 
@@ -2268,11 +3813,14 @@ footer {
 (function () {
   var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  var PAGES = {
-    "/":       "page-home",
-    "/box3d":  "page-box3d",
-    "/studio": "page-studio"
-  };
+  var KEYS = { "/": "home", "/box3d": "box3d", "/studio": "studio" };
+  var lang = "ru";
+
+  function pageId(key, lg) { return "page-" + key + (lg === "en" ? "-en" : ""); }
+  function routeOf(key, lg) {
+    var base = key === "home" ? "" : "/" + key;
+    return "#" + (lg === "en" ? "/en" : "") + (base || (lg === "en" ? "" : "/"));
+  }
 
   // Смена страницы — это не восстановление истории: браузер иначе возвращает
   // прокрутку предыдущей записи уже после нашего scrollTo.
@@ -2335,24 +3883,36 @@ footer {
 
   function parse() {
     var h = location.hash || "";
-    // Якорь внутри страницы (#top, #numbers) не меняет страницу
+    // Якорь внутри страницы (#top, #numbers) не меняет ни страницу, ни язык
     if (h && h.charAt(1) !== "/") return null;
-    var route = h.slice(1) || "/";
-    return PAGES[route] ? route : "/";
+    var r = h.slice(1) || "/";
+    var lg = "ru";
+    if (r === "/en" || r.indexOf("/en/") === 0) { lg = "en"; r = r.slice(3) || "/"; }
+    return { key: KEYS[r] || "home", lang: lg };
   }
 
-  function go(route, keepScroll) {
-    var id = PAGES[route];
+  function go(key, lg, keepScroll) {
+    var id = pageId(key, lg);
     if (current === id) return;
     current = id;
+    lang = lg;
 
+    document.documentElement.lang = lg;
     pages.forEach(function (p) { p.hidden = (p.id !== id); });
+    railBlocks.forEach(function (b) {
+      b.hidden = !(b.dataset.rail === key && b.dataset.lang === lg);
+    });
+    document.querySelectorAll(".mark span[data-lang]").forEach(function (s) {
+      s.hidden = s.dataset.lang !== lg;
+    });
+    document.querySelectorAll("[data-home-link]").forEach(function (a) {
+      a.setAttribute("href", routeOf("home", lg));
+    });
+    document.querySelectorAll("[data-lang-set]").forEach(function (b) {
+      b.setAttribute("aria-pressed", b.dataset.langSet === lg ? "true" : "false");
+    });
 
-    var key = route === "/" ? "home" : route.slice(1);
-    railBlocks.forEach(function (b) { b.hidden = (b.dataset.rail !== key); });
-
-    var page = document.getElementById(id);
-    armReveals(page);
+    armReveals(document.getElementById(id));
     collectSpy();
 
     if (!keepScroll) toTop();
@@ -2362,8 +3922,21 @@ footer {
   function route(keepScroll) {
     var r = parse();
     if (r === null) return;          // это внутренний якорь — страницу не трогаем
-    go(r, keepScroll);
+    go(r.key, r.lang, keepScroll);
   }
+
+  // Переключение языка сохраняет текущую страницу.
+  document.querySelectorAll("[data-lang-set]").forEach(function (b) {
+    b.addEventListener("click", function () {
+      var lg = b.dataset.langSet;
+      if (lg === lang) return;
+      var key = current.replace(/^page-/, "").replace(/-en$/, "");
+      var href = routeOf(key, lg);
+      go(key, lg, false);
+      try { if (location.hash !== href) location.hash = href; } catch (e) {}
+      toTop();
+    });
+  });
 
   window.addEventListener("hashchange", function () { route(false); });
 
@@ -2405,12 +3978,16 @@ footer {
 
     // Переход между страницами
     if (href.charAt(1) === "/" || href === "#/") {
+      var target = (function () {
+        var r = href.slice(1) || "/", lg = "ru";
+        if (r === "/en" || r.indexOf("/en/") === 0) { lg = "en"; r = r.slice(3) || "/"; }
+        return KEYS[r] ? { key: KEYS[r], lang: lg } : null;
+      })();
+      if (!target) return;
       e.preventDefault();
-      var r = href.slice(1) || "/";
-      if (!PAGES[r]) return;
       // Страницу переключаем сразу, не дожидаясь hashchange: в некоторых
       // контекстах (file://, data:) запись в location.hash не проходит.
-      go(r, false);
+      go(target.key, target.lang, false);
       try { if (location.hash !== href) location.hash = href; } catch (err) { /* адрес не обновился — навигация уже произошла */ }
       toTop();
       return;
@@ -2464,11 +4041,14 @@ footer {
     });
   });
   /* Стартовое состояние: 9:16 + общая область — самый частый вопрос */
-  setTgl(document.querySelector('[data-t="f916"]'), true);
-  setTgl(document.querySelector('[data-t="fcore"]'), true);
+  ["f916", "fcore", "e916", "ecore"].forEach(function (id) {
+    var b = document.querySelector('[data-t="' + id + '"]');
+    if (b) setTgl(b, true);
+  });
 
   /* ── Старт ── */
   current = null;
-  go(parse() || "/", true);
+  var startRoute = parse() || { key: "home", lang: "ru" };
+  go(startRoute.key, startRoute.lang, true);
 })();
 </script>
