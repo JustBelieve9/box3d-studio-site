@@ -694,6 +694,8 @@ footer {
       <a class="nav-studio" href="#crops">Кропы</a>
       <a class="nav-studio" href="#cleanup">Уборка сцены</a>
       <a class="nav-studio" href="#proxy">Прокси-текстуры</a>
+      <a class="nav-studio" href="#rendercost">Стоимость кадра</a>
+      <a class="nav-studio" href="#trim">Сокращение</a>
       <a class="nav-studio" href="#collect">Сборка проекта</a>
       <a class="nav-studio" href="#next">Дальше</a>
     </nav>
@@ -710,6 +712,8 @@ footer {
       <a class="nav-studio" href="#crops">Crops</a>
       <a class="nav-studio" href="#cleanup">Scene cleanup</a>
       <a class="nav-studio" href="#proxy">Texture proxies</a>
+      <a class="nav-studio" href="#rendercost">Render cost</a>
+      <a class="nav-studio" href="#trim">Trim cost</a>
       <a class="nav-studio" href="#collect">Collect</a>
       <a class="nav-studio" href="#next">Next</a>
     </nav>
@@ -798,6 +802,8 @@ footer {
       <a href="#crops">Кропы</a>
       <a href="#cleanup">Уборка</a>
       <a href="#proxy">Прокси</a>
+      <a href="#rendercost">Кадр</a>
+      <a href="#trim">Срезать</a>
       <a href="#collect">Сборка</a>
       <a href="#next">Дальше</a>
     </nav>
@@ -808,6 +814,8 @@ footer {
       <a href="#crops">Crops</a>
       <a href="#cleanup">Cleanup</a>
       <a href="#proxy">Proxies</a>
+      <a href="#rendercost">Cost</a>
+      <a href="#trim">Trim</a>
       <a href="#collect">Collect</a>
       <a href="#next">Next</a>
     </nav>
@@ -867,14 +875,14 @@ footer {
             <a class="pcard studio rv" href="#/studio">
               <div class="top">
                 <h3>Creative Studio Tools</h3>
-                <span class="ver">0.5.0</span>
+                <span class="ver">0.6.0</span>
               </div>
               <p>Продакшен видеокреативов под мобильные игры: анимация по пути, настройка файла
                  одной кнопкой, кропы, прокси-текстуры, автосейв, уборка сцены и сборка проекта.</p>
               <ul>
                 <li>Путь с остановками, постоянная скорость, бег без скольжения ног</li>
                 <li>Прокси-текстуры: память на рендере и вес, оригиналы не трогаются</li>
-                <li>Уборка сцены держит 25 000 объектов и сборка проекта в одну папку</li>
+                <li>Профайлер кадра: 16 сэмплов вместо 32 — это 30 минут на ролик вместо 52</li>
               </ul>
               <span class="go">ОТКРЫТЬ СТРАНИЦУ
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -916,6 +924,7 @@ footer {
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Один мастер режется в несколько форматов, и композиция уезжает</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Штатный автосейв у вас молчит часами, потому что вы всё время в модальных операторах</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Сцена не влезает в память из-за текстур 4K, которых на телефоне никто не увидит</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Ролик рендерится час, и неясно, какую ручку крутить, чтобы стало быстрее</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Проект надо отдать на другую машину, и текстуры не должны стать розовыми</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Пришёл чужой коллект, и в нём тысяча копий одного ящика и <code>Material.001</code></li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Вьюпорт тормозит, и непонятно, на что именно уходит кадр</li>
@@ -980,7 +989,7 @@ footer {
                 <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, выберите zip.</p></div>
                 <div class="st"><span class="k"></span><p>Включите аддон в списке. У Creative Studio там же, в развёрнутой карточке, — тумблер на каждый модуль и настройки автосейва.</p></div>
                 <div class="st"><span class="k"></span><p>Box3D: выделите меш-объект и откройте <b>Properties → Physics</b>. Кнопка <b>Box3D Body</b> стоит в той же сетке, что и Rigid Body; бейк — в панели <b>Box3D World</b> ниже.</p></div>
-                <div class="st"><span class="k"></span><p>Creative Studio: вкладка <b>Studio</b> в сайдбаре 3D-вьюпорта (<span class="kbd">N</span>) — панели Project Setup, Path Animation, Crop Guides, Scene Cleanup, Deliver, Autosave.</p></div>
+                <div class="st"><span class="k"></span><p>Creative Studio: вкладка <b>Studio</b> в сайдбаре 3D-вьюпорта (<span class="kbd">N</span>) — панели Project Setup, Path Animation, Crop Guides, Scene Cleanup, Texture Proxies, Render Cost, Trim Frame Cost, Deliver, Autosave.</p></div>
               </div>
             </div>
 
@@ -1010,7 +1019,7 @@ footer {
             </div>
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>0.6.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
@@ -1602,7 +1611,7 @@ footer {
       <div class="wrap">
 
         <section class="page-head" id="top">
-          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.5.0</div>
+          <div class="eyebrow">Аддон 2 · Creative Studio Tools · 0.6.0</div>
           <h1>Продакшен видеокреативов, с которого сняли ручную работу</h1>
           <p class="lede">
             Отдельный аддон от физики: другая аудитория, свой цикл релизов, и ничего здесь
@@ -1612,7 +1621,7 @@ footer {
           <p class="lede">
             Всё живёт во вкладке <strong>Studio</strong> в сайдбаре 3D-вьюпорта
             (<span class="kbd">N</span>): Project Setup, Path Animation, Crop Guides,
-            Scene Cleanup, Texture Proxies, Deliver, Autosave. Именно в сайдбаре, а не в редакторе свойств
+            Scene Cleanup, Texture Proxies, Render Cost, Trim Frame Cost, Deliver, Autosave. Именно в сайдбаре, а не в редакторе свойств
             рядом с Render и Physics: список контекстов там захардкожен в C и из Python
             не расширяется.
           </p>
@@ -1625,9 +1634,17 @@ footer {
               <p class="body">
                 <strong>Studio → Project Setup → Make This File Mobile-Creative Ready</strong>
                 ставит EEVEE, 1920×1920, 30 fps, кадры 1–1770 (это 59 секунд), прозрачную плёнку,
-                PNG в RGBA, Filmic + High Contrast, пасс Ambient Occlusion на <em>всех</em>
-                view layer'ах, фокусное 100 мм с включённым показом safe areas на всех камерах —
-                и собранный композитор.
+                <strong>16 сэмплов</strong>, тени 2048/<strong>0.9</strong>, PNG в RGBA,
+                Filmic + High Contrast, пасс Ambient Occlusion на <em>всех</em> view layer'ах,
+                фокусное 100 мм с показом safe areas на камерах — и собранный композитор
+                из девяти нод.
+              </p>
+              <p class="body">
+                Композитор — девять нод, снятых дампом с рабочего файла артиста, а не придуманных:
+                <strong>Denoise</strong> стоит до умножения на Ambient Occlusion, и именно он
+                позволяет держать 16 сэмплов вместо 32. <strong>Glare (Fog Glow)</strong> стоит
+                перед виньеткой, чтобы свечение не поднимало углы, которые виньетка только что
+                притушила — виньетка последняя в цепочке в любом сочетании галочек.
               </p>
               <p class="body">
                 Все значения <strong>сняты с рабочего проекта</strong> — скрипт сравнивает
@@ -1656,8 +1673,10 @@ footer {
               <p>
                 Показ safe areas — <strong>флаг камеры, а не сцены</strong>, поэтому пресет
                 проходит по всем камерам файла и включает его на каждой. Там же ставится
-                фокусное расстояние (100 мм, параметром меняется). DOF и дистанция фокуса
-                не трогаются: это кадр, а не настройка файла.
+                фокусное расстояние (100 мм, параметром меняется). Галка <em>Cameras</em> это
+                отключает целиком: фокусное и safe areas — это шот, а не сетап проекта, и на
+                чужом файле переписывать их бывает вредно. DOF и дистанция фокуса не трогаются
+                никогда.
               </p>
             </div>
           </div>
@@ -1666,7 +1685,7 @@ footer {
         <section id="modules">
           <div class="sec-head rv">
             <div class="eyebrow">Модули</div>
-            <h2>Девять независимых инструментов</h2>
+            <h2>Одиннадцать независимых инструментов</h2>
             <p class="lede">
               Каждый — свой модуль за своим тумблером в настройках. Панели перечислены
               в том порядке, в котором стоят во вкладке Studio.
@@ -1692,8 +1711,9 @@ footer {
                 <h4>Направляющие кропов</h4>
               </div>
               <span class="path">Studio → Crop Guides</span>
-              <p>Рисуются только в виде из камеры — вне его рамка это не то, что видит рендер,
-                 и уверенные линии там были бы враньём. Разбор — в интерактивной схеме ниже.</p>
+              <p><strong>Включены по умолчанию.</strong> Рисуются только в виде из камеры — вне его
+                 рамка это не то, что видит рендер, и уверенные линии там были бы враньём.
+                 Разбор — в интерактивной схеме ниже.</p>
             </article>
 
             <article class="mod">
@@ -1763,6 +1783,29 @@ footer {
               <span class="path">Studio → Texture Proxies</span>
               <p>Облегчённые копии в папке <code>proxy</code> рядом с оригиналами. Оригиналы
                  не изменяются никогда, переключение туда и обратно — одна кнопка. Разбор ниже.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M6 20V9M11 20V4M16 20v-8M21 20v-5"/></svg></span>
+                <h4>Стоимость кадра</h4>
+              </div>
+              <span class="path">Studio → Render Cost</span>
+              <p><strong>Только измеряет, ничего не меняет</strong> — прямой аналог доктора сцены,
+                 но для рендера. Однофакторная абляция отдельными процессами: каждая настройка
+                 прогоняется своим <code>blender -b</code> и считается против соседних базовых
+                 прогонов. Разбор ниже.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8 7.5L20 18M8 16.5L20 6"/></svg></span>
+                <h4>Сокращение стоимости кадра</h4>
+              </div>
+              <span class="path">Studio → Trim Frame Cost</span>
+              <p>Пара к профайлеру: тот мерит и не трогает ничего, этот меняет — и только то, что
+                 отмечено галочкой. <strong>Каждое изменение записывается для отката</strong>,
+                 и запись живёт на сцене, так что «вернуть как было» работает и завтра.</p>
             </article>
 
             <article class="mod">
@@ -2251,6 +2294,216 @@ footer {
           </div>
         </section>
 
+        <section id="rendercost">
+          <div class="sec-head rv">
+            <div class="eyebrow">Стоимость кадра</div>
+            <h2>Дорогие ручки оказались не теми, куда лезут первым делом</h2>
+            <p class="lede">
+              <strong>Studio → Render Cost</strong> — профайлер рендера.
+              <strong>Только измеряет, ничего не меняет</strong>, прямой аналог доктора сцены.
+              На настоящей сцене трассировка стоила −7%, композитор −1%, а <code>use_fast_gi</code>,
+              <code>shadow_step_count</code> и <code>shadow_pool_size</code> не вылезли из шума —
+              при том что одна десятая разрешения теней стоила 40% кадра.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Три вещи, без которых профайлер врёт</h3>
+              <div class="mods">
+                <article class="mod">
+                  <h4>Первый кадр каждого прогона выбрасывается</h4>
+                  <p>На нём EEVEE компилирует шейдеры: 8.7 с против 6.3 на последующих. Прогревочный
+                     кадр — <strong>тот же самый</strong>, что и первый замеряемый: компиляция идёт
+                     по материалам, и прогрев на кадре с другими объектами не прогревает ничего.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Базовые прогоны чередуются с тестовыми</h4>
+                  <p>За одну сессию непрерывного рендера база уехала 6.29 → 6.94 → 6.50 → 6.01 с —
+                     это ±10–20% теплового дрейфа, и именно из-за него отдельные ручки выглядят
+                     <em>хуже</em> базы. Расписание — <code>база, ручка, база, ручка, …</code>,
+                     каждая ручка считается против среднего двух соседних баз. Отчёт печатает
+                     разброс баз: если он больше эффекта, вся таблица не результат, и отчёт так
+                     и пишет.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Имена свойств снимаются со сцены</h4>
+                  <p>У <code>scene.eevee</code> в 5.2 пятьдесят пять свойств. Профайлер берёт снимок
+                     текущих значений и <strong>выбрасывает ручку, значение которой в сцене уже
+                     стоит</strong>: замерять 8 сэмплов на сцене, где их 8, — это замерить уровень
+                     шума и отчитаться о нём как о находке.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Отдельные процессы, и без <code>--factory-startup</code></h4>
+                  <p>Каждый случай — свой <code>blender -b</code>: один процесс на всех разделил бы
+                     скомпилированные шейдеры и теневой пул, и второй замер мерил бы остатки первого.
+                     Детям <em>не</em> даётся <code>--factory-startup</code> — профайлер обязан мерить
+                     те условия, в которых артист реально рендерит, вместе с его аддонами и его
+                     настройкой авто-запуска скриптов.</p>
+                </article>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Как это идёт</h3>
+              <p class="body">
+                Полное расписание — десятки минут, поэтому оператор <strong>модальный</strong>:
+                по одному процессу за раз, статус в строке состояния,
+                <span class="kbd">Esc</span> прерывает и отдаёт частичные результаты, а не теряет всё.
+                Диалог перед запуском говорит, сколько будет процессов и примерно сколько минут.
+                Время меряет сам дочерний процесс через <code>perf_counter</code>, а запись файла
+                выключена: PNG-компрессия — это реальное время, не имеющее отношения к тестируемым
+                настройкам.
+              </p>
+              <div class="note rv">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></span>
+                <p>
+                  <strong>Несохранённые изменения не профилируются</strong> — дочерние процессы
+                  открывают файл с диска.
+                </p>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Два диагностических прогона</h3>
+              <p class="body">
+                Они отвечают на один вопрос — «упор в пиксели или в геометрию» — и отчёт отвечает
+                <strong>предложением</strong>, а не числом, которое читателю предлагается делить в уме:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Прогон</th><th>Что означает результат</th></tr></thead>
+                  <tbody>
+                    <tr><td>Четверть пикселей</td><td>Время упало пропорционально — упор в пиксели. Почти не упало — упор в подачу геометрии, и бейк материалов не поможет</td></tr>
+                    <tr><td>Вся геометрия скрыта</td><td>Остаток — фиксированная цена кадра, ниже которой никакая чистка сцены не опустится</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                В таблице сокращений их нет намеренно: читатель, который смотрит, что бы срезать,
+                не должен найти там «скрыть всё» наравне с настройками.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Параллельного рендера здесь нет</h3>
+              <p class="body">
+                И пробы на параллелизм тоже нет — ответ уже известен. 12 кадров, 16 сэмплов,
+                тени 0.9:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Инстансов</th><th class="num">Общее время</th><th class="num">На кадр в каждом</th><th class="num">Память</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td class="num best">42.0 с</td><td class="num">3.4 с</td><td class="num">6.3 ГБ</td></tr>
+                    <tr><td>2</td><td class="num">40.9 с</td><td class="num slow">5.2–6.5 с</td><td class="num">8.4 ГБ</td></tr>
+                    <tr><td>3</td><td class="num slow">47.0 с</td><td class="num slow">7.6–10.9 с</td><td class="num slow">11.8 ГБ</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                Каждый процесс замедляется ровно во столько раз, сколько их запущено — конкуренция
+                за единственный GPU. Плюс потолок памяти: 6.3 ГБ на инстанс при 16 ГБ на машине,
+                больше двух не влезет. Перезамерять известный ответ на каждом прогоне профайлера —
+                минуты в никуда.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="trim">
+          <div class="sec-head rv">
+            <div class="eyebrow">Сокращение стоимости кадра</div>
+            <h2>Одна десятая разрешения теней — это 40% времени</h2>
+            <p class="lede">
+              <strong>Studio → Trim Frame Cost</strong> применяет сокращения по галочке.
+              Порядок списка замеренный, а не интуитивный: 499 кадров, M4 / 16 ГБ.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>Конфигурация</th><th class="num">с/кадр</th><th class="num">на ролик</th><th class="num">SSIM против 32/0.9</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>16 сэмплов, тени 1.0</td><td class="num">5.5–6.5</td><td class="num">~50 мин</td><td class="num">—</td></tr>
+                    <tr><td>32 сэмпла, тени 0.9</td><td class="num">6.3</td><td class="num">52 мин</td><td class="num">—</td></tr>
+                    <tr><td>16 сэмплов, тени 0.9</td><td class="num best">3.65</td><td class="num best">30 мин</td><td class="num">0.990 (min 0.71)</td></tr>
+                    <tr><td>8 сэмплов, тени 0.5</td><td class="num">1.69</td><td class="num">14 мин</td><td class="num slow">0.958 (min 0.28)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Вторую и третью строки надо читать вместе: <strong>32 сэмпла с тенями 0.9 стоят
+                столько же, сколько 16 сэмплов с тенями 1.0.</strong> За одну десятую разрешения
+                теней можно либо удвоить сэмплирование бесплатно, либо срезать 40% времени.
+                Это плавная кривая, а не обрыв: при 16 сэмплах 1.00 → 5.50 с, 0.95 → 4.05,
+                0.90 → 3.36, 0.50 → 2.61.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg></span>
+              <p>
+                <strong>Сэмплы надо смотреть в движении.</strong> Ниже 16 появляется зерно, и это
+                недосэмплированный GI, а не алиасинг. На стопкадре при 8 оно терпимо, при 4 — нет.
+                Но зерно перерисовывается каждый кадр и <em>в движении кипит</em>, чего стопкадр
+                не покажет. Предупреждение висит и в описании галочки, и в панели.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Чего здесь нет, потому что это замерено и проиграло</h3>
+              <p class="body">
+                Трассировка (−7%), композитор (−1%), <code>use_fast_gi</code>,
+                <code>shadow_step_count</code>, <code>shadow_pool_size</code> — всё в пределах шума.
+                <code>use_persistent_data</code> на EEVEE не даёт ничего: свойство общее, но
+                обрабатывает его только Cycles. Бейк процедурных материалов на этих сценах почти
+                бесполезен, а 917 модификаторов Geometry Nodes оказались не при чём — кадр упирается
+                в подачу геометрии на GPU, умноженную на сэмплы. Косвенный признак: вчетверо меньше
+                пикселей дали всего −19%.
+              </p>
+              <p class="body">
+                Предложить ручку, которая ничего не делает, хуже, чем не предлагать ничего: это
+                тратит доверие артиста и его вечер.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Объекты вне кадра — списком, никогда не скрытием</h3>
+              <p class="body">
+                <em>Find Objects Never In Frame</em> проходит диапазон и находит объекты, чей bbox
+                ни на одном кадре не пересекает кадр. <strong>Только список.</strong> Объект вне
+                кадра может светить в кадр или отбрасывать в него тень, поэтому скрытие — это
+                второе, явное действие над выборкой, которую артист уже увидел.
+              </p>
+              <div class="mods">
+                <article class="mod">
+                  <h4>Проверка щедрая намеренно</h4>
+                  <p>Каждый выбор в ней ошибается в сторону «оставить»: bbox, а не геометрия;
+                     <strong>прямоугольник, который bbox занимает в кадре</strong>, а не его углы
+                     по отдельности — объект крупнее кадра пересекает кадр, имея все углы снаружи;
+                     запас вокруг кадра 5% на движение между пробами; и всё, что пересекает ближнюю
+                     плоскость, считается видимым.</p>
+                </article>
+                <article class="mod">
+                  <h4>Шаг по кадрам настраиваемый</h4>
+                  <p>Каждый шаг — это <code>frame_set</code>, а на тяжёлой сцене он не бесплатен.
+                     Отчёт печатает, каким шагом получен список. Лампы, камеры, пробы и динамики
+                     не предлагаются никогда: лампа вне кадра обычно и есть причина, по которой
+                     кадр освещён.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="collect">
           <div class="sec-head rv">
             <div class="eyebrow">Сборка проекта</div>
@@ -2329,14 +2582,15 @@ footer {
           <div class="foot-grid">
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>0.6.0 · Blender 4.2+ · MIT</span>
               <span>Автор: zhb</span>
             </div>
             <div>
               <b>Панели</b>
               <span>Project Setup · Path Animation</span>
               <span>Crop Guides · Scene Cleanup</span>
-              <span>Texture Proxies · Deliver · Autosave</span>
+              <span>Texture Proxies · Render Cost · Trim Frame Cost</span>
+              <span>Deliver · Autosave</span>
             </div>
             <div>
               <b>Навигация</b>
@@ -2384,14 +2638,14 @@ footer {
             <a class="pcard studio rv" href="#/en/studio">
               <div class="top">
                 <h3>Creative Studio Tools</h3>
-                <span class="ver">0.5.0</span>
+                <span class="ver">0.6.0</span>
               </div>
               <p>Mobile-game creative production: path animation, one-button file setup, crop guides,
                  texture proxies, autosave, scene cleanup and project collect.</p>
               <ul>
                 <li>Paths with stops, constant speed, running without foot sliding</li>
                 <li>Texture proxies: render memory and weight, originals untouched</li>
-                <li>Scene cleanup handles 25 000 objects; collect gathers everything into one folder</li>
+                <li>Frame profiler: 16 samples instead of 32 turns 52 minutes per video into 30</li>
               </ul>
               <span class="go">OPEN PAGE
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
@@ -2433,6 +2687,7 @@ footer {
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>One master is cut into several formats and the composition drifts</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Blender's own autosave stays silent for hours because you live in modal operators</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The scene won't fit in memory because of 4K textures nobody will see on a phone</li>
+                <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A video takes an hour to render and it's unclear which knob makes it faster</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The project has to go to another machine and the textures must not turn pink</li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Someone else's collect arrived with a thousand copies of one crate and <code>Material.001</code></li>
                 <li><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>The viewport is slow and it's unclear where the frame actually goes</li>
@@ -2496,7 +2751,7 @@ footer {
                 <div class="st"><span class="k"></span><p><b>Edit → Preferences → Add-ons → Install from Disk</b>, pick the zip.</p></div>
                 <div class="st"><span class="k"></span><p>Enable the add-on in the list. Creative Studio keeps a toggle per module and the autosave settings right there in the expanded card.</p></div>
                 <div class="st"><span class="k"></span><p>Box3D: select a mesh object and open <b>Properties → Physics</b>. The <b>Box3D Body</b> button sits in the same grid as Rigid Body; baking lives in the <b>Box3D World</b> panel below.</p></div>
-                <div class="st"><span class="k"></span><p>Creative Studio: the <b>Studio</b> tab in the 3D viewport sidebar (<span class="kbd">N</span>) — Project Setup, Path Animation, Crop Guides, Scene Cleanup, Texture Proxies, Deliver, Autosave.</p></div>
+                <div class="st"><span class="k"></span><p>Creative Studio: the <b>Studio</b> tab in the 3D viewport sidebar (<span class="kbd">N</span>) — Project Setup, Path Animation, Crop Guides, Scene Cleanup, Texture Proxies, Render Cost, Trim Frame Cost, Deliver, Autosave.</p></div>
               </div>
             </div>
 
@@ -2526,7 +2781,7 @@ footer {
             </div>
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>0.6.0 · Blender 4.2+ · MIT</span>
               <span>Author: zhb</span>
             </div>
             <div>
@@ -3080,7 +3335,7 @@ footer {
       <div class="wrap">
 
         <section class="page-head" id="top">
-          <div class="eyebrow">Add-on 2 · Creative Studio Tools · 0.5.0</div>
+          <div class="eyebrow">Add-on 2 · Creative Studio Tools · 0.6.0</div>
           <h1>Creative production with the hand work taken out</h1>
           <p class="lede">
             A separate add-on from the physics one: different audience, its own release cycle,
@@ -3090,7 +3345,7 @@ footer {
           <p class="lede">
             Everything lives in the <strong>Studio</strong> tab of the 3D viewport sidebar
             (<span class="kbd">N</span>): Project Setup, Path Animation, Crop Guides, Scene Cleanup,
-            Texture Proxies, Deliver, Autosave. The sidebar rather than the Properties editor next to
+            Texture Proxies, Render Cost, Trim Frame Cost, Deliver, Autosave. The sidebar rather than the Properties editor next to
             Render and Physics because that context list is hardcoded in C and cannot be extended
             from Python.
           </p>
@@ -3103,9 +3358,18 @@ footer {
               <p class="body">
                 <strong>Studio → Project Setup → Make This File Mobile-Creative Ready</strong> sets
                 EEVEE, 1920×1920, 30 fps, frames 1–1770 (that's 59 seconds), transparent film,
-                PNG in RGBA, Filmic + High Contrast, an Ambient Occlusion pass on <em>every</em>
-                view layer, 100 mm focal length with safe-area display enabled on every camera —
-                and an assembled compositor.
+                <strong>16 samples</strong>, shadows 2048/<strong>0.9</strong>, PNG in RGBA,
+                Filmic + High Contrast, an Ambient Occlusion pass on <em>every</em> view layer,
+                100 mm focal length with safe-area display on cameras — and an assembled
+                nine-node compositor.
+              </p>
+              <p class="body">
+                The compositor is nine nodes dumped from an artist's working file rather than
+                invented here: <strong>Denoise</strong> sits before the multiply by Ambient
+                Occlusion, and it is what makes 16 samples hold instead of 32.
+                <strong>Glare (Fog Glow)</strong> sits before the vignette, so the glow doesn't
+                lift the corners the vignette just darkened — the vignette stays last in the chain
+                in any combination of the checkboxes.
               </p>
               <p class="body">
                 Every value was <strong>captured from a working project</strong> — a script compares
@@ -3134,8 +3398,9 @@ footer {
               <p>
                 Safe-area display is a <strong>camera flag, not a scene one</strong>, so the preset
                 walks every camera in the file and enables it on each. Focal length is set there too
-                (100 mm, overridable). DOF and focus distance are left alone: that's the shot,
-                not the file setup.
+                (100 mm, overridable). The <em>Cameras</em> checkbox turns all of that off: focal
+                length and safe areas belong to the shot, not the project setup, and overwriting them
+                in someone else's file can do harm. DOF and focus distance are never touched.
               </p>
             </div>
           </div>
@@ -3144,7 +3409,7 @@ footer {
         <section id="modules">
           <div class="sec-head rv">
             <div class="eyebrow">Modules</div>
-            <h2>Nine independent tools</h2>
+            <h2>Eleven independent tools</h2>
             <p class="lede">
               Each is its own module behind its own toggle. Listed in the order the panels appear
               in the Studio tab.
@@ -3170,8 +3435,9 @@ footer {
                 <h4>Crop guides</h4>
               </div>
               <span class="path">Studio → Crop Guides</span>
-              <p>Drawn only in camera view — outside it the frame is not what the render sees, and
-                 confident lines there would be a lie. Breakdown in the interactive diagram below.</p>
+              <p><strong>On by default.</strong> Drawn only in camera view — outside it the frame is
+                 not what the render sees, and confident lines there would be a lie. Breakdown in the
+                 interactive diagram below.</p>
             </article>
 
             <article class="mod">
@@ -3241,6 +3507,29 @@ footer {
               <span class="path">Studio → Texture Proxies</span>
               <p>Lighter copies in a <code>proxy</code> folder beside the originals. Originals are
                  never modified; switching back and forth is one button. Breakdown below.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M6 20V9M11 20V4M16 20v-8M21 20v-5"/></svg></span>
+                <h4>Render cost</h4>
+              </div>
+              <span class="path">Studio → Render Cost</span>
+              <p><strong>Only measures, changes nothing</strong> — the scene doctor's counterpart for
+                 rendering. Single-factor ablation in separate processes: every setting runs in its own
+                 <code>blender -b</code> and is scored against neighbouring baseline runs.
+                 Breakdown below.</p>
+            </article>
+
+            <article class="mod">
+              <div class="mod-top">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="6" cy="18" r="2.5"/><path d="M8 7.5L20 18M8 16.5L20 6"/></svg></span>
+                <h4>Trim frame cost</h4>
+              </div>
+              <span class="path">Studio → Trim Frame Cost</span>
+              <p>The profiler's pair: that one measures and touches nothing, this one changes things —
+                 and only what you ticked. <strong>Every change is recorded for undo</strong>, and the
+                 record lives on the scene, so "put it back" still works tomorrow.</p>
             </article>
 
             <article class="mod">
@@ -3710,6 +3999,218 @@ footer {
           </div>
         </section>
 
+        <section id="rendercost">
+          <div class="sec-head rv">
+            <div class="eyebrow">Render cost</div>
+            <h2>The expensive knobs were not the ones people reach for first</h2>
+            <p class="lede">
+              <strong>Studio → Render Cost</strong> is the render profiler. It
+              <strong>only measures and changes nothing</strong>, the direct counterpart of the scene
+              doctor. On a real scene ray tracing was worth −7%, the compositor −1%, and
+              <code>use_fast_gi</code>, <code>shadow_step_count</code> and <code>shadow_pool_size</code>
+              never came out of the noise — while one tenth of the shadow resolution was worth 40%
+              of the frame.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <h3>Three things without which a profiler lies</h3>
+              <div class="mods">
+                <article class="mod">
+                  <h4>The first frame of every run is discarded</h4>
+                  <p>EEVEE compiles shaders on it: 8.7 s against 6.3 on the ones after. The warm-up
+                     frame is <strong>the same frame</strong> as the first measured one: compilation
+                     follows materials, and warming up on a frame with different objects warms up
+                     nothing.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Baseline runs alternate with test runs</h4>
+                  <p>Within one continuous render session the baseline drifted 6.29 → 6.94 → 6.50 →
+                     6.01 s — ±10–20% of thermal drift, and it is exactly what makes individual knobs
+                     look <em>worse</em> than the baseline. The schedule is
+                     <code>base, knob, base, knob, …</code> and every knob is scored against the mean
+                     of its two neighbouring baselines. The report prints the observed baseline
+                     spread: if it exceeds the effect, the whole table isn't a result, and the report
+                     says so.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Property names come from the scene</h4>
+                  <p><code>scene.eevee</code> has fifty-five properties in 5.2. The profiler takes
+                     a snapshot of current values and <strong>drops any knob already set to the value
+                     it would test</strong>: measuring 8 samples on a scene that already uses 8 is
+                     measuring the noise floor and reporting it as a finding.</p>
+                </article>
+
+                <article class="mod">
+                  <h4>Separate processes, and no <code>--factory-startup</code></h4>
+                  <p>Every case gets its own <code>blender -b</code>: one shared process would share
+                     compiled shaders and the shadow pool, and the second measurement would be
+                     measuring the leftovers of the first. Children are <em>not</em> given
+                     <code>--factory-startup</code> — the profiler has to measure the conditions the
+                     artist actually renders in, add-ons and script auto-run setting included.</p>
+                </article>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>How the run goes</h3>
+              <p class="body">
+                A full schedule is tens of minutes, so the operator is <strong>modal</strong>: one
+                process at a time, status in the status bar, <span class="kbd">Esc</span> interrupts
+                and hands back partial results instead of losing everything. The dialog before the run
+                states how many processes there will be and roughly how many minutes. Timing is done
+                by the child process itself through <code>perf_counter</code>, and file writing is off:
+                PNG compression is real time that has nothing to do with the settings under test.
+              </p>
+              <div class="note rv">
+                <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 8v5M12 16.5v.01"/></svg></span>
+                <p>
+                  <strong>Unsaved changes are not profiled</strong> — the child processes open the
+                  file from disk.
+                </p>
+              </div>
+            </div>
+
+            <div class="stack">
+              <h3>Two diagnostic runs</h3>
+              <p class="body">
+                They answer one question — pixel-bound or geometry-bound — and the report answers with
+                a <strong>sentence</strong> rather than a number the reader is expected to divide in
+                their head:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Run</th><th>What the result means</th></tr></thead>
+                  <tbody>
+                    <tr><td>Quarter of the pixels</td><td>Time dropped proportionally — pixel-bound. Barely dropped — bound by feeding geometry, and baking materials won't help</td></tr>
+                    <tr><td>All geometry hidden</td><td>What remains is the fixed price of the frame, below which no amount of scene cleanup will go</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                They are deliberately absent from the reductions table: someone looking for what to cut
+                should not find "hide everything" sitting there among the settings.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>There is no parallel rendering here</h3>
+              <p class="body">
+                And no parallelism probe either — the answer is already known. 12 frames, 16 samples,
+                shadows 0.9:
+              </p>
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead><tr><th>Instances</th><th class="num">Wall time</th><th class="num">Per frame in each</th><th class="num">Memory</th></tr></thead>
+                  <tbody>
+                    <tr><td>1</td><td class="num best">42.0 s</td><td class="num">3.4 s</td><td class="num">6.3 GB</td></tr>
+                    <tr><td>2</td><td class="num">40.9 s</td><td class="num slow">5.2–6.5 s</td><td class="num">8.4 GB</td></tr>
+                    <tr><td>3</td><td class="num slow">47.0 s</td><td class="num slow">7.6–10.9 s</td><td class="num slow">11.8 GB</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body">
+                Each process slows down by exactly the number of processes running — contention for
+                a single GPU. Plus the memory ceiling: 6.3 GB per instance on a 16 GB machine, so more
+                than two won't fit. Re-measuring a known answer on every profiler run is minutes spent
+                on nothing.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section id="trim">
+          <div class="sec-head rv">
+            <div class="eyebrow">Trim frame cost</div>
+            <h2>One tenth of the shadow resolution is 40% of the time</h2>
+            <p class="lede">
+              <strong>Studio → Trim Frame Cost</strong> applies reductions by checkbox. The order of
+              the list is measured, not intuited: 499 frames, M4 / 16 GB.
+            </p>
+          </div>
+
+          <div class="stack-l">
+            <div class="stack">
+              <div class="tbl-wrap rv">
+                <table>
+                  <thead>
+                    <tr><th>Configuration</th><th class="num">s/frame</th><th class="num">per video</th><th class="num">SSIM against 32/0.9</th></tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>16 samples, shadows 1.0</td><td class="num">5.5–6.5</td><td class="num">~50 min</td><td class="num">—</td></tr>
+                    <tr><td>32 samples, shadows 0.9</td><td class="num">6.3</td><td class="num">52 min</td><td class="num">—</td></tr>
+                    <tr><td>16 samples, shadows 0.9</td><td class="num best">3.65</td><td class="num best">30 min</td><td class="num">0.990 (min 0.71)</td></tr>
+                    <tr><td>8 samples, shadows 0.5</td><td class="num">1.69</td><td class="num">14 min</td><td class="num slow">0.958 (min 0.28)</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="body" style="max-width: 78ch">
+                Read the second and third rows together: <strong>32 samples with shadows at 0.9 cost
+                the same as 16 samples with shadows at 1.0.</strong> One tenth of the shadow
+                resolution buys you either double the sampling for free or 40% of the time back.
+                It's a smooth curve, not a cliff: at 16 samples 1.00 → 5.50 s, 0.95 → 4.05,
+                0.90 → 3.36, 0.50 → 2.61.
+              </p>
+            </div>
+
+            <div class="note rv">
+              <span class="ico"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4l9 16H3z"/><path d="M12 10v4M12 17v.01"/></svg></span>
+              <p>
+                <strong>Samples have to be judged in motion.</strong> Below 16 grain appears, and it is
+                undersampled GI, not aliasing. On a still frame it's tolerable at 8 and not at 4.
+                But the grain is redrawn every frame and <em>boils in motion</em>, which a still frame
+                won't show. The warning sits both on the checkbox description and in the panel.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>What's absent because it was measured and lost</h3>
+              <p class="body">
+                Ray tracing (−7%), the compositor (−1%), <code>use_fast_gi</code>,
+                <code>shadow_step_count</code>, <code>shadow_pool_size</code> — all within noise.
+                <code>use_persistent_data</code> does nothing on EEVEE: the property is shared, but
+                only Cycles acts on it. Baking procedural materials is nearly useless on these scenes,
+                and 917 Geometry Nodes modifiers turned out to be irrelevant — the frame is bound by
+                feeding geometry to the GPU, multiplied by samples. An indirect sign: four times fewer
+                pixels gave only −19%.
+              </p>
+              <p class="body">
+                Offering a knob that does nothing is worse than offering nothing: it spends the
+                artist's trust and their evening.
+              </p>
+            </div>
+
+            <div class="stack">
+              <h3>Objects out of frame — a list, never a hide</h3>
+              <p class="body">
+                <em>Find Objects Never In Frame</em> walks the range and finds objects whose bounding
+                box doesn't intersect the frame on any frame. <strong>A list only.</strong> An object
+                out of frame can still light it or cast a shadow into it, so hiding is a second,
+                explicit action on a selection the artist has already seen.
+              </p>
+              <div class="mods">
+                <article class="mod">
+                  <h4>The test is generous on purpose</h4>
+                  <p>Every choice in it errs toward "keep": bounding box rather than geometry;
+                     <strong>the rectangle the bounding box occupies in frame</strong> rather than its
+                     corners individually — an object larger than the frame intersects it with every
+                     corner outside; a 5% margin around the frame for motion between samples; and
+                     anything crossing the near plane counts as visible.</p>
+                </article>
+                <article class="mod">
+                  <h4>The frame step is configurable</h4>
+                  <p>Every step is a <code>frame_set</code>, which isn't free on a heavy scene. The
+                     report prints which step produced the list. Lamps, cameras, probes and speakers
+                     are never proposed: a lamp out of frame is usually the reason the frame is lit.</p>
+                </article>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="collect">
           <div class="sec-head rv">
             <div class="eyebrow">Project collect</div>
@@ -3786,14 +4287,15 @@ footer {
           <div class="foot-grid">
             <div>
               <b>Creative Studio Tools</b>
-              <span>0.5.0 · Blender 4.2+ · MIT</span>
+              <span>0.6.0 · Blender 4.2+ · MIT</span>
               <span>Author: zhb</span>
             </div>
             <div>
               <b>Panels</b>
               <span>Project Setup · Path Animation</span>
               <span>Crop Guides · Scene Cleanup</span>
-              <span>Texture Proxies · Deliver · Autosave</span>
+              <span>Texture Proxies · Render Cost · Trim Frame Cost</span>
+              <span>Deliver · Autosave</span>
             </div>
             <div>
               <b>Navigation</b>
