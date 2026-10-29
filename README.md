@@ -1,3 +1,7 @@
+# Архивный обзор
+
+Этот сайт описывает устаревшие версии аддонов. Актуальное руководство: https://justbelieve9.github.io/zhb-addons-docs/.
+
 # zhb studio и zhb physx — обзорный сайт
 
 Статический сайт про два аддона для Blender, автор — [@zhustbie](https://t.me/zhustbieblender):
