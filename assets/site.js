@@ -60,7 +60,7 @@
   }
 
   function applyRoute() {
-    const raw = location.hash.slice(1) || '/studio';
+    const raw = location.hash.slice(1) || '/physx';
     // Keep old section links useful within the selected product.
     if (!raw.startsWith('/')) {
       const name = current?.dataset.route || 'physx';
@@ -69,23 +69,19 @@
     }
     const [path, query = ''] = raw.split('?');
     let lang = path.startsWith('/en/') ? 'en' : 'ru';
-    let name = path.replace(/^\/(en\/)?/, '') || 'studio';
+    let name = path.replace(/^\/(en\/)?/, '') || 'physx';
     if (name === 'physx/guide') lang = 'ru';
     let target = pages.find(page => page.dataset.route === name && page.dataset.lang === lang);
-    if (!target) { location.replace(route('studio', lang)); return; }
+    if (!target) { location.replace(route('physx', lang)); return; }
     const switched = target !== current;
     current = target;
     pages.forEach(page => { page.hidden = page !== current; });
     document.documentElement.lang = lang;
-    document.title = `${name === 'studio' ? 'zhb Studio 0.35.0' : name.includes('guide') ? 'Памятка zhb PhysX 0.57.0' : 'zhb PhysX 0.57.0'} — zhb`;
+    document.title = `${name.includes('guide') ? 'Памятка zhb PhysX 0.57.0' : 'zhb PhysX 0.57.0'} — Box3D для Blender`;
     document.querySelector('#nav-caption').textContent = name.includes('guide') ? 'ПАМЯТКА / 0.57.0' : lang === 'en' ? 'ON THIS PAGE' : 'НА ЭТОЙ СТРАНИЦЕ';
     document.querySelector('.search-label').textContent = lang === 'en' ? 'Search this page' : 'Поиск по этой странице';
     search.placeholder = lang === 'en' ? 'For example: emitters' : 'Например: эмиттер';
-    document.querySelectorAll('[data-product]').forEach(link => {
-      link.href = route(link.dataset.product, lang);
-      if (name.startsWith(link.dataset.product)) link.setAttribute('aria-current', 'page');
-      else link.removeAttribute('aria-current');
-    });
+    document.querySelector('.header-guide').textContent = lang === 'en' ? 'User guide · RU' : 'Памятка';
     document.querySelectorAll('[data-language]').forEach(button => {
       button.setAttribute('aria-pressed', String(button.dataset.language === lang));
       button.disabled = name.includes('guide') && button.dataset.language === 'en';

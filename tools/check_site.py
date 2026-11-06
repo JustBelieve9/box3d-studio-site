@@ -48,7 +48,8 @@ site = Site()
 site.feed(before.decode())
 duplicates = [key for key, count in Counter(site.ids).items() if count != 1]
 assert not duplicates, duplicates
-assert len(site.pages) == 5
+assert len(site.pages) == 3
+assert not any(route == 'studio' for route, _ in site.pages)
 assert len(site.pages[('physx/guide', 'ru')]) == 24
 for href in site.links:
     if href.startswith('#/'):
@@ -90,4 +91,4 @@ for foregrounds, backgrounds in themes:
             ratio = (light + .05) / (dark + .05)
             assert ratio >= 4.5, (foreground, background, ratio)
             contrasts.append(ratio)
-print(f'SITE CHECKS PASSED: 5 routes, 24 guide sections, 23 commands, {len(site.links)} links, unique IDs, benchmark medians, min token contrast {min(contrasts):.2f}:1')
+print(f'SITE CHECKS PASSED: 3 PhysX routes, 24 guide sections, 23 commands, {len(site.links)} links, unique IDs, benchmark medians, min token contrast {min(contrasts):.2f}:1')
