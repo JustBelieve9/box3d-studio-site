@@ -27,6 +27,11 @@
       const link = document.createElement('a');
       link.href = route(current.dataset.route, current.dataset.lang, section.dataset.key);
       link.textContent = section.dataset.title;
+      link.addEventListener('click', () => {
+        section.querySelectorAll('details').forEach(detail => {
+          if (terms.every(term => normalized(detail.textContent).includes(term))) detail.open = true;
+        });
+      });
       const text = section.textContent.replace(/\s+/g, ' ').trim();
       const offset = Math.max(0, normalized(text).indexOf(terms[0]) - 25);
       const snippet = document.createElement('small');
@@ -94,7 +99,7 @@
       section.scrollIntoView({behavior:'instant',block:'start'});
       const heading = section.querySelector('h1,h2');
       heading.setAttribute('tabindex','-1'); heading.focus({preventScroll:true});
-    } else if (switched) window.scrollTo({top:0,behavior:'instant'});
+    } else if (switched || !id) window.scrollTo({top:0,behavior:'instant'});
   }
 
   document.querySelectorAll('[data-language]').forEach(button => button.addEventListener('click', () => {
@@ -104,6 +109,13 @@
     event.preventDefault();
     document.querySelector('#main-content').focus();
     document.querySelector('#main-content').scrollIntoView();
+  });
+  document.addEventListener('click',event => {
+    const link = event.target.closest('a[href^="#/"]');
+    if (link && link.hash === location.hash) {
+      event.preventDefault();
+      applyRoute();
+    }
   });
   document.querySelectorAll('[data-benchmark]').forEach(button => button.addEventListener('click', () => {
     const section = button.closest('section');
