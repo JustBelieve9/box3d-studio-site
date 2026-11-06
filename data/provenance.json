@@ -1,0 +1,27 @@
+{
+  "updated": "2026-11-06",
+  "addon": "zhb PhysX 0.57.0",
+  "upstream_commit": "336263320469e5e9febfe18697ab562488f7e97a",
+  "release": "https://github.com/JustBelieve9/zhb_physx_solver/releases/tag/zhb_physx-v0.57.0",
+  "native_benchmark": {
+    "cpu": "AMD Ryzen 9 5900X",
+    "platform": "Windows x86_64",
+    "bodies": 1152,
+    "frames": 150,
+    "workers": 12,
+    "substeps": 8,
+    "runs": 3,
+    "statistic": "median",
+    "scope": "Native stepping only; excludes Blender setup, output and playback. Compiler changed as well as engine."
+  },
+  "historical_bullet_benchmark": {
+    "source": "https://github.com/JustBelieve9/box3d-studio-site/blob/0f4cd9e/index.html",
+    "site_version_label": "0.38.1",
+    "hardware": "Apple Silicon; exact model not documented on the original page",
+    "bodies": 3000,
+    "frames": 120,
+    "rerun_for_0_57_0": false,
+    "bake_seconds": {"Bullet": 8.08, "Keyframes_one_thread": 0.69, "Disk_Cache": 0.60, "Instanced": 0.40, "Instanced_ten_substeps": 0.30},
+    "scrub_milliseconds": {"Bullet": 7.92, "Keyframes": 12.26, "Disk_Cache": 16.48, "Instanced": 7.66, "Instanced_originals_excluded": 0.47}
+  }
+}

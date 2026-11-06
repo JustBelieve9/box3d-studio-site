@@ -1,0 +1,53 @@
+{
+  "commit": "3fc20f5b453ba9e14cdf54ecafa87a2a4bcdf53c",
+  "cases": [
+    {
+      "shape": "BOX",
+      "bodies": 1152,
+      "frames": 150,
+      "workers": 12,
+      "substeps": 8,
+      "seconds": [
+        0.2551573999999164,
+        0.25001239999983227,
+        0.24875210000027437
+      ],
+      "median": 0.25001239999983227,
+      "min_z": 0.14944779872894287,
+      "awake_final": 1152,
+      "sleep_disabled": true
+    },
+    {
+      "shape": "SPHERE",
+      "bodies": 1152,
+      "frames": 150,
+      "workers": 12,
+      "substeps": 8,
+      "seconds": [
+        0.16354739999997037,
+        0.1603170000003047,
+        0.1610940999999002
+      ],
+      "median": 0.1610940999999002,
+      "min_z": 0.14297521114349365,
+      "awake_final": 1152,
+      "sleep_disabled": true
+    },
+    {
+      "shape": "CONVEX_HULL",
+      "bodies": 1152,
+      "frames": 150,
+      "workers": 12,
+      "substeps": 8,
+      "seconds": [
+        0.23586939999995593,
+        0.2358382000002166,
+        0.23988009999993665
+      ],
+      "median": 0.23586939999995593,
+      "min_z": 0.13957902789115906,
+      "awake_final": 1152,
+      "sleep_disabled": true
+    }
+  ]
+}
